@@ -42,6 +42,18 @@ namespace FishNetworking.Tanknarok
             }
             UpdateUI();
         }
+        private void Update()
+        {
+            if (_uiGame.activeSelf)
+            {
+                if (Input.GetKeyUp(KeyCode.Escape))
+                {
+                    _networkManager.ServerManager.StopConnection(true);
+                    _networkManager.ClientManager.StopConnection();
+                }
+            }
+
+        }
         private void OnSpawnWorld()
         {
             Debug.Log("Spawning GameManager");
@@ -102,7 +114,8 @@ namespace FishNetworking.Tanknarok
             switch (_clientState)
             {
                 case LocalConnectionState.Stopped:
-                    _progress.text = "Disconnected!";
+                    progress = false;
+                    _progress.text = "";
                     intro = true;
                     break;
                 case LocalConnectionState.Starting:
