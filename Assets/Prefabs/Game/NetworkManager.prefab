@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2173586762062872567}
   - component: {fileID: 2173586762062872564}
   - component: {fileID: 8747799545478799058}
-  - component: {fileID: 2173586762062872570}
   - component: {fileID: 8747799545478799060}
   - component: {fileID: 8747799545478799061}
   m_Layer: 0
@@ -70,21 +69,6 @@ MonoBehaviour:
   _updateHostVisibility: 1
   _defaultConditions:
   - {fileID: 11400000, guid: 2033f54fd2794464bae08fa5a55c8996, type: 2}
---- !u!114 &2173586762062872570
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2173586762062872565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 211a9f6ec51ddc14f908f5acc0cd0423, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _playerPrefab: {fileID: 3978112638577212098, guid: e0684f2c29d615d4d8e7a6ddae619457, type: 3}
-  _addToDefaultScene: 1
-  Spawns: []
 --- !u!114 &8747799545478799060
 MonoBehaviour:
   m_ObjectHideFlags: 0

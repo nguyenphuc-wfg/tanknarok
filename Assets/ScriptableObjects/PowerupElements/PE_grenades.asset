@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ea504ec0b043f2428254b45be301c4d, type: 3}
+  m_Script: {fileID: 11500000, guid: c8073226a88446b4a8fdc7af0952aca3, type: 3}
   m_Name: PE_grenades
   m_EditorClassIdentifier: 
-  weaponInstallationType: 1
   powerupType: 3
-  powerupSpawnerMesh: {fileID: 3331266442505918662, guid: b62d27968edc5d34aa96f87fbe979424, type: 3}
-  pickupSnd: {fileID: 11400000, guid: 09109bede437718409d16b316dd06898, type: 2}
+  powerupSpawnerMesh: {fileID: 0}
+  pickupSnd: {fileID: 0}

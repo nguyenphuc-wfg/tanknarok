@@ -6,12 +6,12 @@ using FishNet.Transporting;
 using FishNetworking.UIHelpers;
 using TMPro;
 using UnityEngine.SceneManagement;
-
+using FishNet;
 namespace FishNetworking.Tanknarok
 {
     public class GameLauncher : MonoBehaviour
     {
-        // [SerializeField] private GameManager _gameManagerPrefab;
+        [SerializeField] private GameManager _gameManagerPrefab;
         // [SerializeField] private Player _playerPrefab;
         [SerializeField] private TMP_InputField _room;
         [SerializeField] private TextMeshProUGUI _progress;
@@ -23,6 +23,10 @@ namespace FishNetworking.Tanknarok
         private NetworkManager _networkManager;
         private LocalConnectionState _clientState = LocalConnectionState.Stopped;
         private LocalConnectionState _serverState = LocalConnectionState.Stopped;
+        private void Awake()
+        {
+            DontDestroyOnLoad(this);
+        }
         private void Start()
         {
             _networkManager = FindObjectOfType<NetworkManager>();
@@ -37,6 +41,12 @@ namespace FishNetworking.Tanknarok
                 _networkManager.ClientManager.OnClientConnectionState += ClientManager_OnClientConnectionState;
             }
             UpdateUI();
+        }
+        private void OnSpawnWorld()
+        {
+            Debug.Log("Spawning GameManager");
+            GameObject go = Instantiate(_gameManagerPrefab.gameObject, this.transform);
+            InstanceFinder.ServerManager.Spawn(go, null);
         }
         private void OnDestroy()
         {
@@ -81,6 +91,7 @@ namespace FishNetworking.Tanknarok
                 _networkManager.ClientManager.StopConnection();
             else
                 _networkManager.ClientManager.StartConnection();
+            OnSpawnWorld();
         }
         private void UpdateUI()
         {

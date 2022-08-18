@@ -57,17 +57,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 95cb659a35a62bb46942362077ac98a8, type: 3}
---- !u!114 &4861474811542501979 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6333618106022401446, guid: 95cb659a35a62bb46942362077ac98a8, type: 3}
-  m_PrefabInstance: {fileID: 1482499604771336189}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2377d952de0881443a585e288b1831d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &8941793229750718521
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -82,11 +71,11 @@ PrefabInstance:
     - target: {fileID: 542250307813208369, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
       propertyPath: laserSight
       value: 
-      objectReference: {fileID: 4861474811542501979}
+      objectReference: {fileID: 0}
     - target: {fileID: 542250307813208369, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
       propertyPath: _laserSight
       value: 
-      objectReference: {fileID: 4861474811542501979}
+      objectReference: {fileID: 0}
     - target: {fileID: 542250307813208369, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
       propertyPath: _rateOfFire
       value: 0.3
@@ -250,3 +239,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6408572600660800518, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
   m_PrefabInstance: {fileID: 8941793229750718521}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5790566248479023112 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3191812727878037553, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
+  m_PrefabInstance: {fileID: 8941793229750718521}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6726942661531047087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5790566248479023112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc1255d0078650949aa116f26e578a6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startAction: 2
+  stopAction: 2
+  audioClip: {fileID: 11400000, guid: b3d905682d7e0014d866d9406ebeaee3, type: 2}

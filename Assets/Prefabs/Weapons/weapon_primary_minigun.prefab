@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1408245608598832629}
   - component: {fileID: 7997586136004114833}
   - component: {fileID: 8242243824365158530}
-  - component: {fileID: 3321357057433867792}
+  - component: {fileID: 368711858249175100}
   m_Layer: 8
   m_Name: Visual_rotatingPart
   m_TagString: Untagged
@@ -29,6 +29,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.01, z: 0.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2664005909477909567}
   m_RootOrder: 1
@@ -83,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &3321357057433867792
+--- !u!114 &368711858249175100
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,7 +93,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4844337355659276744}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e247855dffd392e49adf578bb9cf713e, type: 3}
+  m_Script: {fileID: 11500000, guid: 457bf86255d17f840922d11b135949c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &8941793229750718521
@@ -301,3 +302,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6408572600660800518, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
   m_PrefabInstance: {fileID: 8941793229750718521}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5790566248479023112 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3191812727878037553, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
+  m_PrefabInstance: {fileID: 8941793229750718521}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6686032778556181035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5790566248479023112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc1255d0078650949aa116f26e578a6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startAction: 2
+  stopAction: 2
+  audioClip: {fileID: 11400000, guid: cfcac7e0a4f03ff44ae1a972c531dbe5, type: 2}

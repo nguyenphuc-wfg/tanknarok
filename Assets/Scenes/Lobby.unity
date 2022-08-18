@@ -322,7 +322,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 780274870}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf1706268a986734ea8c9564604f7c07, type: 3}
+  m_Script: {fileID: 11500000, guid: dd230c6b6984adc4f9385dec3797062a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   forceFieldMaterial: {fileID: 2100000, guid: 9268dc9df6f5b884c9a6512c919507fe, type: 2}

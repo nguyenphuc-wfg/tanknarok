@@ -23,8 +23,8 @@ namespace FishNetworking.Tanknarok
         [SerializeField] private AudioClipData _beamAudioClip;
         [SerializeField] private AudioClipData _dischargeAudioClip;
 
-        private Transform _tankDummyTurret;
-        private Transform _tankDummyHull;
+        [SerializeField] private Transform _tankDummyTurret;
+        [SerializeField] private Transform _tankDummyHull;
 
         private bool _endTeleportation;
 
@@ -32,12 +32,7 @@ namespace FishNetworking.Tanknarok
         public void Initialize(Player player)
         {
             _player = player;
-
-            _tankDummyTurret = _tankDummy.transform.Find("EnergyTankIn_Turret");
-            _tankDummyHull = _tankDummy.transform.Find("EnergyTankIn_Hull");
-
             ColorChanger.ChangeColor(transform, player.playerColor);
-
             ResetTeleporter();
         }
 
@@ -81,7 +76,7 @@ namespace FishNetworking.Tanknarok
             _tankDummy.SetActive(true);
             _tankDummyTurret.rotation = _player.turretRotation;
             _tankDummyHull.rotation = _player.hullRotation;
-
+            _player.ResetPlayer();
             // Waits for the tank to be ready before playing the discharge effect
             while (!_endTeleportation)
                 yield return null;

@@ -22,17 +22,18 @@ namespace FishNetworking.Tanknarok
             }
         }
 
-        // public static void HandleNewPlayers()
-        // {
-        //     if (_playerQueue.Count > 0)
-        //     {
-        //         Player player = _playerQueue.Dequeue();
+        public static void HandleNewPlayers()
+        {
+            if (_playerQueue.Count > 0)
+            {
+                Player player = _playerQueue.Dequeue();
 
-        //         CameraStrategy.AddTarget(player.gameObject);
+                CameraStrategy.AddTarget(player.gameObject);
+                Debug.Log("manage");
 
-        //         player.Respawn(0);
-        //     }
-        // }
+                player.Respawn(0);
+            }
+        }
 
         // public static int PlayersAlive()
         // {
@@ -57,56 +58,56 @@ namespace FishNetworking.Tanknarok
         //     return null;
         // }
 
-        // public static void AddPlayer(Player player)
-        // {
-        //     Debug.Log("Player Added");
+        public static void AddPlayer(Player player)
+        {
+            Debug.Log("Player Added");
 
-        //     int insertIndex = _allPlayers.Count;
-        //     // Sort the player list when adding players
-        //     for (int i = 0; i < _allPlayers.Count; i++)
-        //     {
-        //         if (_allPlayers[i].playerID > player.playerID)
-        //         {
-        //             insertIndex = i;
-        //             break;
-        //         }
-        //     }
+            int insertIndex = _allPlayers.Count;
+            // Sort the player list when adding players
+            for (int i = 0; i < _allPlayers.Count; i++)
+            {
+                if (_allPlayers[i].playerID > player.playerID)
+                {
+                    insertIndex = i;
+                    break;
+                }
+            }
+            player.playerID = insertIndex;
+            _allPlayers.Insert(insertIndex, player);
+            _playerQueue.Enqueue(player);
+        }
 
-        //     _allPlayers.Insert(insertIndex, player);
-        //     _playerQueue.Enqueue(player);
-        // }
+        public static void RemovePlayer(Player player)
+        {
+            if (player == null || !_allPlayers.Contains(player))
+                return;
 
-        // public static void RemovePlayer(Player player)
-        // {
-        //     if (player == null || !_allPlayers.Contains(player))
-        //         return;
+            Debug.Log("Player Removed " + player.playerID);
 
-        //     Debug.Log("Player Removed " + player.playerID);
+            _allPlayers.Remove(player);
+            if (CameraStrategy) // FindObject May return null on shutdown, so let's avoid that NPE
+                CameraStrategy.RemoveTarget(player.gameObject);
+        }
 
-        //     _allPlayers.Remove(player);
-        //     if (CameraStrategy) // FindObject May return null on shutdown, so let's avoid that NPE
-        //         CameraStrategy.RemoveTarget(player.gameObject);
-        // }
+        public static void ResetPlayerManager()
+        {
+            Debug.Log("Clearing Player Manager");
+            allPlayers.Clear();
+            if (CameraStrategy) // FindObject May return null on shutdown, so let's avoid that NPE
+                CameraStrategy.RemoveAll();
+            Player.local = null;
+        }
 
-        // public static void ResetPlayerManager()
-        // {
-        //     Debug.Log("Clearing Player Manager");
-        //     allPlayers.Clear();
-        //     if (CameraStrategy) // FindObject May return null on shutdown, so let's avoid that NPE
-        //         CameraStrategy.RemoveAll();
-        //     Player.local = null;
-        // }
+        public static Player GetPlayerFromID(int id)
+        {
+            foreach (Player player in _allPlayers)
+            {
+                if (player.playerID == id)
+                    return player;
+            }
 
-        // public static Player GetPlayerFromID(int id)
-        // {
-        //     foreach (Player player in _allPlayers)
-        //     {
-        //         if (player.playerID == id)
-        //             return player;
-        //     }
-
-        //     return null;
-        // }
+            return null;
+        }
 
         // public static Player Get(PlayerRef playerRef)
         // {

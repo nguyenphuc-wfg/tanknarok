@@ -7,8 +7,8 @@ namespace FishNetworking.Tanknarok
         private Player _player;
 
         [SerializeField] private GameObject _dummyTank;
-        private Transform _dummyTankTurret;
-        private Transform _dummyTankHull;
+        [SerializeField] private Transform _dummyTankTurret;
+        [SerializeField] private Transform _dummyTankHull;
 
         [SerializeField] private ParticleSystem _teleportEffect;
 
@@ -19,8 +19,6 @@ namespace FishNetworking.Tanknarok
         {
             _player = player;
 
-            _dummyTankTurret = _dummyTank.transform.Find("EnergyTankOut_Turret");
-            _dummyTankHull = _dummyTank.transform.Find("EnergyTankOut_Hull");
             _dummyTank.SetActive(false);
 
             ColorChanger.ChangeColor(transform, player.playerColor);
