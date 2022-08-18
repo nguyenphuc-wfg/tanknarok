@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Fusion;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace FishNetworking.Tanknarok

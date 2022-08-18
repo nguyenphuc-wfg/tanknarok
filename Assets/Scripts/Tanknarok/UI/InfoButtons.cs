@@ -12,23 +12,23 @@ namespace FishNetworking.Tanknarok
 
         private float _delay;
 
-        private void Update()
-        {
-            _delay -= Time.deltaTime;
-            if (_delay < 0)
-            {
-                _delay = 1.0f;
+        // private void Update()
+        // {
+        //     _delay -= Time.deltaTime;
+        //     if (_delay < 0)
+        //     {
+        //         _delay = 1.0f;
 
-                int readyCount = 0;
-                foreach (Player player in PlayerManager.allPlayers)
-                {
-                    if (player.ready)
-                        readyCount++;
-                }
+        //         int readyCount = 0;
+        //         foreach (Player player in PlayerManager.allPlayers)
+        //         {
+        //             if (player.ready)
+        //                 readyCount++;
+        //         }
 
-                _disconnectInfoText.SetActive(readyCount < PlayerManager.allPlayers.Count);
-                _readyupInfoText.SetActive(readyCount < PlayerManager.allPlayers.Count && PlayerManager.allPlayers.Count > 1);
-            }
-        }
+        //         _disconnectInfoText.SetActive(readyCount < PlayerManager.allPlayers.Count);
+        //         _readyupInfoText.SetActive(readyCount < PlayerManager.allPlayers.Count && PlayerManager.allPlayers.Count > 1);
+        //     }
+        // }
     }
 }

@@ -28,6 +28,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.5970316, y: -3.9174767, z: -43.08218}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -53,8 +54,7 @@ MonoBehaviour:
   NetworkGuid:
     RawGuidValue: cebdea494ca74974e809d626e5e9f63e
   NestedObjects: []
-  NetworkedBehaviours:
-  - {fileID: 592953329146046646}
+  NetworkedBehaviours: []
   SimulationBehaviours: []
 --- !u!114 &592953329146046646
 MonoBehaviour:
@@ -68,4 +68,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d70075d235f4744eac5db7003358662, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interpolationDataSource: 0

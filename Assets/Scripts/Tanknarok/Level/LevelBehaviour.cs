@@ -15,7 +15,7 @@ namespace FishNetworking.Tanknarok
 
         [SerializeField] private LevelLighting _levelLighting;
 
-        private SpawnPoint[] _playerSpawnPoints;
+        [SerializeField] private SpawnPoint[] _playerSpawnPoints;
 
         private void Awake()
         {
