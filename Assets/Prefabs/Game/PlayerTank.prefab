@@ -741,7 +741,15 @@ MonoBehaviour:
     m_Bits: 512
   _cc: {fileID: 1723606642065551448}
   _damageVisuals: {fileID: 622273182175422301}
+  life: 0
+  playerName: 
+  moveDirection: {x: 0, y: 0}
+  aimDirection: {x: 0, y: 0}
+  lives: 0
+  score: 0
+  ready: 0
   _collider: {fileID: 5895164622560852221}
+  bomb: {fileID: 1336448739370480102, guid: 279fe36b4a9497e4e9442f28e6b98c95, type: 3}
 --- !u!114 &6203864925880487117
 MonoBehaviour:
   m_ObjectHideFlags: 0

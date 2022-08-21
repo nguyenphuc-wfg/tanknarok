@@ -16,13 +16,12 @@ namespace FishNetworking.Tanknarok
         public override void OnStartServer()
         {
             base.OnStartServer();
-            Debug.Log("server is start here");
+            Debug.Log("game manager iss he2222");
         }
         public override void OnStartClient()
         {
             base.OnStartClient();
-            Debug.Log("cmnd");
-            gameObject.SetActive(true);
+            Debug.Log("game manager client iss he2222");
         }
         // public static PlayState playState
         // {

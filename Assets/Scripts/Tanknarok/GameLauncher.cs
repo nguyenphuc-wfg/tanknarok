@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FishNet;
+using FishNet.Object;
 using FishNet.Managing;
 using FishNet.Transporting;
 using FishNetworking.UIHelpers;
+using FishNet.Connection;
 using TMPro;
 using UnityEngine.SceneManagement;
-using FishNet;
 namespace FishNetworking.Tanknarok
 {
     public class GameLauncher : MonoBehaviour
     {
-        [SerializeField] private GameManager _gameManagerPrefab;
+        [SerializeField] private NetworkObject _gameManagerPrefab;
         // [SerializeField] private Player _playerPrefab;
         [SerializeField] private TMP_InputField _room;
         [SerializeField] private TextMeshProUGUI _progress;
@@ -40,7 +42,7 @@ namespace FishNetworking.Tanknarok
                 _networkManager.ServerManager.OnServerConnectionState += ServerManager_OnServerConnectionState;
                 _networkManager.ClientManager.OnClientConnectionState += ClientManager_OnClientConnectionState;
             }
-            UpdateUI();
+            UpdateUI(LocalConnectionState.Stopped);
         }
         private void Update()
         {
@@ -56,9 +58,11 @@ namespace FishNetworking.Tanknarok
         }
         private void OnSpawnWorld()
         {
-            Debug.Log("Spawning GameManager");
-            GameObject go = Instantiate(_gameManagerPrefab.gameObject, this.transform);
-            InstanceFinder.ServerManager.Spawn(go, null);
+            if (_networkManager == null)
+                return;
+            NetworkObject go = Instantiate(_gameManagerPrefab);
+            _networkManager.ServerManager.Spawn(go);
+            _networkManager.SceneManager.AddOwnerToDefaultScene(go);
         }
         private void OnDestroy()
         {
@@ -71,13 +75,14 @@ namespace FishNetworking.Tanknarok
         private void ClientManager_OnClientConnectionState(ClientConnectionStateArgs obj)
         {
             _clientState = obj.ConnectionState;
-            UpdateUI();
+            UpdateUI(_clientState);
         }
 
 
         private void ServerManager_OnServerConnectionState(ServerConnectionStateArgs obj)
         {
             _serverState = obj.ConnectionState;
+            UpdateUI(_serverState);
         }
 
 
@@ -88,9 +93,11 @@ namespace FishNetworking.Tanknarok
 
             if (_serverState != LocalConnectionState.Stopped)
                 _networkManager.ServerManager.StopConnection(true);
-            else
-                _networkManager.ServerManager.StartConnection();
-            OnClick_Client();
+            else {
+                _networkManager.ServerManager.StartConnection();    
+                OnSpawnWorld();
+            }
+                
         }
 
 
@@ -98,20 +105,24 @@ namespace FishNetworking.Tanknarok
         {
             if (_networkManager == null)
                 return;
-
+            if (_serverState != LocalConnectionState.Stopped) 
+                return;
+                
             if (_clientState != LocalConnectionState.Stopped)
                 _networkManager.ClientManager.StopConnection();
-            else
+            else {
                 _networkManager.ClientManager.StartConnection();
-            OnSpawnWorld();
+                OnSpawnWorld();
+            }
+                
         }
-        private void UpdateUI()
+        private void UpdateUI(LocalConnectionState state)
         {
             bool intro = false;
             bool progress = false;
             bool running = false;
 
-            switch (_clientState)
+            switch (state)
             {
                 case LocalConnectionState.Stopped:
                     progress = false;
@@ -131,7 +142,7 @@ namespace FishNetworking.Tanknarok
                     _progress.text = "Disconnecting";
                     intro = false;
                     progress = true;
-                    SceneManager.UnloadSceneAsync(1);
+                    SceneManager.UnloadSceneAsync(2);
                     break;
             }
 
@@ -140,7 +151,7 @@ namespace FishNetworking.Tanknarok
             _uiProgress.SetVisible(progress);
             if (_uiGame)
                 _uiGame.SetActive(running);
-            if (running) SceneManager.LoadSceneAsync(1, LoadSceneMode.Additive);
+            if (running) SceneManager.LoadSceneAsync(2, LoadSceneMode.Additive);
         }
     }
 

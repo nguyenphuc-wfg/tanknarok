@@ -6,6 +6,7 @@ using FishNet.Object;
 using FishNet.Object.Prediction;
 using FishNet.Object.Synchronizing;
 using FishNet.Transporting;
+using FishNet.Connection;
 
 namespace FishNetworking.Tanknarok
 {
@@ -47,7 +48,7 @@ namespace FishNetworking.Tanknarok
         [SyncVar] public bool ready;
         public static Player local { get; set; }
 
-        [SyncVar(Channel = Channel.Unreliable, OnChange = nameof(OnStateChanged))]
+        [SyncVar(Channel = Channel.Unreliable, ReadPermissions = ReadPermission.Observers, SendRate = 0.1f, OnChange = nameof(OnStateChanged))]
         private State state;
         public enum State
         {
@@ -82,7 +83,6 @@ namespace FishNetworking.Tanknarok
         private GameObject _deathExplosionInstance;
         private float _respawnInSeconds = -1;
 
-
         // public void ToggleReady()
         // {
         //     ready = !ready;
@@ -92,20 +92,25 @@ namespace FishNetworking.Tanknarok
         // {
         //     ready = false;
         // }
+        public override void OnStartServer()
+        {
+            base.OnStartServer();
+            OnStartClient();
+        }
         public override void OnStartClient()
         {
             base.OnStartClient();
             if (base.IsOwner)
                 local = this;
 
+            InitNetworkState(3);
             playerID = base.ObjectId;
             ready = false;
 
-            SetMaterial(playerID);
+            SetMaterial(playerID % 4);
             SetupDeathExplosion();
 
             _damageVisuals.Initialize(playerMaterial);
-            InitNetworkState(3);
 
             _teleportIn.Initialize(this);
             _teleportOut.Initialize(this);
@@ -113,10 +118,11 @@ namespace FishNetworking.Tanknarok
             _cc.enabled = base.IsOwner;
             PlayerManager.AddPlayer(this);
         }
-        public override void OnStopClient()
+        public override void OnStopNetwork()
         {
-            base.OnStopClient();
-            base.Despawn();
+            base.OnStopNetwork();
+            state = State.Despawned;
+            StateChanged();
             PlayerManager.RemovePlayer(this);
         }
         private void OnDestroy()
@@ -135,18 +141,18 @@ namespace FishNetworking.Tanknarok
         public void InitNetworkState(byte maxLives)
         {
             state = State.Spawning;
+            StateChanged();
             lives = maxLives;
             life = MAX_HEALTH;
             score = 0;
         }
+    
         private void OnStateChanged(State prev, State next, bool asServer)
         {
-            // if (!asServer)
-            //     next.StateChanged();
-            Debug.Log($"{prev} {next}");
             if (!asServer)
                 StateChanged();
         }
+        
         public void StateChanged()
         {
             switch (state)
@@ -177,6 +183,7 @@ namespace FishNetworking.Tanknarok
             Debug.Log($"Resetting player {playerID},to state={state}");
             // shooter.ResetAllWeapons();
             state = State.Active;
+            StateChanged();
         }
         private LevelManager GetLevelManager()
         {

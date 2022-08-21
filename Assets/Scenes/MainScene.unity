@@ -2854,7 +2854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474632e4739f4a8ab1338ef00b9bcc67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameManagerPrefab: {fileID: 592953329146046646, guid: cebdea494ca74974e809d626e5e9f63e, type: 3}
+  _gameManagerPrefab: {fileID: 5366435432869674055, guid: cebdea494ca74974e809d626e5e9f63e, type: 3}
   _room: {fileID: 1414014595}
   _progress: {fileID: 604924949}
   _uiCurtain: {fileID: 1533048366}
@@ -4540,9 +4540,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5012958170850089838, guid: 4410303528c3ab34e8fca65cdeca7dfc, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5012958171135504110, guid: 4410303528c3ab34e8fca65cdeca7dfc, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5012958171668251607, guid: 4410303528c3ab34e8fca65cdeca7dfc, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4410303528c3ab34e8fca65cdeca7dfc, type: 3}

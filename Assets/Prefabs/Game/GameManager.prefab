@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 592953329146046640}
   - component: {fileID: 592953329146046646}
-  - component: {fileID: 5537973921934657997}
+  - component: {fileID: 5366435432869674055}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -46,9 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _componentIndexCache: 0
-  _addedNetworkObject: {fileID: 5537973921934657997}
-  _networkObjectCache: {fileID: 5537973921934657997}
---- !u!114 &5537973921934657997
+  _addedNetworkObject: {fileID: 5366435432869674055}
+  _networkObjectCache: {fileID: 5366435432869674055}
+--- !u!114 &5366435432869674055
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -66,8 +66,8 @@ MonoBehaviour:
   - {fileID: 592953329146046646}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
-  _isNetworked: 1
-  _isGlobal: 0
+  _isNetworked: 0
+  _isGlobal: 1
   _disableOnDespawn: 0
   NetworkObserver: {fileID: 0}
   <PrefabId>k__BackingField: 2
