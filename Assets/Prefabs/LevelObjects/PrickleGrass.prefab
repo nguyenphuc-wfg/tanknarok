@@ -29,6 +29,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2675241787305886898}
   m_Father: {fileID: 0}
@@ -43,7 +44,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2675241786520489877}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93f13577b07071a419d5b103257307a8, type: 3}
+  m_Script: {fileID: 11500000, guid: dd0a742cab9c4aeba61b411ae610e3c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyedParticlePrefab: {fileID: 198616896704594468, guid: 8edb1130141a0ff439eaab05dbc9e9d9, type: 3}
@@ -111,6 +112,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2675241786520489876}
   m_RootOrder: 0

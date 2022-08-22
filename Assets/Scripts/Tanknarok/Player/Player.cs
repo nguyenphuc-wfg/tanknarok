@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using FishNet;
 using FishNet.Object;
@@ -10,7 +8,7 @@ using FishNet.Connection;
 
 namespace FishNetworking.Tanknarok
 {
-    public class Player : NetworkBehaviour
+    public class Player : NetworkBehaviour, ICanTakeDamage
     {
         public const byte MAX_HEALTH = 100;
         [SerializeField] private float _speed = 5f;
@@ -28,6 +26,7 @@ namespace FishNetworking.Tanknarok
         [SerializeField] private float _pickupRadius;
         [SerializeField] private float _respawnTime;
         [SerializeField] private LayerMask _pickupMask;
+        [SerializeField] private WeaponManager weaponManager;
         [SerializeField] private CharacterController _cc;
         [SerializeField] private TankDamageVisual _damageVisuals;
 
@@ -47,8 +46,9 @@ namespace FishNetworking.Tanknarok
 
         [SyncVar] public bool ready;
         public static Player local { get; set; }
-
-        [SyncVar(Channel = Channel.Unreliable, ReadPermissions = ReadPermission.Observers, SendRate = 0.1f, OnChange = nameof(OnStateChanged))]
+    
+        [SyncVar(Channel = Channel.Unreliable, OnChange = nameof(OnStateChanged))]
+        [SerializeField]
         private State state;
         public enum State
         {
@@ -64,6 +64,7 @@ namespace FishNetworking.Tanknarok
         public Material playerMaterial { get; set; }
 
         public Color playerColor => playerMaterial.GetColor("_EnergyColor");
+        public WeaponManager shooter => weaponManager;
         public int playerID { get; set; }
         public Vector3 turretPosition => _turret.position;
         public Quaternion turretRotation => _turret.rotation;
@@ -104,6 +105,7 @@ namespace FishNetworking.Tanknarok
                 local = this;
 
             InitNetworkState(3);
+
             playerID = base.ObjectId;
             ready = false;
 
@@ -122,7 +124,6 @@ namespace FishNetworking.Tanknarok
         {
             base.OnStopNetwork();
             state = State.Despawned;
-            StateChanged();
             PlayerManager.RemovePlayer(this);
         }
         private void OnDestroy()
@@ -141,7 +142,7 @@ namespace FishNetworking.Tanknarok
         public void InitNetworkState(byte maxLives)
         {
             state = State.Spawning;
-            StateChanged();
+            // StateChanged();
             lives = maxLives;
             life = MAX_HEALTH;
             score = 0;
@@ -149,7 +150,8 @@ namespace FishNetworking.Tanknarok
     
         private void OnStateChanged(State prev, State next, bool asServer)
         {
-            if (!asServer)
+            //Debug.Log($" OnStateChanged: {prev} to {next}");
+            //if (!asServer)
                 StateChanged();
         }
         
@@ -181,9 +183,8 @@ namespace FishNetworking.Tanknarok
         public void ResetPlayer()
         {
             Debug.Log($"Resetting player {playerID},to state={state}");
-            // shooter.ResetAllWeapons();
+            shooter.ResetAllWeapons();
             state = State.Active;
-            StateChanged();
         }
         private LevelManager GetLevelManager()
         {
@@ -259,6 +260,44 @@ namespace FishNetworking.Tanknarok
 
             if (aimDirection.sqrMagnitude > 0)
                 _turret.forward = Vector3.Lerp(_turret.forward, new Vector3(aimDirection.x, 0, aimDirection.y), Time.deltaTime * 100f);
+        }
+        public void ApplyDamage(Vector3 impulse, byte damage, NetworkConnection attacker)
+        {
+            Debug.Log("bi damage");
+            return;
+            // if (!isActivated || !invulnerabilityTimer.Expired(Runner))
+            //     return;
+
+            //Don't damage yourself
+            // Player attackingPlayer = PlayerManager.Get(attacker);
+            // if (attackingPlayer != null && attackingPlayer.playerID == playerID)
+            //     return;
+
+            // ApplyImpulse(impulse);
+
+            if (damage >= life)
+            {
+                life = 0;
+                state = State.Dead;
+				
+                // if(GameManager.playState==GameManager.PlayState.LEVEL)
+                //     lives -= 1;
+
+                if (lives > 0)
+                    Respawn( _respawnTime );
+
+                // GameManager.instance.OnTankDeath();
+            }
+            else
+            {
+                life -= damage;
+                Debug.Log($"Player {playerID} took {damage} damage, life = {life}");
+            }
+
+            // invulnerabilityTimer = TickTimer.CreateFromSeconds(Runner, 0.1f);
+
+            // if (Runner.Stage == SimulationStages.Forward)
+                // _damageVisuals.OnDamaged(life, isDead);
         }
     }
     public struct ReconcileData

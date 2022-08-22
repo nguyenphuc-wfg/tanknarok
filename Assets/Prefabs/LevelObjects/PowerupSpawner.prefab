@@ -29,6 +29,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4885651135283617847}
   m_RootOrder: 0
@@ -126,6 +127,7 @@ Transform:
   m_LocalRotation: {x: 0.6532816, y: 0.27059823, z: 0.65328133, w: 0.27059785}
   m_LocalPosition: {x: 0, y: 1, z: 0.36999893}
   m_LocalScale: {x: 0.11999999, y: 0.120000005, z: 0.12000001}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4885651135283617847}
   m_RootOrder: 2
@@ -208,6 +210,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4885651135283617847}
   m_RootOrder: 1
@@ -294,6 +297,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3952860517801752879}
   - {fileID: 4521411879244337936}
@@ -310,21 +314,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 5226006799628384909}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AoiMode: 0
-  DefaultPropertyGroups: []
-  DestroyWhenStateAuthorityLeaves: 0
-  AoiPosition: {fileID: 0}
-  Flags: 2305
-  NetworkGuid:
-    RawGuidValue: 120ffc773e92e4ab2834f0c3007edc5a
-  NestedObjects: []
-  NetworkedBehaviours:
+  <IsNested>k__BackingField: 0
+  <ComponentIndex>k__BackingField: 0
+  _networkBehaviours:
   - {fileID: 2245128418665264835}
   - {fileID: 8002685214106596891}
-  SimulationBehaviours: []
+  <ParentNetworkObject>k__BackingField: {fileID: 0}
+  <ChildNetworkObjects>k__BackingField: []
+  _isNetworked: 0
+  _isGlobal: 1
+  _disableOnDespawn: 0
+  NetworkObserver: {fileID: 0}
+  <PrefabId>k__BackingField: 2
+  _scenePathHash: 0
+  <SceneId>k__BackingField: 0
+  <AssetPathHash>k__BackingField: 1891280681395597446
+  _sceneNetworkObjects: []
 --- !u!114 &2245128418665264835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -334,23 +342,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 5226006799628384909}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5bad7423d0841d7a63e5f003f8e56ff, type: 3}
+  m_Script: {fileID: 11500000, guid: c5f99811903e45529e9ecb8126eb1473, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interpolationDataSource: 0
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 4993461855264777998}
+  _networkObjectCache: {fileID: 4993461855264777998}
   _powerupElements:
-  - {fileID: 11400000, guid: eb0661c1fb81ae94da7ba8a4cc079c0d, type: 2}
   - {fileID: 11400000, guid: 1e627006c5ba8b242a21e6e00649c687, type: 2}
+  - {fileID: 11400000, guid: eb0661c1fb81ae94da7ba8a4cc079c0d, type: 2}
   - {fileID: 11400000, guid: 4d9cdc7f11df46e42b7bd8536e340bad, type: 2}
   - {fileID: 11400000, guid: 693f90d41da47cb4bad2843a9deeb7e7, type: 2}
   _renderer: {fileID: 2778806105166479936}
   _meshFilter: {fileID: 104913371831367306}
   _rechargeCircle: {fileID: 4521411879244340779}
   _mainPowerupColor: {r: 1, g: 0.70980394, b: 0, a: 1}
-  _specialPowerupColor: {r: 0, g: 0.41568628, b: 1, a: 1}
-  _buffPowerupColor: {r: 0.16078432, g: 1, b: 0, a: 1}
-  _activePowerupIndex: 0
-  _respawnTimerFloat: 0
+  _specialPowerupColor: {r: 0, g: 0.4156863, b: 1, a: 0}
+  _buffPowerupColor: {r: 0.16078432, g: 1, b: 0, a: 0}
+  isRespawning: 0
+  activePowerupIndex: 0
+  respawnTimerFloat: 0
 --- !u!114 &8002685214106596891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,12 +371,39 @@ MonoBehaviour:
   m_GameObject: {fileID: 5226006799628384909}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _interpolationDataSource: 0
-  _interpolationTarget: {fileID: 0}
-  _space: 0
+  _componentIndexCache: 1
+  _addedNetworkObject: {fileID: 4993461855264777998}
+  _networkObjectCache: {fileID: 4993461855264777998}
+  _synchronizeParent: 0
+  _packing:
+    Position: 1
+    Rotation: 1
+    Scale: 0
+  _interpolation: 2
+  _extrapolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  _clientAuthoritative: 1
+  _sendToOwner: 1
+  _interval: 1
+  _synchronizePosition: 1
+  _positionSnapping:
+    X: 0
+    Y: 0
+    Z: 0
+  _synchronizeRotation: 1
+  _rotationSnapping:
+    X: 0
+    Y: 0
+    Z: 0
+  _synchronizeScale: 1
+  _scaleSnapping:
+    X: 0
+    Y: 0
+    Z: 0
 --- !u!65 &-578924347114627800
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -484,7 +522,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5226006799628384909}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47e89bfba66d3c14585fec1776a5a7c8, type: 3}
+  m_Script: {fileID: 11500000, guid: cc1255d0078650949aa116f26e578a6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   startAction: 2

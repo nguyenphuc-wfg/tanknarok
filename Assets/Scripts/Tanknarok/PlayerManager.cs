@@ -35,28 +35,28 @@ namespace FishNetworking.Tanknarok
             }
         }
 
-        // public static int PlayersAlive()
-        // {
-        //     int playersAlive = 0;
-        //     for (int i = 0; i < _allPlayers.Count; i++)
-        //     {
-        //         if (_allPlayers[i].isActivated || _allPlayers[i].lives > 0)
-        //             playersAlive++;
-        //     }
+        public static int PlayersAlive()
+        {
+            int playersAlive = 0;
+            for (int i = 0; i < _allPlayers.Count; i++)
+            {
+                if (_allPlayers[i].isActivated || _allPlayers[i].lives > 0)
+                    playersAlive++;
+            }
 
-        //     return playersAlive;
-        // }
+            return playersAlive;
+        }
 
-        // public static Player GetFirstAlivePlayer()
-        // {
-        //     for (int i = 0; i < _allPlayers.Count; i++)
-        //     {
-        //         if (_allPlayers[i].isActivated)
-        //             return _allPlayers[i];
-        //     }
+        public static Player GetFirstAlivePlayer()
+        {
+            for (int i = 0; i < _allPlayers.Count; i++)
+            {
+                if (_allPlayers[i].isActivated)
+                    return _allPlayers[i];
+            }
 
-        //     return null;
-        // }
+            return null;
+        }
 
         public static void AddPlayer(Player player)
         {

@@ -26,6 +26,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1212219532181776063}
   m_Father: {fileID: 7611710913590070502}
@@ -57,6 +58,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6597541038151551646}
   - {fileID: 1257972719643275921}
@@ -72,9 +74,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5422049924759650424}
-  - component: {fileID: -4909636208944910769}
-  - component: {fileID: 3844518902735432244}
-  - component: {fileID: 6176243579111518455}
+  - component: {fileID: 1895936769479494606}
+  - component: {fileID: 4833876170205614295}
+  - component: {fileID: 5616332923344939000}
   m_Layer: 6
   m_Name: shot_default
   m_TagString: Untagged
@@ -92,12 +94,13 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7611710913590070502}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &-4909636208944910769
+--- !u!114 &1895936769479494606
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,23 +109,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 8219689177351906792}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -1552182283, guid: e725a070cec140c4caffb81624c8c787, type: 3}
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AoiMode: 0
-  DefaultPropertyGroups: []
-  DestroyWhenStateAuthorityLeaves: 1
-  AllowStateAuthorityOverride: 0
-  AoiPosition: {fileID: 0}
-  Flags: 2305
-  NetworkGuid:
-    RawGuidValue: 4722b2b1d2bf34d4f96d01cf093cc1ca
-  NestedObjects: []
-  NetworkedBehaviours:
-  - {fileID: 3844518902735432244}
-  - {fileID: 6176243579111518455}
-  SimulationBehaviours: []
---- !u!114 &3844518902735432244
+  <IsNested>k__BackingField: 0
+  <ComponentIndex>k__BackingField: 0
+  _networkBehaviours:
+  - {fileID: 4833876170205614295}
+  - {fileID: 5616332923344939000}
+  <ParentNetworkObject>k__BackingField: {fileID: 0}
+  <ChildNetworkObjects>k__BackingField: []
+  _isNetworked: 0
+  _isGlobal: 1
+  _disableOnDespawn: 0
+  NetworkObserver: {fileID: 0}
+  <PrefabId>k__BackingField: 11
+  _scenePathHash: 0
+  <SceneId>k__BackingField: 0
+  <AssetPathHash>k__BackingField: 12345522471963373057
+  _sceneNetworkObjects: []
+--- !u!114 &4833876170205614295
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,19 +137,61 @@ MonoBehaviour:
   m_GameObject: {fileID: 8219689177351906792}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80bbb3cf1fbd40ebbfd4f30592393ee1, type: 3}
+  m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WordOffset: 0
-  WordCount: 0
-  _interpolationDataSource: 1
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 1895936769479494606}
+  _networkObjectCache: {fileID: 1895936769479494606}
+  _synchronizeParent: 0
+  _packing:
+    Position: 1
+    Rotation: 1
+    Scale: 0
+  _interpolation: 2
+  _extrapolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  _clientAuthoritative: 1
+  _sendToOwner: 1
+  _interval: 1
+  _synchronizePosition: 1
+  _positionSnapping:
+    X: 0
+    Y: 0
+    Z: 0
+  _synchronizeRotation: 1
+  _rotationSnapping:
+    X: 0
+    Y: 0
+    Z: 0
+  _synchronizeScale: 1
+  _scaleSnapping:
+    X: 0
+    Y: 0
+    Z: 0
+--- !u!114 &5616332923344939000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8219689177351906792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43c4c1fe8ebe4eddb5b494b275cd3492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 1
+  _addedNetworkObject: {fileID: 1895936769479494606}
+  _networkObjectCache: {fileID: 1895936769479494606}
   _bulletVisualParent: {fileID: 6597541038151551646}
   _explosionFX: {fileID: 4868787137545227089}
   _bulletSettings:
     hitMask:
       serializedVersion: 2
       m_Bits: 257
-    areaRadius: 0.5
+    areaRadius: 1.5
     areaImpulse: 40
     areaDamage: 35
     speed: 35
@@ -152,40 +200,8 @@ MonoBehaviour:
     timeToLive: 1
     timeToFade: 3
     ownerVelocityMultiplier: 1
-  _networkedVelocity: {x: 0, y: 0, z: 0}
-  _networkedDestroyed:
-    _value: 0
---- !u!114 &6176243579111518455
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8219689177351906792}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  WordOffset: 0
-  WordCount: 0
-  _interpolationDataSource: 2
-  _interpolationTarget: {fileID: 7611710913590070502}
-  DetachInterpTarget: 0
-  SyncParent: 1
-  InterpolateErrorCorrection: 1
-  InterpolatedErrorCorrectionSettings:
-    MinRate: 3.3
-    MaxRate: 10
-    PosBlendStart: 0.25
-    PosBlendEnd: 1
-    PosMinCorrection: 0.025
-    PosTeleportDistance: 2
-    RotBlendStart: 0.1
-    RotBlendEnd: 0.5
-    RotTeleportRadians: 1.5
-  SyncScale: 0
-  Space: 0
+  networkedVelocity: {x: 0, y: 0, z: 0}
+  networkedDestroyed: 0
 --- !u!1 &9128550410504632716
 GameObject:
   m_ObjectHideFlags: 0
@@ -214,6 +230,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 2}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6597541038151551646}
   m_RootOrder: 0
@@ -237,6 +254,7 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -345,6 +363,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fb6e7651667ffe40aaabd64a29d7f0f, type: 3}
+  m_Script: {fileID: 11500000, guid: 6270c250606d450b987447bcc7d204be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

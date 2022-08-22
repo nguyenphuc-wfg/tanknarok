@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3516549682023249858, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
+      propertyPath: <AssetPathHash>k__BackingField
+      value: 4091753153495599765
+      objectReference: {fileID: 0}
     - target: {fileID: 542250307813208369, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
       propertyPath: _ammo
       value: 8
@@ -30,7 +34,7 @@ PrefabInstance:
     - target: {fileID: 542250307813208369, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
       propertyPath: _projectilePrefab
       value: 
-      objectReference: {fileID: 2846247952107426141, guid: 4e053da8bc8df427da10097c0b222cf3, type: 3}
+      objectReference: {fileID: 8219689177351906792, guid: 4e053da8bc8df427da10097c0b222cf3, type: 3}
     - target: {fileID: 542250307813208369, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
       propertyPath: _bulletDummyPrefab
       value: 
@@ -39,6 +43,14 @@ PrefabInstance:
       propertyPath: _muzzleFlashPrefab
       value: 
       objectReference: {fileID: 198922892736825384, guid: 072c42e45480d124b8b7d238b9348c62, type: 3}
+    - target: {fileID: 542250307813208369, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
+      propertyPath: _addedNetworkObject
+      value: 
+      objectReference: {fileID: 6148168135168895258}
+    - target: {fileID: 542250307813208369, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
+      propertyPath: _networkObjectCache
+      value: 
+      objectReference: {fileID: 8658283253036821319}
     - target: {fileID: 542250307813208369, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
       propertyPath: _gunExits.Array.size
       value: 1
@@ -78,6 +90,14 @@ PrefabInstance:
     - target: {fileID: 2086113352017859789, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3167661624148539704, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 3167661624148539704, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
+      propertyPath: <AssetPathHash>k__BackingField
+      value: 4091753153495599765
       objectReference: {fileID: 0}
     - target: {fileID: 3191812727878037553, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
       propertyPath: m_Name
@@ -173,12 +193,34 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 1b9c61c37c1e5b94e931a0425dbbd653, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
+--- !u!114 &6078689618079179598 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 542250307813208369, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
+  m_PrefabInstance: {fileID: 6043177351284232831}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9193594013692076622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7148428fe6e4d1e93495278a1623a99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8658283253036821319 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3167661624148539704, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
+  m_PrefabInstance: {fileID: 6043177351284232831}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9193594013692076622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9193594013692076622 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3191812727878037553, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
   m_PrefabInstance: {fileID: 6043177351284232831}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2655056444247922086
+--- !u!114 &6148168135168895258
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -187,9 +229,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 9193594013692076622}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc1255d0078650949aa116f26e578a6a, type: 3}
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startAction: 2
-  stopAction: 2
-  audioClip: {fileID: 11400000, guid: 1b9c61c37c1e5b94e931a0425dbbd653, type: 2}
+  <IsNested>k__BackingField: 0
+  <ComponentIndex>k__BackingField: 0
+  _networkBehaviours:
+  - {fileID: 6078689618079179598}
+  <ParentNetworkObject>k__BackingField: {fileID: 0}
+  <ChildNetworkObjects>k__BackingField: []
+  _isNetworked: 1
+  _isGlobal: 0
+  _disableOnDespawn: 0
+  NetworkObserver: {fileID: 0}
+  <PrefabId>k__BackingField: 8
+  _scenePathHash: 0
+  <SceneId>k__BackingField: 0
+  <AssetPathHash>k__BackingField: 4091753153495599765
+  _sceneNetworkObjects: []

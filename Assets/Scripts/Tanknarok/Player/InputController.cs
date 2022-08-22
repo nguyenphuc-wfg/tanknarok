@@ -97,6 +97,7 @@ namespace FishNetworking.Tanknarok
 
         private void Update()
         {
+            FixedUpdateFire();
             ToggleReady = ToggleReady || Input.GetKeyDown(KeyCode.R);
             if (Input.mousePresent)
             {
@@ -192,35 +193,49 @@ namespace FishNetworking.Tanknarok
         /// FixedUpdateNetwork is the main Fusion simulation callback - this is where
         /// we modify network state.
         /// </summary>
-        private void FixedUpdate()
+        private void FixedUpdateFire()
         {
+            if (!base.IsOwner)
+                return;
             // if (GameManager.playState == GameManager.PlayState.TRANSITION)
             //     return;
             // Get our input struct and act accordingly. This method will only return data if we
             // have Input or State Authority - meaning on the controlling player or the server.
             Vector2 direction = default;
+            // if (Input.GetMouseButtonDown(0))
+            // {
+            //     direction = _aimDelta.normalized;
+            //
+            //     if (input.IsDown(NetworkInputData.BUTTON_FIRE_PRIMARY))
+            //     {
+            //         _player.shooter.FireWeapon(WeaponManager.WeaponInstallationType.PRIMARY);
+            //     }
+            //
+            //     if (input.IsDown(NetworkInputData.BUTTON_FIRE_SECONDARY))
+            //     {
+            //         _player.shooter.FireWeapon(WeaponManager.WeaponInstallationType.SECONDARY);
+            //     }
+            //
+            //     // if (input.IsDown(NetworkInputData.READY))
+            //     // {
+            //     //     _player.ToggleReady();
+            //     // }
+            //
+            //     _player.SetDirections(direction, input.aimDirection.normalized);
+            // }
             if (Input.GetMouseButtonDown(0))
             {
-                // direction = input.moveDirection.normalized;
-
-                // if (input.IsDown(NetworkInputData.BUTTON_FIRE_PRIMARY))
-                // {
-                //     _player.shooter.FireWeapon(WeaponManager.WeaponInstallationType.PRIMARY);
-                // }
-
-                // if (input.IsDown(NetworkInputData.BUTTON_FIRE_SECONDARY))
-                // {
-                //     _player.shooter.FireWeapon(WeaponManager.WeaponInstallationType.SECONDARY);
-                // }
-
-                // if (input.IsDown(NetworkInputData.READY))
-                // {
-                //     _player.ToggleReady();
-                // }
-
-                // We let the NetworkCharacterController do the actual work
-                // _player.SetDirections(direction, input.aimDirection.normalized);
+                Debug.Log("Fire 1");
+                direction = _aimDelta.normalized;
+                _player.SetDirections(_moveDelta.normalized, _aimDelta.normalized);
+                _player.shooter.FireWeapon((WeaponManager.WeaponInstallationType.PRIMARY));
             }
+            // if (Input.GetMouseButtonDown(1))
+            // {
+            //     direction = _aimDelta.normalized;
+            //     _player.SetDirections(_moveDelta.normalized, _aimDelta.normalized);
+            //     _player.shooter.FireWeapon((WeaponManager.WeaponInstallationType.SECONDARY));
+            // }
 
         }
 
