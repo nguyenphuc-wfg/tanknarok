@@ -229,12 +229,12 @@ namespace FishNetworking.Tanknarok
                 _player.SetDirections(_moveDelta.normalized, _aimDelta.normalized);
                 _player.shooter.FireWeapon((WeaponManager.WeaponInstallationType.PRIMARY));
             }
-            // if (Input.GetMouseButtonDown(1))
-            // {
-            //     direction = _aimDelta.normalized;
-            //     _player.SetDirections(_moveDelta.normalized, _aimDelta.normalized);
-            //     _player.shooter.FireWeapon((WeaponManager.WeaponInstallationType.SECONDARY));
-            // }
+            if (Input.GetMouseButtonDown(1))
+            {
+                direction = _aimDelta.normalized;
+                _player.SetDirections(_moveDelta.normalized, _aimDelta.normalized);
+                _player.shooter.FireWeapon((WeaponManager.WeaponInstallationType.SECONDARY));
+            }
 
         }
 

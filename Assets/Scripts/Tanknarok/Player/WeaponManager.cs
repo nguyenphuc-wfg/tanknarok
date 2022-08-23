@@ -152,7 +152,8 @@ namespace FishNetworking.Tanknarok
 				return false;
 			return true;
 		}
-
+		
+		[ServerRpc]
 		public void ResetAllWeapons()
 		{
 			ResetWeapon(WeaponInstallationType.PRIMARY);
@@ -170,8 +171,7 @@ namespace FishNetworking.Tanknarok
 				ActivateWeapon(weaponType, 4);
 			}
 		}
-		
-		[ServerRpc]
+
 		public void InstallWeapon(PowerupElement powerup)
 		{
 			int weaponIndex = GetWeaponIndex(powerup.powerupType);
