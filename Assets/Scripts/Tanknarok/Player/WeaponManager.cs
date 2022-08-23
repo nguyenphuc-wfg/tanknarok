@@ -170,7 +170,8 @@ namespace FishNetworking.Tanknarok
 				ActivateWeapon(weaponType, 4);
 			}
 		}
-
+		
+		[ServerRpc]
 		public void InstallWeapon(PowerupElement powerup)
 		{
 			int weaponIndex = GetWeaponIndex(powerup.powerupType);

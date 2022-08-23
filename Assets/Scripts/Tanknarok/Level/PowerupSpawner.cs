@@ -1,6 +1,10 @@
-﻿using FishNet.Object;
+﻿using System;
+using FishNet.Object;
 using FishNet.Object.Synchronizing;
+using FishNet.Transporting;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
 namespace FishNetworking.Tanknarok
@@ -21,10 +25,10 @@ namespace FishNetworking.Tanknarok
 		[SerializeField] private Color _specialPowerupColor;
 		[SerializeField] private Color _buffPowerupColor;
 
-		[SyncVar(OnChange = nameof(OnRespawningChanged))]
+		[SyncVar(Channel = Channel.Unreliable, OnChange = nameof(OnRespawningChanged))]
 		public bool isRespawning;
 
-		[SyncVar(OnChange = nameof(OnActivePowerupIndexChanged))]
+		[SyncVar(Channel = Channel.Unreliable, OnChange = nameof(OnActivePowerupIndexChanged))]
 		public int activePowerupIndex;
 
 		[SyncVar]
@@ -32,32 +36,36 @@ namespace FishNetworking.Tanknarok
 
 		private float _respawnDuration = 3f;
 		public float respawnProgress => respawnTimerFloat / _respawnDuration;
-
 		void OnEnable()
 		{
 			SetRechargeAmount(0f);
 		}
-		
-		public void Spawned()
+		[Server]
+		public void Start()
 		{
 			_renderer.enabled = false;
 			isRespawning = true;
 			SetNextPowerup();
 		}
-
-		public void FixedUpdateNetwork()
+		[Server]
+		public void FixedUpdate()
 		{
 			// if (!Object.HasStateAuthority)
 			// 	return;
 
 			// Update the respawn timer
-			respawnTimerFloat = Mathf.Min(respawnTimerFloat , _respawnDuration);
+			respawnTimerFloat = Mathf.Min(respawnTimerFloat + Time.deltaTime, _respawnDuration);
 
 			// Spawn a new powerup whenever the respawn duration has been reached
 			if (respawnTimerFloat >= _respawnDuration && isRespawning)
 			{
 				isRespawning = false;
 			}
+		}
+		
+		private void Update()
+		{
+			Render();
 		}
 
 		// Create a simple scale in effect when spawning
@@ -80,17 +88,20 @@ namespace FishNetworking.Tanknarok
 		/// <returns></returns>
 		public PowerupElement Pickup()
 		{
+			Debug.Log("pickup3");
 			if (isRespawning)
 				return null;
-
+			Debug.Log("pickup4");
 			// Store the active powerup index for returning
 			int lastIndex = activePowerupIndex;
 
 			// Trigger the pickup effect, hide the powerup and select the next powerup to spawn
 			if (respawnTimerFloat >= _respawnDuration)
 			{
+				Debug.Log("pickup5");
 				if (_renderer.enabled)
 				{
+					Debug.Log("pickup6");
 					GetComponent<AudioEmitter>().PlayOneShot(_powerupElements[lastIndex].pickupSnd);
 					_renderer.enabled = false;
 					SetNextPowerup();
@@ -98,7 +109,7 @@ namespace FishNetworking.Tanknarok
 			}
 			return lastIndex != -1 ? _powerupElements[lastIndex] : null;
 		}
-
+		[Server]
 		private void SetNextPowerup()
 		{
 			// if (Object.HasStateAuthority)
@@ -109,17 +120,11 @@ namespace FishNetworking.Tanknarok
 			}
 		}
 
-		public static void OnActivePowerupIndexChanged(int prev, int next, bool asServer)
+		public void OnActivePowerupIndexChanged(int prev, int next, bool asServer)
 		{
-			// changed.Behaviour.RefreshColor();
+			RefreshColor();
 		}
 		//
-		// public static void OnRespawningChanged(Changed<PowerupSpawner> changed)
-		// {
-		// 	if(changed.Behaviour)
-		// 		changed.Behaviour.OnRespawningChanged();
-		// }
-
 		private void OnRespawningChanged(bool prev, bool next, bool asServer)
 		{
 			_renderer.enabled = true;

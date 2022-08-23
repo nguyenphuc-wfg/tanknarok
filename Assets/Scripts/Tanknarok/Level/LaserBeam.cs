@@ -23,17 +23,19 @@ namespace FishNetworking.Tanknarok
 		[SyncVar] private Vector3 targetPosition;
 
 		[SerializeField] private LineRenderer _laser;
-
+		
+		
 		public void Init()
 		{
-
+			if (IsServer) _laser.enabled = false;
+			if (!IsClient) return;
 			_muzzleFlash.Play();
 			_spark.Play();
 		}
-
 		public void UpdateLaserBeam()
 		{
 			// Raycast
+			if (!IsClient) return;
 			RaycastHit hit;
 			if (Physics.Raycast(this.transform.position, this.transform.forward, out hit, _range, _collisionMask))
 			{
@@ -45,8 +47,7 @@ namespace FishNetworking.Tanknarok
 					Player player = hit.collider.GetComponentInParent<Player>();
 					if (player != null)
 					{
-						if (IsServer)
-							player.ApplyDamage(Vector3.zero, _damage, null);
+						player.ApplyDamage(Vector3.zero, _damage, null);
 					}
 				}
 			}

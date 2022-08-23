@@ -27,10 +27,10 @@ namespace FishNetworking.Tanknarok
                 return _currentLevel.GetPlayerSpawnPoint(playerID);
             return null;
         }
-        // public void LoadLevel(int nextLevelIndex)
-        // {
-        //     Runner.SetActiveScene(nextLevelIndex < 0 ? _lobby : _levels[nextLevelIndex]);
-        // }
+        public void LoadLevel(int nextLevelIndex)
+        {
+
+        }
     }
 
 }

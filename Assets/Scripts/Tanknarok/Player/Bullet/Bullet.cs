@@ -117,8 +117,9 @@ namespace FishNetworking.Tanknarok
         {
             // lifeTimer = TickTimer.CreateFromSeconds(Runner, _bulletSettings.timeToLive + _bulletSettings.timeToFade);
             // fadeTimer = TickTimer.CreateFromSeconds(Runner, _bulletSettings.timeToFade);
-        
-            // destroyed = false;
+            Debug.Log($"Initialising InstantHit predictedspawn");
+
+            destroyed = false;
         
             Vector3 fwd = transform.forward.normalized;
             Vector3 vel = ownervelocity.normalized;
@@ -126,7 +127,7 @@ namespace FishNetworking.Tanknarok
             fwd.y = 0;
             float multiplier = Mathf.Abs(Vector3.Dot(vel, fwd));
         
-            // velocity = _bulletSettings.speed * transform.forward + ownervelocity * multiplier * _bulletSettings.ownerVelocityMultiplier;
+            velocity = _bulletSettings.speed * transform.forward + ownervelocity * multiplier * _bulletSettings.ownerVelocityMultiplier;
         }
         
 
@@ -168,31 +169,20 @@ namespace FishNetworking.Tanknarok
          private void MoveBullet()
          {
              mPrevPos = transform.position;
+
              if (destroyed)
              {
                  return;
              }
+
              transform.Translate(Vector3.forward* _bulletSettings.speed * Time.deltaTime);
              transform.Translate(Vector3.up* _bulletSettings.gravity/5 *Time.deltaTime);
-             // Transform xfrm = transform;
-             // float dt = Time.deltaTime;
-             // Vector3 vel = velocity;
-             // float speed = vel.magnitude;
-             // Vector3 pos = transform.position;
-                
+             
              if (!destroyed)
              {
-                 // vel.y += dt * _bulletSettings.gravity;
-                 RaycastHit hit;
-                // We move the origin back from the actual position to make sure we can't shoot through things even if we start inside them
-                 // Vector3 dir = vel.normalized;
-                 // if (Physics.Raycast(pos - 0.5f * dir, dir, out hit, Mathf.Max(_bulletSettings.radius, speed * dt), _bulletSettings.hitMask.value))
-                 // {
-                 //     vel = HandleImpact(hit);
-                 //     // pos = hit.point;
-                 // }
-
-                 if (Physics.Raycast(mPrevPos, (transform.position - mPrevPos).normalized, out hit, (transform.position - mPrevPos).magnitude, _bulletSettings.hitMask.value))
+                 // We move the origin back from the actual position to make sure we can't shoot through things even if we start inside them
+                RaycastHit hit;
+                if (Physics.Raycast(mPrevPos, (transform.position - mPrevPos).normalized, out hit, (transform.position - mPrevPos).magnitude, _bulletSettings.hitMask.value))
                  {
                      HandleImpact(hit);
                  }
@@ -200,15 +190,6 @@ namespace FishNetworking.Tanknarok
              }
 
              // If the bullet is destroyed, we stop the movement so we don't get a flying explosion
-
-
-             // velocity = vel;
-             // pos += dt * velocity;
-
-             // xfrm.position = pos;
-             // if (vel.sqrMagnitude > 0)
-             //     _bulletVisualParent.forward = vel.normalized;
-
          }
 //
 //         /// <summary>
@@ -216,7 +197,7 @@ namespace FishNetworking.Tanknarok
 //         /// After detonating, the mesh will disappear and it will no longer collide.
 //         /// If specified, an impact fx may play and area damage may be applied.
 //         /// </summary>
-         private void Detonate(Vector3 hitPoint)
+        private void Detonate(Vector3 hitPoint)
          {
              if (destroyed)
                  return;
@@ -269,24 +250,6 @@ namespace FishNetworking.Tanknarok
                      }
                  }
              }
-             // if (cnt > 0)
-             // {
-             //     for (int i = 0; i < cnt; i++)
-             //     {
-             //         GameObject other = _areaHits[i].GameObject;
-             //         if (other)
-             //         {
-             //             ICanTakeDamage target = other.GetComponent<ICanTakeDamage>();
-             //             if (target != null)
-             //             {
-             //                 Vector3 impulse = other.transform.position - hitPoint;
-             //                 float l = Mathf.Clamp(_bulletSettings.areaRadius - impulse.magnitude, 0, _bulletSettings.areaRadius);
-             //                 impulse = _bulletSettings.areaImpulse * l * impulse.normalized;
-             //                 target.ApplyDamage(impulse, _bulletSettings.areaDamage, Object.InputAuthority);
-             //             }
-             //         }
-             //     }
-             // }
          }
 
          private Vector3 HandleImpact(RaycastHit hit)

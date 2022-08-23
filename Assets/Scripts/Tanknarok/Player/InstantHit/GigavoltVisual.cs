@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace FishNetworking.Tanknarok
 {
-    public class GigavoltVisual : MonoBehaviour
+    public class GigavoltVisual : MonoBehaviour, HitScan.IVisual
     {
         [SerializeField] private LineRenderer[] lines;
 

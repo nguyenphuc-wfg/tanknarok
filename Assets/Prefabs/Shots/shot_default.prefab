@@ -119,8 +119,8 @@ MonoBehaviour:
   - {fileID: 5616332923344939000}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
-  _isNetworked: 0
-  _isGlobal: 1
+  _isNetworked: 1
+  _isGlobal: 0
   _disableOnDespawn: 0
   NetworkObserver: {fileID: 0}
   <PrefabId>k__BackingField: 11
@@ -148,12 +148,12 @@ MonoBehaviour:
     Position: 1
     Rotation: 1
     Scale: 0
-  _interpolation: 2
+  _interpolation: 1
   _extrapolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  _clientAuthoritative: 1
-  _sendToOwner: 1
+  _clientAuthoritative: 0
+  _sendToOwner: 0
   _interval: 1
   _synchronizePosition: 1
   _positionSnapping:
@@ -191,7 +191,7 @@ MonoBehaviour:
     hitMask:
       serializedVersion: 2
       m_Bits: 257
-    areaRadius: 1.5
+    areaRadius: 2
     areaImpulse: 40
     areaDamage: 35
     speed: 35

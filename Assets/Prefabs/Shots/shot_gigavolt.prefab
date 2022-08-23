@@ -812,6 +812,7 @@ GameObject:
   - component: {fileID: 5422049924759650424}
   - component: {fileID: 8791178145679329185}
   - component: {fileID: 3256674932985638243}
+  - component: {fileID: 7212999627735559415}
   m_Layer: 6
   m_Name: shot_gigavolt
   m_TagString: Untagged
@@ -851,13 +852,14 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 0
   _networkBehaviours:
   - {fileID: 3256674932985638243}
+  - {fileID: 7212999627735559415}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
   _isNetworked: 1
   _isGlobal: 0
   _disableOnDespawn: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: -1
+  <PrefabId>k__BackingField: 18
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 17790623776955960017
@@ -886,8 +888,8 @@ MonoBehaviour:
   _extrapolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  _clientAuthoritative: 1
-  _sendToOwner: 1
+  _clientAuthoritative: 0
+  _sendToOwner: 0
   _interval: 1
   _synchronizePosition: 1
   _positionSnapping:
@@ -904,6 +906,33 @@ MonoBehaviour:
     X: 0
     Y: 0
     Z: 0
+--- !u!114 &7212999627735559415
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8219689177351906792}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5816382fc3c492fa30f055b425a1127, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 1
+  _addedNetworkObject: {fileID: 8791178145679329185}
+  _networkObjectCache: {fileID: 8791178145679329185}
+  _settings:
+    hitMask:
+      serializedVersion: 2
+      m_Bits: 257
+    range: 50
+    timeToFade: 5
+    areaRadius: 1
+    areaImpulse: 0
+    damage: 50
+  SyncVarEndPosition: {x: 0, y: 0, z: 0}
+  networkedStartPosition: {x: 0, y: 0, z: 0}
+  networkedImpact: 0
 --- !u!1001 &4050446829007293024
 PrefabInstance:
   m_ObjectHideFlags: 0

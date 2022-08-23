@@ -25,6 +25,7 @@ namespace FishNetworking.Tanknarok
         private NetworkManager _networkManager;
         private LocalConnectionState _clientState = LocalConnectionState.Stopped;
         private LocalConnectionState _serverState = LocalConnectionState.Stopped;
+
         private void Awake()
         {
             DontDestroyOnLoad(this);
@@ -60,9 +61,8 @@ namespace FishNetworking.Tanknarok
         {
             if (_networkManager == null)
                 return;
-            NetworkObject go = Instantiate(_gameManagerPrefab);
+            NetworkObject go = Instantiate(_gameManagerPrefab, this.transform);
             _networkManager.ServerManager.Spawn(go);
-            _networkManager.SceneManager.AddOwnerToDefaultScene(go);
         }
         private void OnDestroy()
         {
@@ -99,7 +99,7 @@ namespace FishNetworking.Tanknarok
             }
                 
         }
-
+    
 
         public void OnClick_Client()
         {
@@ -125,22 +125,18 @@ namespace FishNetworking.Tanknarok
             switch (state)
             {
                 case LocalConnectionState.Stopped:
-                    progress = false;
                     _progress.text = "";
                     intro = true;
                     break;
                 case LocalConnectionState.Starting:
                     _progress.text = "Connecting";
-                    intro = false;
                     break;
                 case LocalConnectionState.Started:
                     _progress.text = "Connected";
                     running = true;
-                    progress = false;
                     break;
                 case LocalConnectionState.Stopping:
                     _progress.text = "Disconnecting";
-                    intro = false;
                     progress = true;
                     SceneManager.UnloadSceneAsync(2);
                     break;

@@ -1,16 +1,18 @@
-﻿using UnityEngine;
+﻿using FishNet.Object;
+using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace FishNetworking.Tanknarok
 {
-    public class RotateForever : MonoBehaviour
+    public class RotateForever : NetworkBehaviour
     {
         private enum Axis { X, Y, Z };
 
         [SerializeField] private Axis axis = Axis.Y;
         [SerializeField] bool reverse = false;
         [SerializeField] public float _rotationsPerSecond = 1f;
-
+        
+        [Server]
         void Update()
         {
             Rotate();

@@ -246,9 +246,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 10705101}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38c4c780f51c53e4b9f800fdf0dde235, type: 3}
+  m_Script: {fileID: 11500000, guid: cc1255d0078650949aa116f26e578a6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startAction: 2
+  stopAction: 2
+  audioClip: {fileID: 0}
 --- !u!4 &10705104
 Transform:
   m_ObjectHideFlags: 0
@@ -711,7 +714,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Host a Game
+  m_text: SERVER
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d3092767d33128c4197814e2dfe6a92e, type: 2}
   m_sharedMaterial: {fileID: 21811839132102034, guid: d3092767d33128c4197814e2dfe6a92e, type: 2}
@@ -1696,7 +1699,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: A Photon Fusion Demo
+  m_text: A FISHNETWORKING DEMO
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d3092767d33128c4197814e2dfe6a92e, type: 2}
   m_sharedMaterial: {fileID: 21811839132102034, guid: d3092767d33128c4197814e2dfe6a92e, type: 2}
@@ -2234,7 +2237,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Join a Host
+  m_text: CLIENT
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d3092767d33128c4197814e2dfe6a92e, type: 2}
   m_sharedMaterial: {fileID: 21811839132102034, guid: d3092767d33128c4197814e2dfe6a92e, type: 2}
@@ -2674,7 +2677,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1189123329
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3061,6 +3064,7 @@ GameObject:
   - component: {fileID: 1353448200}
   - component: {fileID: 1353448198}
   - component: {fileID: 1353448202}
+  - component: {fileID: 1353448203}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -3081,7 +3085,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _lobby: 0
-  _levels: 
+  _levels: 0200000003000000
   _currentLevel: {fileID: 0}
 --- !u!4 &1353448200
 Transform:
@@ -3194,6 +3198,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1353448203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353448197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc1255d0078650949aa116f26e578a6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startAction: 2
+  stopAction: 2
+  audioClip: {fileID: 11400000, guid: df5c365e4a25e354f972c01fc3350407, type: 2}
 --- !u!1 &1360692729
 GameObject:
   m_ObjectHideFlags: 0
@@ -3855,7 +3874,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 153, y: -228.5}
+  m_AnchoredPosition: {x: 343, y: -228.5}
   m_SizeDelta: {x: 686, y: 123}
   m_Pivot: {x: 1, y: 1}
 --- !u!114 &2034243103
@@ -4378,10 +4397,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: ScoreManager
       objectReference: {fileID: 0}
-    - target: {fileID: 2946661840507142216, guid: 08e0b522437d88241a5b72ff9348261d, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2946661840507142218, guid: 08e0b522437d88241a5b72ff9348261d, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -4542,11 +4557,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5012958170850089838, guid: 4410303528c3ab34e8fca65cdeca7dfc, type: 3}
       propertyPath: m_Interactable
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5012958171135504110, guid: 4410303528c3ab34e8fca65cdeca7dfc, type: 3}
       propertyPath: m_Interactable
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5012958171668251607, guid: 4410303528c3ab34e8fca65cdeca7dfc, type: 3}
       propertyPath: m_IsActive

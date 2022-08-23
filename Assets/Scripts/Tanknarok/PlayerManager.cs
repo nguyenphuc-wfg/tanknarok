@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using FishNet.Connection;
 using UnityEngine;
 
 namespace FishNetworking.Tanknarok
@@ -29,7 +30,6 @@ namespace FishNetworking.Tanknarok
                 Player player = _playerQueue.Dequeue();
 
                 CameraStrategy.AddTarget(player.gameObject);
-                Debug.Log("manage");
 
                 player.Respawn(0);
             }
@@ -109,21 +109,21 @@ namespace FishNetworking.Tanknarok
             return null;
         }
 
-        // public static Player Get(PlayerRef playerRef)
-        // {
-        //     for (int i = _allPlayers.Count - 1; i >= 0; i--)
-        //     {
-        //         if (_allPlayers[i] == null || _allPlayers[i].Object == null)
-        //         {
-        //             _allPlayers.RemoveAt(i);
-        //             Debug.Log("Removing null player");
-        //         }
-        //         else if (_allPlayers[i].Object.InputAuthority == playerRef)
-        //             return _allPlayers[i];
-        //     }
+        public static Player Get(NetworkConnection playerRef)
+        {
+            for (int i = _allPlayers.Count - 1; i >= 0; i--)
+            {
+                if (_allPlayers[i] == null)
+                {
+                    _allPlayers.RemoveAt(i);
+                    Debug.Log("Removing null player");
+                }
+                else if (_allPlayers[i].Owner == playerRef)
+                    return _allPlayers[i];
+            }
 
-        //     return null;
-        // }
+            return null;
+        }
     }
 
 }

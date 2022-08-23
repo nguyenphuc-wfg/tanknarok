@@ -82,7 +82,6 @@ namespace FishNetworking.Tanknarok
         }
         public void OnFireTickChanged(int prev, int next, bool asServer)
         {
-            // changed.Behaviour.FireFx();
             FireFx();
         }
         
@@ -107,9 +106,9 @@ namespace FishNetworking.Tanknarok
 
         private void SpawnNetworkShot(NetworkConnection runner ,Vector3 ownerVelocity,Transform exit)
         {
-            GameObject bullet = Instantiate(_projectilePrefab, exit.position, exit.rotation);
+            GameObject bullet = Instantiate(_projectilePrefab, exit.position , exit.rotation);
             bullet.GetComponent<Projectile>().InitNetworkState(ownerVelocity);
-            InstanceFinder.ServerManager.Spawn(bullet, runner);
+            base.Spawn(bullet, runner);
 
         }
         private Transform GetExitPoint()

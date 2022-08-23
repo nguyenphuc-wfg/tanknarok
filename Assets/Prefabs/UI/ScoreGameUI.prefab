@@ -32,6 +32,7 @@ RectTransform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -58,11 +59,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4677069574345040601}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e5c3b53184f2af43901d7735d4b4c33, type: 3}
+  m_Script: {fileID: 11500000, guid: cc1255d0078650949aa116f26e578a6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _score: {fileID: 4959722684003991261}
-  _audioEmitter: {fileID: 7374471174499266431}
+  startAction: 2
+  stopAction: 2
+  audioClip: {fileID: 11400000, guid: 26e08bc891f0a374b97c5f4406de33ad, type: 2}
 --- !u!114 &4959722684003991261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,9 +279,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 4677069574345040601}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47e89bfba66d3c14585fec1776a5a7c8, type: 3}
+  m_Script: {fileID: 11500000, guid: 33d5bc43cdd347ff889e383cdd161433, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startAction: 2
-  stopAction: 2
-  audioClip: {fileID: 11400000, guid: 26e08bc891f0a374b97c5f4406de33ad, type: 2}
+  _recycleBehaviour: 0
+  _score: {fileID: 4959722684003991261}
+  _audioEmitter: {fileID: 7970065402724235201}

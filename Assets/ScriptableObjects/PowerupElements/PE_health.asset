@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8073226a88446b4a8fdc7af0952aca3, type: 3}
   m_Name: PE_health
   m_EditorClassIdentifier: 
-  powerupType: 0
+  weaponInstallationType: 2
+  powerupType: 4
   powerupSpawnerMesh: {fileID: 0}
   pickupSnd: {fileID: 0}

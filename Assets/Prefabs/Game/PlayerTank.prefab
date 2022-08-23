@@ -108,6 +108,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7933785314457126569}
   - component: {fileID: 3909942294175577360}
+  - component: {fileID: 3452061074557853300}
   m_Layer: 8
   m_Name: InterpolationRoot
   m_TagString: Untagged
@@ -228,6 +229,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3452061074557853300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2293618908238561316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc1255d0078650949aa116f26e578a6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startAction: 2
+  stopAction: 2
+  audioClip: {fileID: 11400000, guid: cd8d82f78e19bb6439b48cac45b63c1e, type: 2}
 --- !u!1 &4493096586829041388
 GameObject:
   m_ObjectHideFlags: 0
@@ -623,7 +639,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 7738913490721572064}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.95
   m_Height: 2
   m_Direction: 1
@@ -920,8 +936,8 @@ MonoBehaviour:
   - {fileID: 2935474013039929622}
   - {fileID: 1466502686119088447}
   - {fileID: 3623411152102627672}
-  _isNetworked: 0
-  _isGlobal: 1
+  _isNetworked: 1
+  _isGlobal: 0
   _disableOnDespawn: 0
   NetworkObserver: {fileID: 0}
   <PrefabId>k__BackingField: 4
@@ -980,7 +996,7 @@ MonoBehaviour:
   _enableTeleport: 0
   _teleportThreshold: 1
   _clientAuthoritative: 1
-  _sendToOwner: 1
+  _sendToOwner: 0
   _interval: 1
   _synchronizePosition: 1
   _positionSnapping:
@@ -1388,6 +1404,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8658283253036821319, guid: e95afb91d125089498a490bdf0ce39a2, type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 8658283253036821319, guid: e95afb91d125089498a490bdf0ce39a2, type: 3}
       propertyPath: _networkBehaviours.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -1515,6 +1535,10 @@ PrefabInstance:
     - target: {fileID: 6332741569867311361, guid: 9dddb965edb206d4ebb5d39819c59dd6, type: 3}
       propertyPath: <IsNested>k__BackingField
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6332741569867311361, guid: 9dddb965edb206d4ebb5d39819c59dd6, type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6332741569867311361, guid: 9dddb965edb206d4ebb5d39819c59dd6, type: 3}
       propertyPath: _networkBehaviours.Array.size
@@ -1648,6 +1672,10 @@ PrefabInstance:
     - target: {fileID: 6332741569867311361, guid: 86bd09311ff04004d9a475344b051bae, type: 3}
       propertyPath: <IsNested>k__BackingField
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6332741569867311361, guid: 86bd09311ff04004d9a475344b051bae, type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6332741569867311361, guid: 86bd09311ff04004d9a475344b051bae, type: 3}
       propertyPath: _networkBehaviours.Array.size
@@ -1785,6 +1813,10 @@ PrefabInstance:
     - target: {fileID: 8658283253036821319, guid: 76fa989f715f8614ebcbfd731bb6fc9c, type: 3}
       propertyPath: <IsNested>k__BackingField
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8658283253036821319, guid: 76fa989f715f8614ebcbfd731bb6fc9c, type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8658283253036821319, guid: 76fa989f715f8614ebcbfd731bb6fc9c, type: 3}
       propertyPath: _networkBehaviours.Array.size

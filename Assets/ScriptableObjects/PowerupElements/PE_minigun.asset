@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8073226a88446b4a8fdc7af0952aca3, type: 3}
   m_Name: PE_minigun
   m_EditorClassIdentifier: 
-  powerupType: 0
-  powerupSpawnerMesh: {fileID: 0}
-  pickupSnd: {fileID: 0}
+  weaponInstallationType: 0
+  powerupType: 1
+  powerupSpawnerMesh: {fileID: -6066180693335253818, guid: b62d27968edc5d34aa96f87fbe979424, type: 3}
+  pickupSnd: {fileID: 11400000, guid: 1b96e05d4183013418505c0fff2b0696, type: 2}

@@ -169,6 +169,7 @@ GameObject:
   - component: {fileID: 2946661840507142218}
   - component: {fileID: 5543874804545045200}
   - component: {fileID: 9108880697777149484}
+  - component: {fileID: 2367262846331231372}
   m_Layer: 0
   m_Name: ScoreManager
   m_TagString: Untagged
@@ -304,7 +305,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startAction: 2
   stopAction: 2
-  audioClip: {fileID: 0}
+  audioClip: {fileID: 11400000, guid: 917b39e85a4313549b2e3bf86f70b233, type: 2}
+--- !u!114 &2367262846331231372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2946661840507142216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8190c328ffc5483da71de3242d7f35ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _scoreGamePrefab: {fileID: 7374471174499266431, guid: 6f9425d2547e78a42a9d4334aba8158f, type: 3}
+  _uiScoreParent: {fileID: 3912480597607061295}
+  _scoreLobbyPrefab: {fileID: 3553768600087218448, guid: 0a7b8df5c62da7f4f95ff3434028e8c4, type: 3}
+  _lobbyScoreParent: {fileID: 2946661840384943054}
+  _singleDigitSpacing: 8
+  _doubleDigitSpacing: 8
+  _confetti: {fileID: 5349095598497454433}
+  _audioEmitter: {fileID: 9108880697777149484}
 --- !u!1001 &1053218094808824474
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -430,5 +451,10 @@ PrefabInstance:
 --- !u!4 &5254167003066063921 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4546099520630372, guid: dec9bc561ad1b73438989d6493f890a4, type: 3}
+  m_PrefabInstance: {fileID: 5258704263543960149}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &5349095598497454433 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 198551671030508340, guid: dec9bc561ad1b73438989d6493f890a4, type: 3}
   m_PrefabInstance: {fileID: 5258704263543960149}
   m_PrefabAsset: {fileID: 0}

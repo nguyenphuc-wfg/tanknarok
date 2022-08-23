@@ -94,9 +94,9 @@ namespace FishNetworking.Tanknarok
         // public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
         // {
         // }
-
         private void Update()
         {
+            if (!IsOwner) return;
             FixedUpdateFire();
             ToggleReady = ToggleReady || Input.GetKeyDown(KeyCode.R);
             if (Input.mousePresent)
@@ -225,7 +225,6 @@ namespace FishNetworking.Tanknarok
             // }
             if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log("Fire 1");
                 direction = _aimDelta.normalized;
                 _player.SetDirections(_moveDelta.normalized, _aimDelta.normalized);
                 _player.shooter.FireWeapon((WeaponManager.WeaponInstallationType.PRIMARY));

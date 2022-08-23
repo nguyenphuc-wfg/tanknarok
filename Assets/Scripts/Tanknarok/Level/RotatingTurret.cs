@@ -27,11 +27,11 @@ namespace FishNetworking.Tanknarok
         // Rotates the turret and updates laser beams
         public void FixedUpdate()
         {
-            if(IsServer)
-                transform.Rotate(0, _rpm * Time.deltaTime, 0);
             RpcRotateInfinity();
+            if (!IsServer) return;
+            transform.Rotate(0, _rpm * Time.deltaTime, 0);
         }
-
+        
         private void RpcRotateInfinity()
         {
             for (int i = 0; i < _laserBeams.Length; i++)
