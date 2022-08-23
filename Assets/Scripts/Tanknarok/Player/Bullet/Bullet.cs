@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using FishNet;
-using FishNet.Component.Transforming;
-using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
 
