@@ -119,13 +119,16 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 0
   _networkBehaviours:
   - {fileID: 6251711082023197683}
+  - {fileID: 721199512638263879}
+  - {fileID: 8323102753144680394}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
-  <ChildNetworkObjects>k__BackingField: []
+  <ChildNetworkObjects>k__BackingField:
+  - {fileID: 2431995955179458091}
   _isNetworked: 1
   _isGlobal: 0
   _disableOnDespawn: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: -1
+  <PrefabId>k__BackingField: 6
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 15182881836978101551
@@ -154,8 +157,8 @@ MonoBehaviour:
   _extrapolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  _clientAuthoritative: 1
-  _sendToOwner: 1
+  _clientAuthoritative: 0
+  _sendToOwner: 0
   _interval: 1
   _synchronizePosition: 1
   _positionSnapping:
@@ -184,6 +187,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec2605c57e1b4fe698b61182024b73fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 1
+  _addedNetworkObject: {fileID: 4041668944810935296}
+  _networkObjectCache: {fileID: 4041668944810935296}
   _targetMarker: {fileID: 6614566593096458129}
 --- !u!114 &8323102753144680394
 MonoBehaviour:
@@ -197,9 +203,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43c4c1fe8ebe4eddb5b494b275cd3492, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: 4041668944810935296}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 4041668944810935296}
   _bulletVisualParent: {fileID: 6536320149190056502}
   _explosionFX: {fileID: 6523757624509217407}
   _bulletSettings:
@@ -216,6 +222,7 @@ MonoBehaviour:
     timeToFade: 3
     ownerVelocityMultiplier: 1
   networkedVelocity: {x: 0, y: 0, z: 0}
+  networkedDestroyed: 0
 --- !u!1 &8917993722005465667
 GameObject:
   m_ObjectHideFlags: 0
@@ -5198,6 +5205,80 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4353998635879332, guid: 8135babfd50f94b419a8f8df36a04c32, type: 3}
   m_PrefabInstance: {fileID: 6416398943943949885}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6415433453341007611 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1005384407195846, guid: 8135babfd50f94b419a8f8df36a04c32, type: 3}
+  m_PrefabInstance: {fileID: 6416398943943949885}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2431995955179458091
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6415433453341007611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsNested>k__BackingField: 1
+  <ComponentIndex>k__BackingField: 1
+  _networkBehaviours:
+  - {fileID: 7719321054919868202}
+  <ParentNetworkObject>k__BackingField: {fileID: 4041668944810935296}
+  <ChildNetworkObjects>k__BackingField: []
+  _isNetworked: 1
+  _isGlobal: 0
+  _disableOnDespawn: 0
+  NetworkObserver: {fileID: 0}
+  <PrefabId>k__BackingField: -1
+  _scenePathHash: 0
+  <SceneId>k__BackingField: 0
+  <AssetPathHash>k__BackingField: 0
+  _sceneNetworkObjects: []
+--- !u!114 &7719321054919868202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6415433453341007611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 2431995955179458091}
+  _networkObjectCache: {fileID: 2431995955179458091}
+  _synchronizeParent: 0
+  _packing:
+    Position: 1
+    Rotation: 1
+    Scale: 0
+  _interpolation: 2
+  _extrapolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  _clientAuthoritative: 0
+  _sendToOwner: 0
+  _interval: 1
+  _synchronizePosition: 1
+  _positionSnapping:
+    X: 0
+    Y: 0
+    Z: 0
+  _synchronizeRotation: 1
+  _rotationSnapping:
+    X: 0
+    Y: 0
+    Z: 0
+  _synchronizeScale: 1
+  _scaleSnapping:
+    X: 0
+    Y: 0
+    Z: 0
 --- !u!198 &6614566593096458129 stripped
 ParticleSystem:
   m_CorrespondingSourceObject: {fileID: 198168954900210092, guid: 8135babfd50f94b419a8f8df36a04c32, type: 3}

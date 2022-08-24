@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using FishNet.Object;
+using UnityEngine;
 
 namespace FishNetworking.Tanknarok
 {
-    public class BulletTargetMarker : MonoBehaviour, Bullet.ITargetVisuals
+    public class BulletTargetMarker : NetworkBehaviour, Bullet.ITargetVisuals
     {
         [SerializeField] private ParticleSystem _targetMarker;
 
@@ -14,6 +15,7 @@ namespace FishNetworking.Tanknarok
                 Destroy(_targetMarker.gameObject);
         }
 
+        [ObserversRpc]
         public void InitializeTargetMarker(Vector3 launchPosition, Vector3 bulletVelocity, Bullet.BulletSettings bulletSettings)
         {
             _targetMarker.gameObject.SetActive(false);

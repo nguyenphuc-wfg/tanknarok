@@ -103,7 +103,6 @@ namespace FishNetworking.Tanknarok
                 _muzzleFlashList[_gunExit].Play();
             _audioEmitter.PlayOneShot();
         }
-
         private void SpawnNetworkShot(NetworkConnection runner ,Vector3 ownerVelocity,Transform exit)
         {
             GameObject bullet = Instantiate(_projectilePrefab, exit.position , exit.rotation);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using FishNet;
+using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
 
@@ -53,6 +54,7 @@ namespace FishNetworking.Tanknarok
         }
         private Vector3 mPrevPos;
         private bool destroyed;
+        private float currentLiveTime = 0;
         /// <summary>
         /// Because Bullet.cs uses predictive spawning, we have two different sets of properties:
         /// Networked and Predicted, hidden behind a common front that exposes the relevant value depending on the current state of the object.
@@ -101,37 +103,40 @@ namespace FishNetworking.Tanknarok
         //
         // private List<LagCompensatedHit> _areaHits = new List<LagCompensatedHit>();
         private ITargetVisuals _targetVisuals;
-
+        
         private void Awake()
         {
             _targetVisuals = GetComponent<ITargetVisuals>();
         }
-        
-        // /// <summary>
-        // /// PreSpawn is invoked directly when Spawn() is called, before any network state is shared, so this is where we initialize networked properties.
-        // /// </summary>
-        // /// <param name="ownervelocity"></param>
+
         public override void InitNetworkState(Vector3 ownervelocity)
         {
-            // lifeTimer = TickTimer.CreateFromSeconds(Runner, _bulletSettings.timeToLive + _bulletSettings.timeToFade);
-            // fadeTimer = TickTimer.CreateFromSeconds(Runner, _bulletSettings.timeToFade);
-            Debug.Log($"Initialising InstantHit predictedspawn");
+            
+            // Debug.Log($"Initialising InstantHit predictedspawn");
+            //
+            // destroyed = false;
+            //
+            // Vector3 fwd = transform.forward.normalized;
+            // Vector3 vel = Vector3.zero.normalized;
+            // vel.y = 0;
+            // fwd.y = 0;
+            // float multiplier = Mathf.Abs(Vector3.Dot(vel, fwd));
+            //
+            // velocity = _bulletSettings.speed * transform.forward + Vector3.zero * multiplier * _bulletSettings.ownerVelocityMultiplier;
+        }
 
+        public void Start()
+        {
             destroyed = false;
         
             Vector3 fwd = transform.forward.normalized;
-            Vector3 vel = ownervelocity.normalized;
+            Vector3 vel = Vector3.zero.normalized;
             vel.y = 0;
             fwd.y = 0;
             float multiplier = Mathf.Abs(Vector3.Dot(vel, fwd));
         
-            velocity = _bulletSettings.speed * transform.forward + ownervelocity * multiplier * _bulletSettings.ownerVelocityMultiplier;
-        }
-        
-
-        public void Start()
-        {
-            base.OnStartClient();
+            velocity = _bulletSettings.speed * transform.forward + Vector3.zero * multiplier * _bulletSettings.ownerVelocityMultiplier;
+            
             if (_explosionFX != null)
                 _explosionFX.ResetExplosion();
             _bulletVisualParent.gameObject.SetActive(true);
@@ -140,14 +145,11 @@ namespace FishNetworking.Tanknarok
                 _bulletVisualParent.forward = velocity;
         
             _bulletVisualParent.forward = transform.forward;
-        
             if (_targetVisuals != null)
                 _targetVisuals.InitializeTargetMarker(transform.position, velocity, _bulletSettings);
-        
             // We want bullet interpolation to use predicted data on all clients because we're moving them in FixedUpdateNetwork()
             // GetComponent<NetworkTransform>().InterpolationDataSource = InterpolationDataSources.Predicted;
         }
-
         private void OnDestroy()
         {
             // Explicitly destroy the target marker because it may not currently be a child of the bullet
@@ -158,14 +160,25 @@ namespace FishNetworking.Tanknarok
         /// <summary>
         /// Simulate bullet movement and check for collision.
         /// This executes on all clients using the Velocity and last validated state to predict the correct state of the object
-//         /// </summary>
-         public void Update()
-         {
-             MoveBullet();
-         }
-
-         private void MoveBullet()
-         {
+        /// </summary>
+        public void Update()
+        {
+            CountDownLiveTime();
+            MoveBullet();
+        }
+        
+        [Server]
+        private void CountDownLiveTime()
+        {
+            currentLiveTime += Time.deltaTime;
+            if (currentLiveTime >= _bulletSettings.timeToLive)
+            {
+                currentLiveTime = 0;
+                base.Despawn(this.NetworkObject);
+            }
+        }
+        private void MoveBullet1()
+        {
              mPrevPos = transform.position;
 
              if (destroyed)
@@ -188,13 +201,49 @@ namespace FishNetworking.Tanknarok
              }
 
              // If the bullet is destroyed, we stop the movement so we don't get a flying explosion
-         }
-//
-//         /// <summary>
-//         /// Bullets will detonate when they expire or on impact.
-//         /// After detonating, the mesh will disappear and it will no longer collide.
-//         /// If specified, an impact fx may play and area damage may be applied.
-//         /// </summary>
+        }
+
+        private void MoveBullet()
+        {
+
+            Transform xfrm = transform;
+            float dt = Time.deltaTime;
+            Vector3 vel = velocity;
+            float speed = vel.magnitude;
+            Vector3 pos = xfrm.position;
+
+            if (!destroyed)
+            {
+                vel.y += dt * _bulletSettings.gravity;
+
+                // We move the origin back from the actual position to make sure we can't shoot through things even if we start inside them
+                Vector3 dir = vel.normalized;
+                RaycastHit hit;
+                if (Physics.Raycast(pos -0.5f*dir, dir, out hit, Mathf.Max(_bulletSettings.radius, speed * dt), _bulletSettings.hitMask.value))
+                {
+                    HandleImpact(hit);
+                }
+            }
+
+            // If the bullet is destroyed, we stop the movement so we don't get a flying explosion
+            if (destroyed)
+            {
+                vel = Vector3.zero;
+                dt = 0;
+            }
+
+            velocity = vel;
+            pos += dt * velocity;
+
+            xfrm.position = pos;
+            if(vel.sqrMagnitude>0)
+                _bulletVisualParent.forward = vel.normalized;
+        }
+         /// <summary>
+         /// Bullets will detonate when they expire or on impact.
+         /// After detonating, the mesh will disappear and it will no longer collide.
+         /// If specified, an impact fx may play and area damage may be applied.
+         /// </summary>
         private void Detonate(Vector3 hitPoint)
          {
              if (destroyed)

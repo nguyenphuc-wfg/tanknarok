@@ -5,7 +5,7 @@ namespace FishNetworking.Tanknarok
 {
     public class TankTeleportInEffect : MonoBehaviour
     {
-        private Player _player;
+        [SerializeField] private Player _player;
 
         [Header("Time Settings")]
         [SerializeField]
@@ -29,10 +29,10 @@ namespace FishNetworking.Tanknarok
         private bool _endTeleportation;
 
         // Initialize dummy tank and set colors based on the assigned player
-        public void Initialize(Player player)
+        public void Initialize()
         {
-            _player = player;
-            ColorChanger.ChangeColor(transform, player.playerColor);
+            // _player = player;
+            ColorChanger.ChangeColor(transform, _player.playerColor);
             ResetTeleporter();
         }
 
@@ -77,6 +77,7 @@ namespace FishNetworking.Tanknarok
             _tankDummyTurret.rotation = _player.turretRotation;
             _tankDummyHull.rotation = _player.hullRotation;
             _player.ResetPlayer();
+            EndTeleport();
             // Waits for the tank to be ready before playing the discharge effect
             while (!_endTeleportation)
                 yield return null;

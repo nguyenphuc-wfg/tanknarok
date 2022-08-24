@@ -4,7 +4,7 @@ namespace FishNetworking.Tanknarok
 {
     public class TankTeleportOutEffect : MonoBehaviour
     {
-        private Player _player;
+        [SerializeField] private Player _player;
 
         [SerializeField] private GameObject _dummyTank;
         [SerializeField] private Transform _dummyTankTurret;
@@ -15,13 +15,13 @@ namespace FishNetworking.Tanknarok
         [Header("Audio")][SerializeField] private AudioEmitter _audioEmitter;
 
         // Initialize dummy tank and set colors based on the assigned player
-        public void Initialize(Player player)
+        public void Initialize()
         {
-            _player = player;
+            // _player = player;
 
             _dummyTank.SetActive(false);
 
-            ColorChanger.ChangeColor(transform, player.playerColor);
+            ColorChanger.ChangeColor(transform, _player.playerColor);
 
             _teleportEffect.Stop();
         }

@@ -47,7 +47,6 @@ namespace FishNetworking.Tanknarok
         
         public void OnTankDeath()
         {
-            return;
             if (playState != PlayState.LOBBY)
             {
                 int playersleft = PlayerManager.PlayersAlive();
@@ -75,6 +74,12 @@ namespace FishNetworking.Tanknarok
             }
         }
 
+        public override void OnStartNetwork()
+        {
+            base.OnStartNetwork();
+            instance = this;
+        }
+
         private void Awake()
         {
             instance = this;
@@ -82,11 +87,9 @@ namespace FishNetworking.Tanknarok
 
         public void Restart()
         {
-            {
-                // Calling with destroyGameObject false because we do this in the OnShutdown callback on FusionLauncher
-                instance = null;
-                _restart = false;
-            }
+            // Calling with destroyGameObject false because we do this in the OnShutdown callback on FusionLauncher
+            instance = null;
+            _restart = false;
         }
         // public const ShutdownReason ShutdownReason_GameAlreadyRunning = (ShutdownReason)100;
         private void Update()

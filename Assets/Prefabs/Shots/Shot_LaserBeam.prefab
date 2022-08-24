@@ -58423,8 +58423,8 @@ MonoBehaviour:
   - {fileID: 3546917355481921484}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
   <ChildNetworkObjects>k__BackingField: []
-  _isNetworked: 0
-  _isGlobal: 1
+  _isNetworked: 1
+  _isGlobal: 0
   _disableOnDespawn: 0
   NetworkObserver: {fileID: 0}
   <PrefabId>k__BackingField: 12

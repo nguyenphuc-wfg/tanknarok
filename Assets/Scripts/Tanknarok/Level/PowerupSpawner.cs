@@ -23,10 +23,10 @@ namespace FishNetworking.Tanknarok
 		[SerializeField] private Color _specialPowerupColor;
 		[SerializeField] private Color _buffPowerupColor;
 
-		[SyncVar(Channel = Channel.Unreliable, OnChange = nameof(OnRespawningChanged))]
+		[SyncVar(Channel = Channel.Reliable, OnChange = nameof(OnRespawningChanged))]
 		public bool isRespawning;
 
-		[SyncVar(Channel = Channel.Unreliable, OnChange = nameof(OnActivePowerupIndexChanged))]
+		[SyncVar(Channel = Channel.Reliable, OnChange = nameof(OnActivePowerupIndexChanged))]
 		public int activePowerupIndex;
 
 		[SyncVar]
@@ -86,20 +86,16 @@ namespace FishNetworking.Tanknarok
 		/// <returns></returns>
 		public PowerupElement Pickup()
 		{
-			Debug.Log("pickup3");
 			if (isRespawning)
 				return null;
-			Debug.Log("pickup4");
 			// Store the active powerup index for returning
 			int lastIndex = activePowerupIndex;
 
 			// Trigger the pickup effect, hide the powerup and select the next powerup to spawn
 			if (respawnTimerFloat >= _respawnDuration)
 			{
-				Debug.Log("pickup5");
 				if (_renderer.enabled)
 				{
-					Debug.Log("pickup6");
 					GetComponent<AudioEmitter>().PlayOneShot(_powerupElements[lastIndex].pickupSnd);
 					_renderer.enabled = false;
 					SetNextPowerup();
@@ -110,12 +106,9 @@ namespace FishNetworking.Tanknarok
 		[Server]
 		private void SetNextPowerup()
 		{
-			// if (Object.HasStateAuthority)
-			{
-				activePowerupIndex = Random.Range(0, _powerupElements.Length);
-				respawnTimerFloat = 0;
-				isRespawning = true;
-			}
+			activePowerupIndex = Random.Range(0, _powerupElements.Length);
+			respawnTimerFloat = 0;
+			isRespawning = true;
 		}
 
 		public void OnActivePowerupIndexChanged(int prev, int next, bool asServer)

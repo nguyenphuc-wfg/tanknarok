@@ -197,7 +197,7 @@ MonoBehaviour:
     speed: 35
     radius: 0.25
     gravity: -10
-    timeToLive: 1
+    timeToLive: 3
     timeToFade: 3
     ownerVelocityMultiplier: 1
   networkedVelocity: {x: 0, y: 0, z: 0}

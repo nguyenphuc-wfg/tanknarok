@@ -47,7 +47,7 @@ namespace FishNetworking.Tanknarok
         [SyncVar] public bool ready;
         public static Player local { get; set; }
     
-        [SyncVar(Channel = Channel.Unreliable,OnChange = nameof(OnStateChanged))]
+        [SyncVar(Channel = Channel.Reliable,OnChange = nameof(OnStateChanged))]
         [SerializeField]
         private State state;
         public enum State
@@ -105,8 +105,9 @@ namespace FishNetworking.Tanknarok
                 local = this;
 
             InitNetworkState(3);
-
+            PlayerManager.AddPlayer(this);
             playerID = base.ObjectId;
+            
             ready = false;
 
             SetMaterial(playerID % 4);
@@ -114,11 +115,11 @@ namespace FishNetworking.Tanknarok
 
             _damageVisuals.Initialize(playerMaterial);
 
-            _teleportIn.Initialize(this);
-            _teleportOut.Initialize(this);
+            _teleportIn.Initialize();
+            _teleportOut.Initialize();
 
             _cc.enabled = base.IsOwner;
-            PlayerManager.AddPlayer(this);
+
         }
         private void Update()
         {
@@ -171,7 +172,7 @@ namespace FishNetworking.Tanknarok
         private void OnStateChanged(State prev, State next, bool asServer)
         {
             //Debug.Log($" OnStateChanged: {prev} to {next}");
-            //if (!asServer)
+            // if (!asServer)
             StateChanged();
         }
 
@@ -198,7 +199,6 @@ namespace FishNetworking.Tanknarok
                     break;
             }
         }
-
         public void ResetPlayer()
         {
             Debug.Log($"Resetting player {playerID},to state={state}");
@@ -222,9 +222,8 @@ namespace FishNetworking.Tanknarok
         {
             if (!powerupSpawner)
                 return;
-            Debug.Log("pick2");
+            
             PowerupElement powerup = powerupSpawner.Pickup();
-
             if (powerup == null)
                 return;
 
@@ -319,6 +318,7 @@ namespace FishNetworking.Tanknarok
         {
             _respawnInSeconds = inSeconds;
         }
+        // [ServerRpc]
         public void SetDirections(Vector2 moveDirection, Vector2 aimDirection)
         {
             if (!_cc.enabled)
@@ -373,19 +373,16 @@ namespace FishNetworking.Tanknarok
         }
         
         // Visual Damage to client
-        [Server]
         [ObserversRpc]
         private void RpcDamageVisual()
         {
             _damageVisuals.OnDamaged(life, isDead);
         }
         
+        // Server apply damage
         [Server]
         private void OnDamage(Vector3 impulse, byte damage, NetworkConnection attacker)
         {
-            // Server apply damage
-            ApplyImpulse(impulse);
-
             if (damage >= life)
             {
                 life = 0;
@@ -396,7 +393,7 @@ namespace FishNetworking.Tanknarok
 
                 if (lives > 0)
                     Respawn( _respawnTime );
-                if (GameManager.instance)
+                if (GameManager.instance != null)
                 {
                     Debug.Log("VAR");
                     GameManager.instance.OnTankDeath();
@@ -405,23 +402,8 @@ namespace FishNetworking.Tanknarok
             else
             {
                 life -= damage;
-                // Debug.Log($"Player {playerID} took {damage} damage, life = {life}");
+                Debug.Log($"Player {playerID} took {damage} damage, life = {life}");
             }
-
-            // invulnerabilityTimer = TickTimer.CreateFromSeconds(Runner, 0.1f);
-
-            // if (Runner.Stage == SimulationStages.Forward)
-        }
-        public void ApplyImpulse(Vector3 impulse)
-        {
-            if (!isActivated)
-                return;
-
-            // if (Object.HasStateAuthority)
-            // {
-            //     _cc.Velocity += impulse / 10.0f; // Magic constant to compensate for not properly dealing with masses
-            //     _cc.Move(Vector3.zero); // Velocity property is only used by CC when steering, so pretend we are, without actually steering anywhere
-            // }
         }
     }
     public struct ReconcileData

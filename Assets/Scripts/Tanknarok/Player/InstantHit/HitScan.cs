@@ -1,5 +1,6 @@
 ﻿using System;
 using FishNet;
+using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
 
@@ -22,6 +23,7 @@ namespace FishNetworking.Tanknarok
 			bool IsActive();
 		}
 
+		private float currentLiveTime = 0;
 		[SerializeField] private HitScanSettings _settings;
 		
 		[Serializable]
@@ -121,6 +123,21 @@ namespace FishNetworking.Tanknarok
 			}
 		}
 
+		private void Update()
+		{
+			CountDownLiveTime();
+		}
+		
+		[Server]
+		private void CountDownLiveTime()
+		{
+			currentLiveTime += Time.deltaTime;
+			if (currentLiveTime >= _settings.timeToFade)
+			{
+				currentLiveTime = 0;
+				base.Despawn(this.NetworkObject);
+			}
+		}
 		private void ApplyAreaDamage(HitScanSettings raySetting, Vector3 impactPos)
 		{
 			// HitboxManager hbm = Runner.LagCompensation;
