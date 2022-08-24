@@ -1,7 +1,10 @@
+using System;
 using UnityEngine;
 using FishNet.Object;
 using FishNet;
 using FishNet.Object.Synchronizing;
+using FishNetworking.Event;
+using UnityEngine.Serialization;
 
 namespace FishNetworking.Tanknarok
 {
@@ -13,7 +16,8 @@ namespace FishNetworking.Tanknarok
             LEVEL,
             TRANSITION
         }
-        
+
+        [FormerlySerializedAs("tankPlayerEvent")] public GameEvent tankDeathEvent;
         [SyncVar]
         private int networkedWinningPlayerIndex = -1;
 
@@ -44,47 +48,60 @@ namespace FishNetworking.Tanknarok
         private LevelManager _levelManager;
         private bool _restart = true;
         public static GameManager instance { get; private set; }
-        
+
         public void OnTankDeath()
         {
-            if (playState != PlayState.LOBBY)
+            // if (playState != PlayState.LOBBY)
             {
                 int playersleft = PlayerManager.PlayersAlive();
                 Debug.Log($"Someone died - {playersleft} left");
-                if (playersleft<=1)
+                // if (playersleft<=1)
                 {
                     Player lastPlayerStanding = playersleft == 0 ? null : PlayerManager.GetFirstAlivePlayer();
                     // if there is only one player, who died from a laser (e.g.) we don't award scores. 
                     if (lastPlayerStanding != null)
                     {
                         int winningPlayerIndex = lastPlayerStanding.playerID;
-                        int nextLevelIndex = _levelManager.GetRandomLevelIndex();
+                        // int nextLevelIndex = _levelManager.GetRandomLevelIndex();
                         byte winningPlayerScore = (byte)(lastPlayerStanding.score + 1);
                         if (winningPlayerIndex >= 0)
                         {
-                            Player winner = PlayerManager.GetPlayerFromID(winningPlayerIndex);
-                            if (winner.NetworkObject)
-                                winner.score = winningPlayerScore;
+                            lastPlayerStanding.score = winningPlayerScore;
                             if (winningPlayerScore >= MAX_SCORE)
-                                nextLevelIndex = -1;
+                            {
+                                _levelManager.OnScoreLobby(winningPlayerIndex);
+                                return;
+                            }
+                                
+                            
                         }
-                        LoadLevel( nextLevelIndex, winningPlayerIndex);
+                        _levelManager.OnScoreShow(winningPlayerIndex, winningPlayerScore);
+                        // LoadLevel( nextLevelIndex, winningPlayerIndex);
                     }
                 }
             }
         }
 
-        public override void OnStartNetwork()
-        {
-            base.OnStartNetwork();
-            instance = this;
-        }
 
         private void Awake()
         {
-            instance = this;
+            _scoreManager = FindObjectOfType<ScoreManager>(true);
+            _levelManager = FindObjectOfType<LevelManager>(true);
         }
 
+        private void Start()
+        {
+            playState = PlayState.LEVEL;
+        }
+
+        private void OnEnable()
+        {
+            tankDeathEvent.Sub(OnTankDeath);
+        }
+        private void OnDisable()
+        {
+            tankDeathEvent.UnSub(OnTankDeath);
+        }
         public void Restart()
         {
             // Calling with destroyGameObject false because we do this in the OnShutdown callback on FusionLauncher
@@ -153,7 +170,7 @@ namespace FishNetworking.Tanknarok
             // Start transition
             WinningPlayerIndex = winningPlayerIndex;
 
-            _levelManager.LoadLevel(nextLevelIndex);
+            _levelManager.LoadLevel();
         }
 
         public void StateAuthorityChanged()

@@ -267,6 +267,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &49629860 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3280629863071996972, guid: 14e619ae6d6c15048a605c22484e77d4, type: 3}
+  m_PrefabInstance: {fileID: 3280629863568972541}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e1b8380e0117614aa052ad1316fa017, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &71838933
 GameObject:
   m_ObjectHideFlags: 0
@@ -2751,6 +2762,7 @@ GameObject:
   - component: {fileID: 1279107951}
   - component: {fileID: 1279107950}
   - component: {fileID: 1279107954}
+  - component: {fileID: 1279107955}
   m_Layer: 5
   m_Name: App
   m_TagString: Untagged
@@ -2865,6 +2877,21 @@ MonoBehaviour:
   _uiProgress: {fileID: 148003028}
   _uiRoom: {fileID: 757041940}
   _uiGame: {fileID: 7620482187611796560}
+  _levelManager: {fileID: 1353448198}
+--- !u!114 &1279107955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1279107949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05c272e706f4707b0ab6ef123b295eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _transitionEffect: {fileID: 49629860}
+  _scoreManager: {fileID: 2010001212}
 --- !u!1 &1286783608
 GameObject:
   m_ObjectHideFlags: 0
@@ -3065,6 +3092,7 @@ GameObject:
   - component: {fileID: 1353448198}
   - component: {fileID: 1353448202}
   - component: {fileID: 1353448203}
+  - component: {fileID: 1353448204}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: Untagged
@@ -3084,9 +3112,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4f1ba1889134dd690342061c1b1e6c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 1353448204}
+  _networkObjectCache: {fileID: 1353448204}
   _lobby: 0
   _levels: 0200000003000000
   _currentLevel: {fileID: 0}
+  _scoreManager: {fileID: 2010001212}
+  _readyupManager: {fileID: 7620482187611796561}
+  _countdownManager: {fileID: 1485039223}
+  _sceneManager: {fileID: 1279107955}
 --- !u!4 &1353448200
 Transform:
   m_ObjectHideFlags: 0
@@ -3213,6 +3248,34 @@ MonoBehaviour:
   startAction: 2
   stopAction: 2
   audioClip: {fileID: 11400000, guid: df5c365e4a25e354f972c01fc3350407, type: 2}
+--- !u!114 &1353448204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353448197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsNested>k__BackingField: 0
+  <ComponentIndex>k__BackingField: 0
+  _networkBehaviours:
+  - {fileID: 1353448198}
+  <ParentNetworkObject>k__BackingField: {fileID: 0}
+  <ChildNetworkObjects>k__BackingField: []
+  _isNetworked: 1
+  _isGlobal: 0
+  _disableOnDespawn: 0
+  NetworkObserver: {fileID: 0}
+  <PrefabId>k__BackingField: -1
+  _scenePathHash: 83102251
+  <SceneId>k__BackingField: 356921452411855111
+  <AssetPathHash>k__BackingField: 0
+  _sceneNetworkObjects:
+  - {fileID: 1353448204}
 --- !u!1 &1360692729
 GameObject:
   m_ObjectHideFlags: 0
@@ -3612,6 +3675,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1481557435}
   m_CullTransparentMesh: 1
+--- !u!114 &1485039223 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9108814283233676922, guid: f8385fe6af748b74aa6c86ad7e43be92, type: 3}
+  m_PrefabInstance: {fileID: 910341599183485242}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f9a983a66f69d846bf6c264a86d428c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1533048365
 GameObject:
   m_ObjectHideFlags: 0
@@ -3836,6 +3910,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1925409130}
   m_CullTransparentMesh: 1
+--- !u!114 &2010001212 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2367262846331231372, guid: 08e0b522437d88241a5b72ff9348261d, type: 3}
+  m_PrefabInstance: {fileID: 2946661839685133348}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8190c328ffc5483da71de3242d7f35ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2034243101
 GameObject:
   m_ObjectHideFlags: 0
@@ -4287,6 +4372,70 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9108814283233676922, guid: f8385fe6af748b74aa6c86ad7e43be92, type: 3}
+      propertyPath: _countdownCurve.m_Curve.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108814283233676922, guid: f8385fe6af748b74aa6c86ad7e43be92, type: 3}
+      propertyPath: _countdownCurve.m_Curve.Array.data[0].time
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108814283233676922, guid: f8385fe6af748b74aa6c86ad7e43be92, type: 3}
+      propertyPath: _countdownCurve.m_Curve.Array.data[1].time
+      value: 0.4232881
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108814283233676922, guid: f8385fe6af748b74aa6c86ad7e43be92, type: 3}
+      propertyPath: _countdownCurve.m_Curve.Array.data[2].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108814283233676922, guid: f8385fe6af748b74aa6c86ad7e43be92, type: 3}
+      propertyPath: _countdownCurve.m_Curve.Array.data[0].value
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108814283233676922, guid: f8385fe6af748b74aa6c86ad7e43be92, type: 3}
+      propertyPath: _countdownCurve.m_Curve.Array.data[1].value
+      value: 0.5905947
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108814283233676922, guid: f8385fe6af748b74aa6c86ad7e43be92, type: 3}
+      propertyPath: _countdownCurve.m_Curve.Array.data[2].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108814283233676922, guid: f8385fe6af748b74aa6c86ad7e43be92, type: 3}
+      propertyPath: _countdownCurve.m_Curve.Array.data[0].inSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108814283233676922, guid: f8385fe6af748b74aa6c86ad7e43be92, type: 3}
+      propertyPath: _countdownCurve.m_Curve.Array.data[1].inSlope
+      value: 0.5442729
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108814283233676922, guid: f8385fe6af748b74aa6c86ad7e43be92, type: 3}
+      propertyPath: _countdownCurve.m_Curve.Array.data[2].inSlope
+      value: 0.8576329
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108814283233676922, guid: f8385fe6af748b74aa6c86ad7e43be92, type: 3}
+      propertyPath: _countdownCurve.m_Curve.Array.data[0].outSlope
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108814283233676922, guid: f8385fe6af748b74aa6c86ad7e43be92, type: 3}
+      propertyPath: _countdownCurve.m_Curve.Array.data[1].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108814283233676922, guid: f8385fe6af748b74aa6c86ad7e43be92, type: 3}
+      propertyPath: _countdownCurve.m_Curve.Array.data[1].outSlope
+      value: 0.5442729
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108814283233676922, guid: f8385fe6af748b74aa6c86ad7e43be92, type: 3}
+      propertyPath: _countdownCurve.m_Curve.Array.data[2].inWeight
+      value: 0.13749999
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108814283233676922, guid: f8385fe6af748b74aa6c86ad7e43be92, type: 3}
+      propertyPath: _countdownCurve.m_Curve.Array.data[2].outSlope
+      value: 0.8576329
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108814283233676922, guid: f8385fe6af748b74aa6c86ad7e43be92, type: 3}
+      propertyPath: _countdownCurve.m_Curve.Array.data[1].outWeight
+      value: 0.2919192
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8385fe6af748b74aa6c86ad7e43be92, type: 3}
 --- !u!1001 &1920089833842169799
@@ -4574,3 +4723,14 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7305765418572795242, guid: f8385fe6af748b74aa6c86ad7e43be92, type: 3}
   m_PrefabInstance: {fileID: 910341599183485242}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7620482187611796561 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 910341597809658173, guid: f8385fe6af748b74aa6c86ad7e43be92, type: 3}
+  m_PrefabInstance: {fileID: 910341599183485242}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7620482187611796560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f52fad919b4d5b45a3f549daa6aab57, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

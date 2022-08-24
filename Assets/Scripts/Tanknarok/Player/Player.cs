@@ -5,6 +5,8 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using FishNet.Transporting;
 using FishNet.Connection;
+using FishNetworking.Event;
+using UnityEngine.Events;
 
 namespace FishNetworking.Tanknarok
 {
@@ -41,9 +43,8 @@ namespace FishNetworking.Tanknarok
         [SyncVar] public Vector2 aimDirection;
 
         [SyncVar] public byte lives;
-
+        
         [SyncVar] public byte score;
-
         [SyncVar] public bool ready;
         public static Player local { get; set; }
     
@@ -83,7 +84,7 @@ namespace FishNetworking.Tanknarok
         private Vector2 _lastMoveDirection; // Store the previous direction for correct hull rotation
         private GameObject _deathExplosionInstance;
         private float _respawnInSeconds = -1;
-
+        public UnityEvent tankDeathEvent;
         public void ToggleReady()
         {
             ready = !ready;
@@ -106,8 +107,7 @@ namespace FishNetworking.Tanknarok
 
             InitNetworkState(3);
             PlayerManager.AddPlayer(this);
-            playerID = base.ObjectId;
-            
+            playerID = base.OwnerId;
             ready = false;
 
             SetMaterial(playerID % 4);
@@ -121,8 +121,14 @@ namespace FishNetworking.Tanknarok
             _cc.enabled = base.IsOwner;
 
         }
+        private void FixedUpdate()
+        {
+            CheckForPowerupPickup();
+        }
         private void Update()
         {
+            if (_respawnInSeconds >= 0)
+                CheckRespawn();
             Render();
         }
         void SetupDeathExplosion()
@@ -133,18 +139,26 @@ namespace FishNetworking.Tanknarok
         }
         public void InitNetworkState(byte maxLives)
         {
-            state = State.Spawning;
-            lives = maxLives;
-            life = MAX_HEALTH;
+            ResetState(maxLives);
             score = 0;
         }
 
+        public void ResetState(byte maxLives)
+        {
+            state = State.Spawning;
+            lives = maxLives;
+            life = MAX_HEALTH;
+        }
         private void CheckRespawn()
         {
             if (_respawnInSeconds > 0)
                 _respawnInSeconds -= Time.deltaTime;
-            SpawnPoint spawnpt = GetLevelManager().GetPlayerSpawnPoint(playerID);
-            if (spawnpt != null && _respawnInSeconds <= 0)
+            InitRespawning();
+        }
+
+        private void InitRespawning()
+        {
+            if (_respawnInSeconds <= 0)
             {
                 Debug.Log($"Respawning player {playerID}, life={life}, lives={lives}, from state={state}");
                 // Make sure we don't get in here again, even if we hit exactly zero
@@ -153,34 +167,34 @@ namespace FishNetworking.Tanknarok
                 // Restore health
                 life = MAX_HEALTH;
 
-                // Start the respawn timer and trigger the teleport in effect
-                // respawnTimer = TickTimer.CreateFromSeconds(Runner, 1);
-                // invulnerabilityTimer = TickTimer.CreateFromSeconds(Runner, 1);
-
-                // Place the tank at its spawn point. This has to be done in FUN() because the transform gets reset otherwise
-                Transform spawn = spawnpt.transform;
-                transform.position = spawn.position;
-                transform.rotation = spawn.rotation;
-
                 // If the player was already here when we joined, it might already be active, in which case we don't want to trigger any spawn FX, so just leave it ACTIVE
                 if (state != State.Active)
                     state = State.Spawning;
-
-                // Debug.Log($"Respawned player {playerID}, tick={Runner.Simulation.Tick}, timer={respawnTimer.IsRunning}:{respawnTimer.TargetTick}, life={life}, lives={lives}, hasAuthority={Object.HasStateAuthority} to state={state}");
             }
         }
         private void OnStateChanged(State prev, State next, bool asServer)
         {
-            //Debug.Log($" OnStateChanged: {prev} to {next}");
+            // Debug.LogError($" OnStateChanged: {prev} to {next}");
             // if (!asServer)
             StateChanged();
         }
 
+        private void SetSpawnPosition()
+        {
+            SpawnPoint spawnpt = GetLevelManager().GetPlayerSpawnPoint(playerID);
+            if (spawnpt != null)
+            {
+                Transform spawn =spawnpt.transform;
+                transform.position = spawn.position;
+                transform.rotation = spawn.rotation;
+            }
+        }
         public void StateChanged()
         {
             switch (state)
             {
                 case State.Spawning:
+                    SetSpawnPosition();
                     _teleportIn.StartTeleport();
                     break;
                 case State.Active:
@@ -274,20 +288,8 @@ namespace FishNetworking.Tanknarok
         private LevelManager GetLevelManager()
         {
             if (_levelManager == null)
-                _levelManager = FindObjectOfType<LevelManager>();
+                _levelManager = FindObjectOfType<LevelManager>(true);
             return _levelManager;
-        }
-        public void FixedUpdate()
-        {
-            // {
-            //     if (_respawnInSeconds >= 0)
-            //         CheckRespawn();
-            //
-            //     if (isRespawningDone)
-            //         ResetPlayer();
-            // }
-            //
-            CheckForPowerupPickup();
         }
 
         public void Render()
@@ -316,9 +318,10 @@ namespace FishNetworking.Tanknarok
 
         public void Respawn(float inSeconds)
         {
+            Debug.Log("Respawn Player Tank Death");
             _respawnInSeconds = inSeconds;
         }
-        // [ServerRpc]
+
         public void SetDirections(Vector2 moveDirection, Vector2 aimDirection)
         {
             if (!_cc.enabled)
@@ -388,16 +391,13 @@ namespace FishNetworking.Tanknarok
                 life = 0;
                 state = State.Dead;
 				
-                if(GameManager.playState==GameManager.PlayState.LEVEL)
+                // if(GameManager.playState==GameManager.PlayState.LEVEL)
                     lives -= 1;
 
                 if (lives > 0)
                     Respawn( _respawnTime );
-                if (GameManager.instance != null)
-                {
-                    Debug.Log("VAR");
-                    GameManager.instance.OnTankDeath();
-                }
+                else
+                    tankDeathEvent?.Invoke();
             }
             else
             {

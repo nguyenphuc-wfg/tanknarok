@@ -60,7 +60,7 @@ namespace FishNetworking.Tanknarok
 
         public static void AddPlayer(Player player)
         {
-            Debug.Log("Player Added");
+            Debug.Log("Player Added "+ player.ObjectId);
 
             int insertIndex = _allPlayers.Count;
             // Sort the player list when adding players

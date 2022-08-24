@@ -48,6 +48,7 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 5366435432869674055}
   _networkObjectCache: {fileID: 5366435432869674055}
+  tankDeathEvent: {fileID: 11400000, guid: 9a2fe63af6e9473498c3fb79d1867f40, type: 2}
 --- !u!114 &5366435432869674055
 MonoBehaviour:
   m_ObjectHideFlags: 0

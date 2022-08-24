@@ -20,7 +20,7 @@ namespace FishNetworking.Tanknarok
 
 		private Dictionary<int, ScoreLobbyUI> _lobbyScoreUI = new Dictionary<int, ScoreLobbyUI>();
 		private Dictionary<int, ScoreGameUI> _gameScoreUI = new Dictionary<int, ScoreGameUI>();
-
+		
 		public void UpdateScore(int playerId, byte score)
 		{
 			foreach (Player player in PlayerManager.allPlayers)

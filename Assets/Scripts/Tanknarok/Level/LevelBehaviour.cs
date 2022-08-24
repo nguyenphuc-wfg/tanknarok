@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace FishNetworking.Tanknarok
@@ -16,10 +17,19 @@ namespace FishNetworking.Tanknarok
         [SerializeField] private LevelLighting _levelLighting;
 
         [SerializeField] private SpawnPoint[] _playerSpawnPoints;
-
+        private LevelManager _levelManager;
         private void Awake()
         {
             _playerSpawnPoints = GetComponentsInChildren<SpawnPoint>(true);
+
+        }
+
+        private void Start()
+        {
+            _levelManager = FindObjectOfType<LevelManager>(true);
+            if (_levelManager != null)
+                _levelManager.SetNewLevelBehaviour(this);
+
         }
 
         public void Activate()

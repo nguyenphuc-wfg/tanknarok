@@ -97,7 +97,13 @@ namespace FishNetworking.Tanknarok
         private void Update()
         {
             if (!IsOwner) return;
+            if (!fetchInput) return;
             FixedUpdateFire();
+            Move();
+        }
+
+        private void Move()
+        {
             ToggleReady = ToggleReady || Input.GetKeyDown(KeyCode.R);
             if (Input.mousePresent)
             {
@@ -188,7 +194,6 @@ namespace FishNetworking.Tanknarok
                 // _mobileInput.gameObject.SetActive(false);
             }
         }
-
         /// <summary>
         /// FixedUpdateNetwork is the main Fusion simulation callback - this is where
         /// we modify network state.

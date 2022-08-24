@@ -1,18 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
+using FishNet.Object;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 namespace FishNetworking.Tanknarok
 {
-    public class LevelManager : MonoBehaviour
+    public class LevelManager : NetworkBehaviour
     {
         [SerializeField] private int _lobby;
         [SerializeField] private int[] _levels;
         [SerializeField] private LevelBehaviour _currentLevel;
 
         private Scene _loadedScene;
+        [SerializeField] private ScoreManager _scoreManager;
+        [SerializeField] private ReadyupManager _readyupManager;
+        [SerializeField] private CountdownManager _countdownManager;
+        [SerializeField] private SceneGameManager _sceneManager;
+
+        private void Awake()
+        {
+            _countdownManager.Reset();
+            _scoreManager.HideLobbyScore();
+            _readyupManager.HideUI();
+        }
+
+        public override void OnStopNetwork()
+        {
+            base.OnStopNetwork();
+            _scoreManager.HideUiScoreAndReset(true);
+        }
+
         public int GetRandomLevelIndex()
         {
             int idx = Random.Range(0, _levels.Length);
@@ -27,10 +46,37 @@ namespace FishNetworking.Tanknarok
                 return _currentLevel.GetPlayerSpawnPoint(playerID);
             return null;
         }
-        public void LoadLevel(int nextLevelIndex)
+        
+        public void SetNewLevelBehaviour(LevelBehaviour lvl)
         {
+            _currentLevel = lvl;
+            if(_currentLevel!=null)
+                _currentLevel.Activate();
+        }
+        public void LoadLevel()
+        {
+        }
+        
+        [Server]
+        public void OnScoreShow(int playerId, byte score)
+        {
+            _scoreManager.UpdateScore(playerId, score);
+            _sceneManager.SwitchSceneRound();
+            RpcClientScoreShow(playerId, score);
 
         }
+        [ObserversRpc]
+        private void RpcClientScoreShow(int playerId, byte score)
+        {
+            _scoreManager.UpdateScore(playerId, score);
+            _sceneManager.SwitchSceneRound();
+        }
+        [ObserversRpc]
+        public void OnScoreLobby(int playerId)
+        {
+            _scoreManager.ShowLobbyScore(playerId);
+        }
+        
     }
 
 }

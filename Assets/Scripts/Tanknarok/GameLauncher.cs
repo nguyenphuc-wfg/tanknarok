@@ -7,6 +7,7 @@ using FishNetworking.UIHelpers;
 using FishNet.Connection;
 using TMPro;
 using UnityEngine.SceneManagement;
+
 namespace FishNetworking.Tanknarok
 {
     public class GameLauncher : MonoBehaviour
@@ -20,6 +21,7 @@ namespace FishNetworking.Tanknarok
         [SerializeField] private Panel _uiProgress;
         [SerializeField] private Panel _uiRoom;
         [SerializeField] private GameObject _uiGame;
+        [SerializeField] private LevelManager _levelManager;
         private NetworkManager _networkManager;
         private LocalConnectionState _clientState = LocalConnectionState.Stopped;
         private LocalConnectionState _serverState = LocalConnectionState.Stopped;
@@ -145,7 +147,11 @@ namespace FishNetworking.Tanknarok
             _uiProgress.SetVisible(progress);
             if (_uiGame)
                 _uiGame.SetActive(running);
-            if (running) SceneManager.LoadSceneAsync(2, LoadSceneMode.Additive);
+            if (running)
+            {
+                SceneManager.LoadSceneAsync(2, LoadSceneMode.Additive);
+                _levelManager.LoadLevel();
+            }
         }
     }
 

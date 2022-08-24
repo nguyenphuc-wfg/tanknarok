@@ -114,6 +114,7 @@ namespace FishNetworking.Tanknarok
 		public void OnActivePowerupIndexChanged(int prev, int next, bool asServer)
 		{
 			RefreshColor();
+			_meshFilter.mesh = _powerupElements[next].powerupSpawnerMesh;
 		}
 		//
 		private void OnRespawningChanged(bool prev, bool next, bool asServer)
