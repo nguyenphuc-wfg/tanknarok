@@ -56,22 +56,14 @@ namespace FishNetworking.Tanknarok
         public void LoadLevel()
         {
         }
-        
-        [Server]
+
+        [ObserversRpc(RunLocally = true)]
         public void OnScoreShow(int playerId, byte score)
         {
             _scoreManager.UpdateScore(playerId, score);
             _sceneManager.SwitchSceneRound();
-            RpcClientScoreShow(playerId, score);
-
         }
-        [ObserversRpc]
-        private void RpcClientScoreShow(int playerId, byte score)
-        {
-            _scoreManager.UpdateScore(playerId, score);
-            _sceneManager.SwitchSceneRound();
-        }
-        [ObserversRpc]
+        [ObserversRpc(RunLocally = true)]
         public void OnScoreLobby(int playerId)
         {
             _scoreManager.ShowLobbyScore(playerId);

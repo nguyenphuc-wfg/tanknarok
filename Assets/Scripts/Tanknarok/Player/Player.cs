@@ -348,7 +348,7 @@ namespace FishNetworking.Tanknarok
         }
         
         // Visual Damage to client
-        [ObserversRpc]
+        [ObserversRpc(RunLocally = true)]
         private void RpcDamageVisual()
         {
             _damageVisuals.OnDamaged(life, isDead);
