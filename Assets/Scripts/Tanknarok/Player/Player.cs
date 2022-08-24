@@ -257,34 +257,6 @@ namespace FishNetworking.Tanknarok
                     Pickup(_overlaps[0].GetComponent<PowerupSpawner>());
             }
         }
-        public async void TriggerDespawn()
-        {
-            // DespawnTank();
-            // PlayerManager.RemovePlayer(this);
-
-            await Task.Delay(300); // wait for effects
-
-            // if (Object == null) { return; }
-            //
-            // if (Object.HasStateAuthority)
-            // {
-            //     Runner.Despawn(Object);
-            // }
-            // else if (Runner.IsSharedModeMasterClient)
-            // {
-            //     Object.RequestStateAuthority();
-            //
-            //     while (Object.HasStateAuthority == false)
-            //     {
-            //         await Task.Delay(100); // wait for Auth transfer
-            //     }
-            //
-            //     if (Object.HasStateAuthority)
-            //     {
-            //         Runner.Despawn(Object);
-            //     }
-            // }
-        }
         private LevelManager GetLevelManager()
         {
             if (_levelManager == null)
