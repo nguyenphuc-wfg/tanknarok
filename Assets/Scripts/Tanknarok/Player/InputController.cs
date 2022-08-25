@@ -30,73 +30,16 @@ namespace FishNetworking.Tanknarok
         private bool _primaryFire;
         private bool _secondaryFire;
 
-        // private MobileInput _mobileInput;
-
-        /// <summary>
-        /// Hook up to the Fusion callbacks so we can handle the input polling
-        /// </summary>
-        private void Awake()
-        {
-            // _mobileInput = FindObjectOfType<MobileInput>(true);
-            // Technically, it does not really matter which InputController fills the input structure, since the actual data will only be sent to the one that does have authority,
-            // but in the name of clarity, let's make sure we give input control to the gameobject that also has Input authority.
-            // if (Object.HasInputAuthority)
-            // {
-            //     Runner.AddCallbacks(this);
-            // }
-
-            // Debug.Log("Spawned [" + this + "] IsClient=" + Runner.IsClient + " IsServer=" + Runner.IsServer + " HasInputAuth=" + Object.HasInputAuthority + " HasStateAuth=" + Object.HasStateAuthority);
-        }
-
-        /// <summary>
-        /// Get Unity input and store them in a struct for Fusion
-        /// </summary>
-        /// <param name="runner">The current NetworkRunner</param>
-        /// <param name="input">The target input handler that we'll pass our data to</param>
-        // public void OnInput(NetworkRunner runner, NetworkInput input)
-        // {
-        //     if (_player != null && _player.Object != null && _player.state == Player.State.Active && fetchInput)
-        //     {
-        //         // Fill networked input struct with input data
-
-        //         _frameworkInput.aimDirection = _aimDelta.normalized;
-
-        //         _frameworkInput.moveDirection = _moveDelta.normalized;
-
-        //         if (_primaryFire)
-        //         {
-        //             _primaryFire = false;
-        //             _frameworkInput.Buttons |= NetworkInputData.BUTTON_FIRE_PRIMARY;
-        //         }
-
-        //         if (_secondaryFire)
-        //         {
-        //             _secondaryFire = false;
-        //             _frameworkInput.Buttons |= NetworkInputData.BUTTON_FIRE_SECONDARY;
-        //         }
-
-        //         if (ToggleReady)
-        //         {
-        //             ToggleReady = false;
-        //             _frameworkInput.Buttons |= NetworkInputData.READY;
-        //         }
-        //     }
-
-        //     // Hand over the data to Fusion
-        //     input.Set(_frameworkInput);
-        //     _frameworkInput.Buttons = 0;
-        // }
-
-        // public void OnInputMissing(NetworkRunner runner, PlayerRef player, NetworkInput input)
-        // {
-        // }
-
-        // public void OnShutdown(NetworkRunner runner, ShutdownReason shutdownReason)
-        // {
-        // }
         private void Update()
         {
             if (!IsOwner) return;
+            if (GameManager.playState == GameManager.PlayState.LOBBY)
+            {
+                if (Input.GetKeyDown(KeyCode.R))
+                {
+                    _player.ToggleReady();
+                }
+            }
             if (!fetchInput) return;
             FixedUpdateFire();
             Move();
@@ -104,7 +47,6 @@ namespace FishNetworking.Tanknarok
 
         private void Move()
         {
-            ToggleReady = ToggleReady || Input.GetKeyDown(KeyCode.R);
             if (Input.mousePresent)
             {
                 if (Input.GetMouseButton(0))

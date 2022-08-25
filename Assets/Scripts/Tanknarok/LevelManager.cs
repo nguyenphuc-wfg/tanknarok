@@ -53,9 +53,6 @@ namespace FishNetworking.Tanknarok
             if(_currentLevel!=null)
                 _currentLevel.Activate();
         }
-        public void LoadLevel()
-        {
-        }
 
         [ObserversRpc(RunLocally = true)]
         public void OnScoreShow(int playerId, byte score)
@@ -66,9 +63,68 @@ namespace FishNetworking.Tanknarok
         [ObserversRpc(RunLocally = true)]
         public void OnScoreLobby(int playerId, byte score)
         {
-            _sceneManager.OnEndMath(playerId, score);
+            _scoreManager.UpdateScore(playerId, score);
+            _sceneManager.OnEndMath(playerId, score,  _readyupManager.ShowUI);
+        }
+
+        [ServerRpc(RunLocally = true)]
+        public void ReadyToStartMatch()
+        {
+            RpcReadyStartMatch();
         }
         
+        public void RpcReadyStartMatch()
+        {
+            ResetStats();
+            ResetLives();
+            LoadLevel();
+        }
+        private void ResetStats()
+        {
+            for (int i = 0; i < PlayerManager.allPlayers.Count; i++)
+            {
+                Debug.Log($"Resetting player {i} stats to lives={GameManager.MAX_LIVES}");
+                PlayerManager.allPlayers[i].lives = GameManager.MAX_LIVES;
+                PlayerManager.allPlayers[i].score = 0;
+            }
+        }
+
+        private void ResetLives()
+        {
+            for (int i = 0; i < PlayerManager.allPlayers.Count; i++)
+            {
+                Debug.Log($"Resetting player {i} lives to {GameManager.MAX_LIVES}");
+                PlayerManager.allPlayers[i].lives = GameManager.MAX_LIVES;
+            }
+        }
+        public void LoadLevel()
+        {
+            // Reset players ready state so we don't launch immediately
+            for (int i = 0; i < PlayerManager.allPlayers.Count; i++)
+            {
+                PlayerManager.allPlayers[i].ResetReady();
+                PlayerManager.allPlayers[i].DespawnTank();
+            }
+            
+
+            GameManager.playState = GameManager.PlayState.LEVEL;
+            for (int i = 0; i < PlayerManager.allPlayers.Count; i++)
+            {
+                PlayerManager.allPlayers[i].RespawnPlay();
+            }
+            OnStartMatch();
+        }
+        
+        [ObserversRpc(RunLocally = true)]
+        public void OnStartMatch()
+        {
+            RpcStartMatch();
+        }
+        public void RpcStartMatch()
+        {
+            _readyupManager.HideUI();
+            _sceneManager.OnStartMatch();
+        }
     }
 
 }

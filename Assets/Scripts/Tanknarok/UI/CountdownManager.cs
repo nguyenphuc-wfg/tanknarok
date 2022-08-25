@@ -1,6 +1,9 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using TMPro;
+using Cysharp.Threading.Tasks;
+using System.Threading;
 
 namespace FishNetworking.Tanknarok
 {
@@ -25,7 +28,7 @@ namespace FishNetworking.Tanknarok
             _countdownUI.transform.localScale = Vector3.zero;
         }
 
-        public IEnumerator Countdown(Callback callback)
+        public async UniTask Countdown(Action callback)
         {
             _countdownUI.transform.localScale = Vector3.zero;
 
@@ -52,8 +55,8 @@ namespace FishNetworking.Tanknarok
                 if (t >= 0)
                     _countdownUI.transform.localScale = Vector3.one * t;
 
-                _countdownTimer -= Time.deltaTime * 1.5f;
-                yield return null;
+                _countdownTimer -= Time.deltaTime;
+                await UniTask.Yield();
             }
 
             _countdownUI.gameObject.SetActive(false);

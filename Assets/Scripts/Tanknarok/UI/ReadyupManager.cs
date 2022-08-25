@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace FishNetworking.Tanknarok
 {
@@ -8,38 +10,44 @@ namespace FishNetworking.Tanknarok
         [SerializeField] private Transform _readyUIParent;
         [SerializeField] private ReadyupIndicator _readyPrefab;
         [SerializeField] private bool _allowSoloPlay = false;
-        // [SerializeField] private AudioEmitter _audioEmitter;
+        [SerializeField] private AudioEmitter _audioEmitter;
         private Dictionary<int, ReadyupIndicator> _readyUIs = new Dictionary<int, ReadyupIndicator>();
         private bool _allPlayersReady;
 
-        // private void Update()
-        // {
-        //     if (_allPlayersReady || (GameManager.playState == GameManager.PlayState.LEVEL))
-        //         return;
+        private void Update()
+        {
+            if (_allPlayersReady || (GameManager.playState == GameManager.PlayState.LEVEL))
+                return;
+            if (PlayerManager.allPlayers.Count == 1 && !_allowSoloPlay) PlayerManager.allPlayers[0].ready = false;
+            foreach (ReadyupIndicator ui in _readyUIs.Values)
+            {
+                ui.Dirty();
+            }
 
-        //     foreach (ReadyupIndicator ui in _readyUIs.Values)
-        //     {
-        //         ui.Dirty();
-        //     }
+            _allPlayersReady = PlayerManager.allPlayers.Count > 1 || (PlayerManager.allPlayers.Count == 1 && _allowSoloPlay);
+            
+            foreach (Player player in PlayerManager.allPlayers)
+            {
+                ReadyupIndicator indicator;
+                if (!_readyUIs.TryGetValue(player.playerID, out indicator))
+                {
+                    indicator = Instantiate(_readyPrefab, _readyUIParent);
+                    _readyUIs.Add(player.playerID, indicator);
+                }
+                if (indicator.Refresh(player))
+                    _audioEmitter.PlayOneShot();
+                if (!player.ready)
+                    _allPlayersReady = false;
+            }
 
-        //     _allPlayersReady = PlayerManager.allPlayers.Count > 1 || (PlayerManager.allPlayers.Count == 1 && _allowSoloPlay);
-        //     foreach (Player player in PlayerManager.allPlayers)
-        //     {
-        //         ReadyupIndicator indicator;
-        //         if (!_readyUIs.TryGetValue(player.playerID, out indicator))
-        //         {
-        //             indicator = Instantiate(_readyPrefab, _readyUIParent);
-        //             _readyUIs.Add(player.playerID, indicator);
-        //         }
-        //         if (indicator.Refresh(player))
-        //             _audioEmitter.PlayOneShot();
-        //         if (!player.ready)
-        //             _allPlayersReady = false;
-        //     }
+            if (_allPlayersReady)
+                GameManager.instance.OnAllPlayersReady();
+        }
 
-        //     if (_allPlayersReady)
-        //         GameManager.instance.OnAllPlayersReady();
-        // }
+        private void Start()
+        {
+            ShowUI();
+        }
 
         public void ShowUI()
         {

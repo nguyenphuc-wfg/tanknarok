@@ -44,13 +44,20 @@ namespace FishNetworking.Tanknarok
 
         [SyncVar] public byte lives;
         
-        [SyncVar(Channel = Channel.Unreliable, OnChange = nameof(ChangeScore))] public byte score;
+        [SyncVar(Channel = Channel.Unreliable, OnChange = nameof(ChangeScore))] 
+        public byte score;
 
         public void ChangeScore(byte prev, byte next, bool asServer)
         {
-            Debug.LogError($"-------> {prev} to {next}");       
+            Debug.LogError($"-------> {prev} to {next} score change");       
         }
-        [SyncVar] public bool ready;
+        [SyncVar(Channel = Channel.Reliable, OnChange = nameof(OnChangeReady))] 
+        public bool ready;
+
+        public void OnChangeReady(bool prev, bool next, bool asServer)
+        {
+            Debug.LogError($"------> {prev} to {next} ready change");
+        }
         public static Player local { get; set; }
     
         [SyncVar(Channel = Channel.Unreliable,OnChange = nameof(OnStateChanged))]
@@ -90,15 +97,20 @@ namespace FishNetworking.Tanknarok
         private GameObject _deathExplosionInstance;
         private float _respawnInSeconds = -1;
         public UnityEvent tankDeathEvent;
+        
+        [ServerRpc]
         public void ToggleReady()
         {
             ready = !ready;
         }
-
+        
+        [ServerRpc]
         public void ResetReady()
         {
             ready = false;
+            Debug.Log("resseset----------<>>>>");
         }
+        
         public override void OnStartServer()
         {
             base.OnStartServer();
@@ -107,10 +119,26 @@ namespace FishNetworking.Tanknarok
         public override void OnStartClient()
         {
             base.OnStartClient();
-            if (base.IsOwner)
-                local = this;
+            // if (IsOwner) CheckMatchStart();
+            _cc.enabled = base.IsOwner;
+            OnSpawned();
+        }
+        // [ServerRpc]
+        // private void CheckMatchStart()
+        // {
+        //     if (GameManager.playState != GameManager.PlayState.LOBBY)
+        //         DisconnectBecauseMathStart();
+        // }
+        // [ObserversRpc]
+        // private void DisconnectBecauseMathStart()
+        // {
+        //     if (IsOwner) InstanceFinder.ClientManager.StopConnection();
+        //
+        // }
+        public void OnSpawned()
+        {
 
-            InitNetworkState(3);
+            InitNetworkState(GameManager.MAX_LIVES);
             PlayerManager.AddPlayer(this);
             playerID = base.OwnerId;
             ready = false;
@@ -122,9 +150,12 @@ namespace FishNetworking.Tanknarok
 
             _teleportIn.Initialize();
             _teleportOut.Initialize();
+        }
 
-            _cc.enabled = base.IsOwner;
-
+        public void RespawnPlay()
+        {
+            state = State.Spawning;
+            ResetState(GameManager.MAX_LIVES);
         }
         private void FixedUpdate()
         {
@@ -142,6 +173,7 @@ namespace FishNetworking.Tanknarok
             _deathExplosionInstance.SetActive(false);
             ColorChanger.ChangeColor(_deathExplosionInstance.transform, playerColor);
         }
+        [ServerRpc(RunLocally = true)]
         public void InitNetworkState(byte maxLives)
         {
             ResetState(maxLives);
@@ -196,7 +228,7 @@ namespace FishNetworking.Tanknarok
         }
         public void StateChanged()
         {
-            if (IsOwner) InputController.fetchInput = false;
+            // if (IsOwner) InputController.fetchInput = false;
             switch (state)
             {
                 case State.Spawning:
@@ -206,7 +238,7 @@ namespace FishNetworking.Tanknarok
                 case State.Active:
                     _damageVisuals.CleanUpDebris();
                     _teleportIn.EndTeleport();
-                    if (IsOwner) InputController.fetchInput = true;
+                    // if (IsOwner) InputController.fetchInput = true;
                     break;
                 case State.Dead:
                     _deathExplosionInstance.transform.position = transform.position;
@@ -370,7 +402,7 @@ namespace FishNetworking.Tanknarok
                 life = 0;
                 state = State.Dead;
 				
-                // if(GameManager.playState==GameManager.PlayState.LEVEL)
+                if(GameManager.playState==GameManager.PlayState.LEVEL)
                     lives -= 1;
 
                 if (lives > 0)

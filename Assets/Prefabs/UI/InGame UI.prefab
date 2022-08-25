@@ -177,13 +177,22 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1.3377991
-      value: 0.08872986
-      inSlope: -0.33880204
-      outSlope: -0.33880204
+      time: 0.4232881
+      value: 0.5905947
+      inSlope: 0.5442729
+      outSlope: 0.5442729
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.46214956
+      inWeight: 0.33333334
+      outWeight: 0.2919192
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.8576329
+      outSlope: 0.8576329
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.13749999
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -1886,7 +1895,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startAction: 2
   stopAction: 2
-  audioClip: {fileID: 0}
+  audioClip: {fileID: 11400000, guid: ecd77b40143ba6b478e9a461b954776a, type: 2}
 --- !u!114 &910341597809658173
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1901,7 +1910,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _readyUIParent: {fileID: 7305765417678868970}
   _readyPrefab: {fileID: 8953341887193125289, guid: d2770cf154b482e448066e81b607f2e5, type: 3}
-  _allowSoloPlay: 1
+  _allowSoloPlay: 0
+  _audioEmitter: {fileID: 910341597809658172}
 --- !u!1 &8456087773793379017
 GameObject:
   m_ObjectHideFlags: 0

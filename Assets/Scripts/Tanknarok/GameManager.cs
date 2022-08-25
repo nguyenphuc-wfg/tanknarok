@@ -1,14 +1,16 @@
 using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using FishNet.Object;
 using FishNet;
 using FishNet.Object.Synchronizing;
 using FishNetworking.Event;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 namespace FishNetworking.Tanknarok
 {
-    public class GameManager : NetworkBehaviour
+    public class GameManager : MonoBehaviour
     {
         public enum PlayState
         {
@@ -18,32 +20,18 @@ namespace FishNetworking.Tanknarok
         }
 
         [FormerlySerializedAs("tankPlayerEvent")] public GameEvent tankDeathEvent;
-        [SyncVar]
         private int networkedWinningPlayerIndex = -1;
-
-        [SyncVar] private PlayState networkedPlayState;
-        public static PlayState playState
-        {
-            get => (instance != null && instance.NetworkObject != null) ? instance.networkedPlayState : PlayState.LOBBY;
-            set
-            {
-                if (instance != null && instance.NetworkObject != null)
-                    instance.networkedPlayState = value;
-            }
-        }
+        private PlayState networkedPlayState;
+        public static PlayState playState;
 
         public static int WinningPlayerIndex
         {
-            get => (instance != null && instance.NetworkObject != null) ? instance.networkedWinningPlayerIndex : -1;
-            set
-            {
-                if (instance != null && instance.NetworkObject != null)
-                    instance.networkedWinningPlayerIndex = value;
-            }
+            get;
+            set;
         }
         
-        public const byte MAX_LIVES = 3;
-        public const byte MAX_SCORE = 3;
+        public const byte MAX_LIVES = 2;
+        public const byte MAX_SCORE = 2;
         private ScoreManager _scoreManager;
         private LevelManager _levelManager;
         private bool _restart = true;
@@ -51,7 +39,7 @@ namespace FishNetworking.Tanknarok
 
         public void OnTankDeath()
         {
-            // if (playState != PlayState.LOBBY)
+            if (playState != PlayState.LOBBY)
             {
                 int playersleft = PlayerManager.PlayersAlive();
                 Debug.Log($"Someone died - {playersleft} left");
@@ -82,13 +70,20 @@ namespace FishNetworking.Tanknarok
 
         private void Awake()
         {
+            if (instance == null)
+            {
+                instance = this;
+                DontDestroyOnLoad(gameObject);                
+            }
+            else
+                Destroy(gameObject);
             _scoreManager = FindObjectOfType<ScoreManager>(true);
             _levelManager = FindObjectOfType<LevelManager>(true);
         }
 
         private void Start()
         {
-            playState = PlayState.LEVEL;
+            playState = PlayState.LOBBY;
         }
 
         private void OnEnable()
@@ -102,7 +97,7 @@ namespace FishNetworking.Tanknarok
         public void Restart()
         {
             // Calling with destroyGameObject false because we do this in the OnShutdown callback on FusionLauncher
-            instance = null;
+            // instance = null;
             _restart = false;
         }
         // public const ShutdownReason ShutdownReason_GameAlreadyRunning = (ShutdownReason)100;
@@ -110,66 +105,26 @@ namespace FishNetworking.Tanknarok
         {
             if (_restart || Input.GetKeyDown(KeyCode.Escape))
             {
-                _restart = false;
                 Restart();
                 return;
             }
             PlayerManager.HandleNewPlayers();
         }
-        private void ResetStats()
-        {
-            for (int i = 0; i < PlayerManager.allPlayers.Count; i++)
-            {
-                Debug.Log($"Resetting player {i} stats to lives={MAX_LIVES}");
-                PlayerManager.allPlayers[i].lives = MAX_LIVES;
-                PlayerManager.allPlayers[i].score = 0;
-            }
-        }
-
-        private void ResetLives()
-        {
-            for (int i = 0; i < PlayerManager.allPlayers.Count; i++)
-            {
-                Debug.Log($"Resetting player {i} lives to {MAX_LIVES}");
-                PlayerManager.allPlayers[i].lives = MAX_LIVES;
-            }
-        }
+        
 
         // Transition from lobby to level
-        public void OnAllPlayersReady()
+        public async UniTask OnAllPlayersReady()
         {
             Debug.Log("All players are ready");
+            await UniTask.Delay(1000);
             if (playState!=PlayState.LOBBY)
                 return;
-
-            // Reset stats and transition to level.
-            ResetStats();
-
-            LoadLevel(_levelManager.GetRandomLevelIndex(),-1);
+            
+            _levelManager.ReadyToStartMatch();
         }
 		
-        private void LoadLevel(int nextLevelIndex, int winningPlayerIndex)
-        {
-            // if (!Object.HasStateAuthority)
-            //     return;
-
-            // Reset lives and transition to level
-            ResetLives();
-
-            // Reset players ready state so we don't launch immediately
-            for (int i = 0; i < PlayerManager.allPlayers.Count; i++)
-                PlayerManager.allPlayers[i].ResetReady();
-
-            // Start transition
-            WinningPlayerIndex = winningPlayerIndex;
-
-            _levelManager.LoadLevel();
-        }
-
-        public void StateAuthorityChanged()
-        {
-            // Debug.Log($"State Authority of GameManager changed: {Object.StateAuthority}");
-        }
+        
+        
     }
 
 }

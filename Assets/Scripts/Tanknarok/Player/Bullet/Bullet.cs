@@ -276,15 +276,7 @@ namespace FishNetworking.Tanknarok
 
          private Vector3 HandleImpact(RaycastHit hit)
          {
-             // if (hit.collider != null)
-             // {
-             //     NetworkObject netobj = hit.Hitbox.Root.Object;
-             //     if (netobj != null && Object != null && netobj.InputAuthority == Object.InputAuthority)
-             //         return velocity; // Don't let us hit ourselves - this is esp. important with lag compensation since, if we move backwards, we're very likely to hit our own ghost from a previous frame.
-             // }
-             //
              Detonate(hit.point);
-             //
              return velocity;
          }
 

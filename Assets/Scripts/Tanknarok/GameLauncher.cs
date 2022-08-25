@@ -12,7 +12,7 @@ namespace FishNetworking.Tanknarok
 {
     public class GameLauncher : MonoBehaviour
     {
-        [SerializeField] private NetworkObject _gameManagerPrefab;
+        [SerializeField] private GameObject _gameManagerPrefab;
         // [SerializeField] private Player _playerPrefab;
         [SerializeField] private TMP_InputField _room;
         [SerializeField] private TextMeshProUGUI _progress;
@@ -61,8 +61,8 @@ namespace FishNetworking.Tanknarok
         {
             if (_networkManager == null)
                 return;
-            NetworkObject go = Instantiate(_gameManagerPrefab, this.transform);
-            _networkManager.ServerManager.Spawn(go);
+            GameObject go = Instantiate(_gameManagerPrefab, this.transform);
+            // _networkManager.ServerManager.Spawn(go);
         }
         private void OnDestroy()
         {
@@ -138,7 +138,7 @@ namespace FishNetworking.Tanknarok
                 case LocalConnectionState.Stopping:
                     _progress.text = "Disconnecting";
                     progress = true;
-                    SceneManager.UnloadSceneAsync(2);
+                    SceneGameManager.UnLoadSceneGameDisconnect();
                     break;
             }
 
@@ -149,8 +149,7 @@ namespace FishNetworking.Tanknarok
                 _uiGame.SetActive(running);
             if (running)
             {
-                SceneManager.LoadSceneAsync(2, LoadSceneMode.Additive);
-                _levelManager.LoadLevel();
+                SceneGameManager.LoadSceneGame(2, LoadSceneMode.Additive);
             }
         }
     }

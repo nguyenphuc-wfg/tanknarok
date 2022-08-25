@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 592953329146046640}
   - component: {fileID: 592953329146046646}
-  - component: {fileID: 5366435432869674055}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -45,34 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d70075d235f4744eac5db7003358662, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 0
-  _addedNetworkObject: {fileID: 5366435432869674055}
-  _networkObjectCache: {fileID: 5366435432869674055}
   tankDeathEvent: {fileID: 11400000, guid: 9a2fe63af6e9473498c3fb79d1867f40, type: 2}
---- !u!114 &5366435432869674055
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 592953329146046645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <IsNested>k__BackingField: 0
-  <ComponentIndex>k__BackingField: 0
-  _networkBehaviours:
-  - {fileID: 592953329146046646}
-  <ParentNetworkObject>k__BackingField: {fileID: 0}
-  <ChildNetworkObjects>k__BackingField: []
-  _isNetworked: 0
-  _isGlobal: 1
-  _disableOnDespawn: 0
-  NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 5
-  _scenePathHash: 0
-  <SceneId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 7279342370968929078
-  _sceneNetworkObjects: []

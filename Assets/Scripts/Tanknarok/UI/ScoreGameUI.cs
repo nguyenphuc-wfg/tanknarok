@@ -29,7 +29,8 @@ namespace FishNetworking.Tanknarok
 
         public void HideScore()
         {
-            _score.enabled = false;
+            if (_score)
+                _score.enabled = false;
         }
 
         public void ResetScore()

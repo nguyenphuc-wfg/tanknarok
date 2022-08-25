@@ -19,16 +19,16 @@ namespace FishNetworking.Tanknarok
             _direction = -1;
         }
 
-        // public bool Refresh(Player followPlayer)
-        // {
-        //     _camera = Camera.main;
-        //     // _direction = followPlayer.ready ? 1 : -1;
-        //     bool changed = _previousState != _direction;
-        //     _previousState = _direction;
-        //     _target = followPlayer.transform;
-        //     _readyText.color = followPlayer.playerMaterial.GetColor("_SilhouetteColor");
-        //     return changed;
-        // }
+        public bool Refresh(Player followPlayer)
+        {
+            _camera = Camera.main;
+            _direction = followPlayer.ready ? 1 : -1;
+            bool changed = _previousState != _direction;
+            _previousState = _direction;
+            _target = followPlayer.transform;
+            _readyText.color = followPlayer.playerMaterial.GetColor("_SilhouetteColor");
+            return changed;
+        }
 
         // Follow the assigned transform and scale up or down depending on if the player is ready or not
         private void LateUpdate()
