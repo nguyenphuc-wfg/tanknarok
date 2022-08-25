@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 
 namespace FishNetworking.Tanknarok
 {
@@ -10,19 +12,19 @@ namespace FishNetworking.Tanknarok
         [SerializeField] private ScoreManager _scoreManager;
         public void SwitchSceneRound()
         {
-            StartCoroutine(SwithScene());
+            SwithScene();
         }
-        private IEnumerator SwithScene()
+        private async UniTask SwithScene()
         {
             InputController.fetchInput = false;
-
+            await UniTask.Delay(300);
             // Despawn players with a small delay between each one
             Debug.Log("De-spawning all tanks");
             for (int i = 0; i < PlayerManager.allPlayers.Count; i++)
             {
                 Debug.Log($"De-spawning tank {i}:{PlayerManager.allPlayers[i]}");
                 PlayerManager.allPlayers[i].DespawnTank();
-                yield return new WaitForSeconds(1f);
+                await UniTask.Delay(1000);
             }
             _scoreManager.HideUiScoreAndReset(false);
             _transitionEffect.ToggleGlitch(true);
@@ -33,7 +35,7 @@ namespace FishNetworking.Tanknarok
                 Debug.Log($"Respawning Player {i}:{player}");
                 player.ResetState(3);
                 player.Respawn(0);
-                yield return new WaitForSeconds(0.3f);
+                await UniTask.Delay(300);
             }
             InputController.fetchInput = true;
             _transitionEffect.ToggleGlitch(false);
@@ -41,9 +43,9 @@ namespace FishNetworking.Tanknarok
 
         public void OnEndMath(int playerId, byte score)
         {
-            StartCoroutine(EndMatch(playerId, score));
+            EndMatch(playerId, score);
         }
-        private IEnumerator EndMatch(int playerId, byte score)
+        private async UniTask EndMatch(int playerId, byte score)
         {
             InputController.fetchInput = false;
 
@@ -53,7 +55,7 @@ namespace FishNetworking.Tanknarok
             {
                 Debug.Log($"De-spawning tank {i}:{PlayerManager.allPlayers[i]}");
                 PlayerManager.allPlayers[i].DespawnTank();
-                yield return new WaitForSeconds(1f);
+                await UniTask.Delay(1000);
             }
             _scoreManager.HideUiScoreAndReset(false);
             _transitionEffect.ToggleGlitch(true);
@@ -64,10 +66,10 @@ namespace FishNetworking.Tanknarok
                 Debug.Log($"Respawning Player {i}:{player}");
                 player.ResetState(3);
                 player.Respawn(0);
-                yield return new WaitForSeconds(0.3f);
+                await UniTask.Delay(300);
             }
             _transitionEffect.ToggleGlitch(false);
-            yield return new WaitForSeconds(1f);
+            await UniTask.Delay(100);
             _scoreManager.ShowLobbyScore(playerId, score);
         }
     }

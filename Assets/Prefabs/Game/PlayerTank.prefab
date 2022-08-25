@@ -1679,26 +1679,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3685375110370629639, guid: 86bd09311ff04004d9a475344b051bae, type: 3}
-      propertyPath: <IsNested>k__BackingField
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3685375110370629639, guid: 86bd09311ff04004d9a475344b051bae, type: 3}
-      propertyPath: _networkBehaviours.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3685375110370629639, guid: 86bd09311ff04004d9a475344b051bae, type: 3}
-      propertyPath: <ComponentIndex>k__BackingField
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3685375110370629639, guid: 86bd09311ff04004d9a475344b051bae, type: 3}
-      propertyPath: _networkBehaviours.Array.data[0]
-      value: 
-      objectReference: {fileID: 2623805786298927061}
-    - target: {fileID: 3685375110370629639, guid: 86bd09311ff04004d9a475344b051bae, type: 3}
-      propertyPath: <ParentNetworkObject>k__BackingField
-      value: 
-      objectReference: {fileID: 3978112638577212098}
     - target: {fileID: 5790566248479023112, guid: 86bd09311ff04004d9a475344b051bae, type: 3}
       propertyPath: m_Name
       value: weapon_primary_main
@@ -1708,21 +1688,9 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6332741569867311361, guid: 86bd09311ff04004d9a475344b051bae, type: 3}
-      propertyPath: <PrefabId>k__BackingField
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 6332741569867311361, guid: 86bd09311ff04004d9a475344b051bae, type: 3}
-      propertyPath: _networkBehaviours.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6332741569867311361, guid: 86bd09311ff04004d9a475344b051bae, type: 3}
       propertyPath: <ComponentIndex>k__BackingField
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 6332741569867311361, guid: 86bd09311ff04004d9a475344b051bae, type: 3}
-      propertyPath: _networkBehaviours.Array.data[0]
-      value: 
-      objectReference: {fileID: 2623805786298927061}
     - target: {fileID: 6332741569867311361, guid: 86bd09311ff04004d9a475344b051bae, type: 3}
       propertyPath: <ParentNetworkObject>k__BackingField
       value: 
@@ -1731,12 +1699,7 @@ PrefabInstance:
       propertyPath: _addedNetworkObject
       value: 
       objectReference: {fileID: 3978112638577212098}
-    - target: {fileID: 8904131417722953992, guid: 86bd09311ff04004d9a475344b051bae, type: 3}
-      propertyPath: _networkObjectCache
-      value: 
-      objectReference: {fileID: 583814049569542108}
-    m_RemovedComponents:
-    - {fileID: 3685375110370629639, guid: 86bd09311ff04004d9a475344b051bae, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 86bd09311ff04004d9a475344b051bae, type: 3}
 --- !u!114 &583814049569542108 stripped
 MonoBehaviour:
@@ -1872,8 +1835,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: weapon_secondary_grenades
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 6148168135168895258, guid: 76fa989f715f8614ebcbfd731bb6fc9c, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76fa989f715f8614ebcbfd731bb6fc9c, type: 3}
 --- !u!114 &1466502686119088447 stripped
 MonoBehaviour:

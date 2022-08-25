@@ -23,7 +23,7 @@ namespace FishNetworking.Tanknarok
         [SerializeField] private ParticleSystem _muzzleFlashPrefab;
 
         [SyncVar(Channel = Channel.Unreliable, OnChange = nameof(OnFireTickChanged))]
-        public int fireTick;
+        public bool fireTick;
         
         private int _gunExit;
         private float _visible;
@@ -80,19 +80,23 @@ namespace FishNetworking.Tanknarok
                     _laserSight.Deactivate();
             }
         }
-        public void OnFireTickChanged(int prev, int next, bool asServer)
+        public void OnFireTickChanged(bool prev, bool next, bool asServer)
         {
-            FireFx();
+            if (asServer)
+                FireFx();
         }
         
-        [ServerRpc]
+        [ServerRpc(RunLocally = true)]
         public void Fire(NetworkConnection runner ,Vector3 ownerVelocity)
         {
             if (powerupType == PowerupType.EMPTY || _gunExits.Length == 0)
                 return;
             Transform exit = GetExitPoint();
             SpawnNetworkShot(runner, ownerVelocity, exit);
+            fireTick = !fireTick;
         }
+        
+        [ObserversRpc(RunLocally = true)]
         private void FireFx()
         {
             // Recharge the laser sight if this weapon has it

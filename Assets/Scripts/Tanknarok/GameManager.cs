@@ -55,7 +55,7 @@ namespace FishNetworking.Tanknarok
             {
                 int playersleft = PlayerManager.PlayersAlive();
                 Debug.Log($"Someone died - {playersleft} left");
-                // if (playersleft<=1)
+                if (playersleft<=1)
                 {
                     Player lastPlayerStanding = playersleft == 0 ? null : PlayerManager.GetFirstAlivePlayer();
                     // if there is only one player, who died from a laser (e.g.) we don't award scores. 
@@ -63,8 +63,8 @@ namespace FishNetworking.Tanknarok
                     {
                         int winningPlayerIndex = lastPlayerStanding.playerID;
                         byte winningPlayerScore = (byte)(lastPlayerStanding.score + 1);
-                        // if (winningPlayerIndex >= 0)
-                        // {
+                        if (winningPlayerIndex >= 0)
+                        {
                             lastPlayerStanding.score = winningPlayerScore;
                             if (winningPlayerScore >= MAX_SCORE)
                             {
@@ -72,7 +72,7 @@ namespace FishNetworking.Tanknarok
                                 return;
                             }
                             _levelManager.OnScoreShow(winningPlayerIndex, winningPlayerScore);
-                        // }
+                        }
                         
                     }
                 }
@@ -144,10 +144,6 @@ namespace FishNetworking.Tanknarok
 
             // Reset stats and transition to level.
             ResetStats();
-
-            // close and hide the session from matchmaking / lists. this demo does not allow late join.
-            // Runner.SessionInfo.IsOpen = false;
-            // Runner.SessionInfo.IsVisible = false;
 
             LoadLevel(_levelManager.GetRandomLevelIndex(),-1);
         }

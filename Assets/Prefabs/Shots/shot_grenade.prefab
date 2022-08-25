@@ -128,7 +128,7 @@ MonoBehaviour:
   _isGlobal: 0
   _disableOnDespawn: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 6
+  <PrefabId>k__BackingField: 15
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 15182881836978101551
@@ -218,7 +218,7 @@ MonoBehaviour:
     speed: 20
     radius: 0.4
     gravity: -40
-    timeToLive: 1.5
+    timeToLive: 3
     timeToFade: 3
     ownerVelocityMultiplier: 1
   networkedVelocity: {x: 0, y: 0, z: 0}

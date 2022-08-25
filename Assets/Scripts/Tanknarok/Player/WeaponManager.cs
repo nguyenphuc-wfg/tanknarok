@@ -17,6 +17,9 @@ namespace FishNetworking.Tanknarok
 		
 		[SerializeField] private Weapon[] _weapons;
 		[SerializeField] private Player _player;
+		
+		private float _primaryIntervalWeapon;
+		private float _secondaryIntervalWeapon;
 
 		[SyncVar]
 		public byte selectedPrimaryWeapon ;
@@ -42,11 +45,22 @@ namespace FishNetworking.Tanknarok
 		private void Update()
 		{
 			Render();
+			TimeCountInterval();
 		}
 
 		public void Render()
 		{
 			ShowAndHideWeapons();
+		}
+		
+		[Server]
+		public void TimeCountInterval()
+		{
+			if (_primaryIntervalWeapon > 0)
+				_primaryIntervalWeapon -= Time.deltaTime;
+
+			if (_secondaryIntervalWeapon > 0)
+				_secondaryIntervalWeapon -= Time.deltaTime;
 		}
 
 		private void ShowAndHideWeapons()
@@ -101,43 +115,48 @@ namespace FishNetworking.Tanknarok
 		/// response to player input. Input Auth Client spawns a dummy shot that gets replaced by the networked shot
 		/// whenever it arrives
 		/// </summary>
+		[ServerRpc]
 		public void FireWeapon(WeaponInstallationType weaponType)
 		{
 			if (!IsWeaponFireAllowed(weaponType))
 				return;
+			// Check interval weapon to allow fire
+			float interval = weaponType switch
+			{
+				WeaponInstallationType.PRIMARY => _primaryIntervalWeapon,
+				WeaponInstallationType.SECONDARY => _secondaryIntervalWeapon,
+			};
 
+			if (interval > 0) return;
+			
+			// Get ammo
 			byte ammo = weaponType == WeaponInstallationType.PRIMARY ? primaryAmmo : secondaryAmmo;
-			//
-			// TickTimer tickTimer = weaponType==WeaponInstallationType.PRIMARY ? primaryFireDelay : secondaryFireDelay;
-			// if (tickTimer.ExpiredOrNotRunning(base.LocalConnection) && ammo > 0)
-			// {
-			// 	byte weaponIndex = weaponType == WeaponInstallationType.PRIMARY ? _activePrimaryWeapon : _activeSecondaryWeapon;
-			// 	Weapon weapon = _weapons[weaponIndex];
-			//
-			// 	weapon.Fire(Runner,Object.InputAuthority,_player.velocity);
-			//
-			// 	if (!weapon.infiniteAmmo)
-			// 		ammo--;
-			//
-			// 	if (weaponType == WeaponInstallationType.PRIMARY)
-			// 	{
-			// 		primaryFireDelay = TickTimer.CreateFromSeconds(Runner, weapon.delay);
-			// 		primaryAmmo = ammo;
-			// 	}
-			// 	else
-			// 	{
-			// 		secondaryFireDelay = TickTimer.CreateFromSeconds(Runner, weapon.delay);
-			// 		secondaryAmmo = ammo;
-			// 	}
-			// 		
-			// 	if (/*Object.HasStateAuthority &&*/ ammo == 0)
-			// 	{
-			// 		ResetWeapon(weaponType);
-			// 	}
-			// }
-				byte weaponIndex = weaponType == WeaponInstallationType.PRIMARY ? _activePrimaryWeapon : _activeSecondaryWeapon;
-				Weapon weapon = _weapons[weaponIndex];
-				weapon.Fire(base.Owner, _player.velocity);
+
+			
+			// Get weapon
+			byte weaponIndex = weaponType == WeaponInstallationType.PRIMARY ? _activePrimaryWeapon : _activeSecondaryWeapon;
+			Weapon weapon = _weapons[weaponIndex];
+			if (!weapon.infiniteAmmo)
+				ammo--;
+			
+			if (weaponType == WeaponInstallationType.PRIMARY)
+				primaryAmmo = ammo;
+			else
+				secondaryAmmo = ammo;
+			if (ammo == 0)
+				
+				ResetWeapon(weaponType);
+			else
+			{
+				if (weaponType == WeaponInstallationType.PRIMARY)
+					_primaryIntervalWeapon = _weapons[_activePrimaryWeapon].delay;
+				else 
+					_secondaryIntervalWeapon = _weapons[_activeSecondaryWeapon].delay;
+			}
+			
+
+			weapon.Fire(base.Owner, _player.velocity);
+			
 		}
 
 		private bool IsWeaponFireAllowed(WeaponInstallationType weaponType)

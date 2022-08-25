@@ -24,6 +24,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: -4909636208944910769, guid: 4722b2b1d2bf34d4f96d01cf093cc1ca, type: 3}
     - target: {fileID: 542250307813208369, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
+      propertyPath: _infiniteAmmo
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 542250307813208369, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
       propertyPath: _projectilePrefab
       value: 
       objectReference: {fileID: 8219689177351906792, guid: 4722b2b1d2bf34d4f96d01cf093cc1ca, type: 3}
@@ -45,11 +49,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3167661624148539704, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
       propertyPath: <PrefabId>k__BackingField
-      value: 15
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 3167661624148539704, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
       propertyPath: <AssetPathHash>k__BackingField
       value: 8898724472305021229
+      objectReference: {fileID: 0}
+    - target: {fileID: 3167661624148539704, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
+      propertyPath: <ComponentIndex>k__BackingField
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3191812727878037553, guid: c72fb1de194f6b24a92d1b8217df747b, type: 3}
       propertyPath: m_Name

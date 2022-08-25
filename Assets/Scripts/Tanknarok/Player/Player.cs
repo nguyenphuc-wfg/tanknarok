@@ -196,6 +196,7 @@ namespace FishNetworking.Tanknarok
         }
         public void StateChanged()
         {
+            if (IsOwner) InputController.fetchInput = false;
             switch (state)
             {
                 case State.Spawning:
@@ -205,6 +206,7 @@ namespace FishNetworking.Tanknarok
                 case State.Active:
                     _damageVisuals.CleanUpDebris();
                     _teleportIn.EndTeleport();
+                    if (IsOwner) InputController.fetchInput = true;
                     break;
                 case State.Dead:
                     _deathExplosionInstance.transform.position = transform.position;
