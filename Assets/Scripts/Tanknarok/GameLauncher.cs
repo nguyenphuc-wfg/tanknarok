@@ -12,7 +12,7 @@ namespace FishNetworking.Tanknarok
 {
     public class GameLauncher : MonoBehaviour
     {
-        [SerializeField] private GameObject _gameManagerPrefab;
+        [SerializeField] private NetworkObject _gameManagerPrefab;
         // [SerializeField] private Player _playerPrefab;
         [SerializeField] private TMP_InputField _room;
         [SerializeField] private TextMeshProUGUI _progress;
@@ -61,8 +61,8 @@ namespace FishNetworking.Tanknarok
         {
             if (_networkManager == null)
                 return;
-            GameObject go = Instantiate(_gameManagerPrefab, this.transform);
-            // _networkManager.ServerManager.Spawn(go);
+            NetworkObject go = Instantiate(_gameManagerPrefab, this.transform);
+            _networkManager.ServerManager.Spawn(go);
         }
         private void OnDestroy()
         {

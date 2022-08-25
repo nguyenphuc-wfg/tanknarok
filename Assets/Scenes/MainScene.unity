@@ -2869,7 +2869,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474632e4739f4a8ab1338ef00b9bcc67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _gameManagerPrefab: {fileID: 592953329146046645, guid: cebdea494ca74974e809d626e5e9f63e, type: 3}
+  _serverGlobalManager: {fileID: 2887700870037587598, guid: 7f09dc3aebdacf042be430a5dc69de2a, type: 3}
+  _gameManagerPrefab: {fileID: -3340245984306760735, guid: cebdea494ca74974e809d626e5e9f63e, type: 3}
   _room: {fileID: 1414014595}
   _progress: {fileID: 604924949}
   _uiCurtain: {fileID: 1533048366}

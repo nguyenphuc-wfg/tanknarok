@@ -10,7 +10,7 @@ using UnityEngine.Serialization;
 
 namespace FishNetworking.Tanknarok
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : NetworkBehaviour
     {
         public enum PlayState
         {
@@ -23,12 +23,6 @@ namespace FishNetworking.Tanknarok
         private int networkedWinningPlayerIndex = -1;
         private PlayState networkedPlayState;
         public static PlayState playState;
-
-        public static int WinningPlayerIndex
-        {
-            get;
-            set;
-        }
         
         public const byte MAX_LIVES = 2;
         public const byte MAX_SCORE = 2;
@@ -71,12 +65,9 @@ namespace FishNetworking.Tanknarok
         private void Awake()
         {
             if (instance == null)
-            {
                 instance = this;
-                DontDestroyOnLoad(gameObject);                
-            }
             else
-                Destroy(gameObject);
+                InstanceFinder.ServerManager.Despawn(this.NetworkObject);
             _scoreManager = FindObjectOfType<ScoreManager>(true);
             _levelManager = FindObjectOfType<LevelManager>(true);
         }
