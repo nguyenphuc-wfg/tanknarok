@@ -147,8 +147,7 @@ namespace FishNetworking.Tanknarok
             _bulletVisualParent.forward = transform.forward;
             if (_targetVisuals != null)
                 _targetVisuals.InitializeTargetMarker(transform.position, velocity, _bulletSettings);
-            // We want bullet interpolation to use predicted data on all clients because we're moving them in FixedUpdateNetwork()
-            // GetComponent<NetworkTransform>().InterpolationDataSource = InterpolationDataSources.Predicted;
+            
         }
         private void OnDestroy()
         {
@@ -177,32 +176,7 @@ namespace FishNetworking.Tanknarok
                 base.Despawn(this.NetworkObject);
             }
         }
-        private void MoveBullet1()
-        {
-             mPrevPos = transform.position;
-
-             if (destroyed)
-             {
-                 return;
-             }
-
-             transform.Translate(Vector3.forward* _bulletSettings.speed * Time.deltaTime);
-             transform.Translate(Vector3.up* _bulletSettings.gravity/5 *Time.deltaTime);
-             
-             if (!destroyed)
-             {
-                 // We move the origin back from the actual position to make sure we can't shoot through things even if we start inside them
-                RaycastHit hit;
-                if (Physics.Raycast(mPrevPos, (transform.position - mPrevPos).normalized, out hit, (transform.position - mPrevPos).magnitude, _bulletSettings.hitMask.value))
-                 {
-                     HandleImpact(hit);
-                 }
-
-             }
-
-             // If the bullet is destroyed, we stop the movement so we don't get a flying explosion
-        }
-
+        
         private void MoveBullet()
         {
 
@@ -281,6 +255,7 @@ namespace FishNetworking.Tanknarok
 
          private void ApplyAreaDamage(Vector3 hitPoint)
          {
+             if (!IsServer) return;
              Collider[] hitColliders = Physics.OverlapSphere(hitPoint, _bulletSettings.areaRadius,_bulletSettings.hitMask);
              foreach (var hitCollider in hitColliders)
              {

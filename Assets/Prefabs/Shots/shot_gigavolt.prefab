@@ -859,7 +859,7 @@ MonoBehaviour:
   _isGlobal: 0
   _disableOnDespawn: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 5
+  <PrefabId>k__BackingField: 18
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 17790623776955960017
@@ -927,8 +927,8 @@ MonoBehaviour:
       m_Bits: 257
     range: 50
     timeToFade: 2
-    areaRadius: 1
-    areaImpulse: 0
+    areaRadius: 3
+    areaImpulse: 2
     damage: 50
   networkedEndPosition: {x: 0, y: 0, z: 0}
   networkedStartPosition: {x: 0, y: 0, z: 0}

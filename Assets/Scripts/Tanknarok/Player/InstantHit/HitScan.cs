@@ -37,16 +37,7 @@ namespace FishNetworking.Tanknarok
 			public float areaRadius;
 			public float areaImpulse;
 			public byte damage;
-		}		
-
-		// [SyncVar] 
-		// public TickTimer networkedLife { get; set; }
-		// private TickTimer _predictedLife;
-		// public TickTimer life
-		// {
-		// 	get => Object.IsPredictedSpawn ? _predictedLife : networkedLife;
-		// 	set { if (Object.IsPredictedSpawn) _predictedLife = value;else networkedLife = value; }
-		// }
+		}
 
 		[SyncVar] public Vector3 networkedEndPosition;
 		private Vector3 _predictedEndPosition;
@@ -71,8 +62,7 @@ namespace FishNetworking.Tanknarok
 			get => NetworkObject.IsSpawned ? _predictedImpact : networkedImpact;
 			set { if (NetworkObject.IsSpawned) _predictedImpact = value;else networkedImpact = value; }
 		}
-
-		// private List<LagCompensatedHit> _areaHits = new List<LagCompensatedHit>();
+		
 		private IVisual _visual;
 
 		private void Awake()
@@ -83,10 +73,9 @@ namespace FishNetworking.Tanknarok
 		public override void InitNetworkState(Vector3 ownerVelocity)
 		{
 			Debug.Log($"Initialising InstantHit predictedspawn");
-			// life = TickTimer.CreateFromSeconds(Runner, _settings.timeToFade);
 
 			Transform exit = transform;
-			// We move the origin back from the actual position to make sure we can't shoot through things even if we start inside them
+			
 			RaycastHit hit;
 			impact = Physics.Raycast(exit.position - 0.5f* exit.forward, exit.forward, out hit, _settings.range, _settings.hitMask.value);
 			Vector3 hitPoint = exit.position + _settings.range * exit.forward;
@@ -98,6 +87,7 @@ namespace FishNetworking.Tanknarok
 
 			startPosition = transform.position;
 			endPosition = hitPoint;
+			ApplyAreaDamage(endPosition);
 		}
 
 		public void OnDestroy()
@@ -107,18 +97,11 @@ namespace FishNetworking.Tanknarok
 
 		public void FixedUpdate()
 		{
-			// if (life.Expired(Runner))
-			// 	Runner.Despawn(Object);
 			if(_visual!=null)
 			{
 				if (!_visual.IsActive())
 				{
 					_visual.Activate(startPosition, endPosition, impact);
-					if (impact)
-					{
-						// We want this to execute on all clients to make sure it works in shared mode where the authority of the hitscan does not have authority of the target
-						ApplyAreaDamage(_settings, endPosition);
-					}
 				}
 			}
 		}
@@ -138,10 +121,11 @@ namespace FishNetworking.Tanknarok
 				base.Despawn(this.NetworkObject);
 			}
 		}
-		private void ApplyAreaDamage(HitScanSettings raySetting, Vector3 impactPos)
+		private void ApplyAreaDamage(Vector3 impactPos)
 		{
+			Debug.LogError("damaged");
 			// HitboxManager hbm = Runner.LagCompensation;
-			Collider[] hitColliders = Physics.OverlapSphere(impactPos, raySetting.areaRadius,raySetting.hitMask);
+			Collider[] hitColliders = Physics.OverlapSphere(impactPos, _settings.areaRadius,_settings.hitMask);
 			foreach (var hitCollider in hitColliders)
 			{
 				GameObject other = hitCollider.gameObject;
@@ -151,9 +135,9 @@ namespace FishNetworking.Tanknarok
 					if (target != null)
 					{
 						Vector3 impulse = other.transform.position - impactPos;
-						float l = Mathf.Clamp(raySetting.areaRadius - impulse.magnitude, 0, raySetting.areaRadius);
-						impulse = raySetting.areaImpulse * l * impulse.normalized;
-						target.ApplyDamage(impulse, raySetting.damage, base.Owner);
+						float l = Mathf.Clamp(_settings.areaRadius - impulse.magnitude, 0, _settings.areaRadius);
+						impulse = _settings.areaImpulse * l * impulse.normalized;
+						target.ApplyDamage(impulse, _settings.damage, base.Owner);
 					}
 				}
 			}

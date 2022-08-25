@@ -39,14 +39,14 @@ namespace FishNetworking.Tanknarok
 			}
 		}
 
-		public void ShowLobbyScore(int winningPlayer)
+		public void ShowLobbyScore(int winningPlayer, byte score)
 		{
 			foreach (Player player in PlayerManager.allPlayers)
 			{
 				ScoreLobbyUI scoreLobbyUI = ObjectPool.Instantiate(_scoreLobbyPrefab, Vector3.zero, _scoreLobbyPrefab.transform.rotation, _lobbyScoreParent);
 				scoreLobbyUI.SetPlayerName(player);
 				_lobbyScoreUI[player.playerID] = scoreLobbyUI;
-				scoreLobbyUI.SetScore(player.score);
+				scoreLobbyUI.SetScore(player.playerID == winningPlayer ? score : player.score);
 				scoreLobbyUI.ToggleCrown(player.playerID == winningPlayer);
 				scoreLobbyUI.gameObject.SetActive(true);
 			}

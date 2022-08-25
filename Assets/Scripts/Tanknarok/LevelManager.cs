@@ -64,9 +64,9 @@ namespace FishNetworking.Tanknarok
             _sceneManager.SwitchSceneRound();
         }
         [ObserversRpc(RunLocally = true)]
-        public void OnScoreLobby(int playerId)
+        public void OnScoreLobby(int playerId, byte score)
         {
-            _scoreManager.ShowLobbyScore(playerId);
+            _sceneManager.OnEndMath(playerId, score);
         }
         
     }

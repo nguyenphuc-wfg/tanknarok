@@ -62,21 +62,18 @@ namespace FishNetworking.Tanknarok
                     if (lastPlayerStanding != null)
                     {
                         int winningPlayerIndex = lastPlayerStanding.playerID;
-                        // int nextLevelIndex = _levelManager.GetRandomLevelIndex();
                         byte winningPlayerScore = (byte)(lastPlayerStanding.score + 1);
-                        if (winningPlayerIndex >= 0)
-                        {
+                        // if (winningPlayerIndex >= 0)
+                        // {
                             lastPlayerStanding.score = winningPlayerScore;
                             if (winningPlayerScore >= MAX_SCORE)
                             {
-                                _levelManager.OnScoreLobby(winningPlayerIndex);
+                                _levelManager.OnScoreLobby(winningPlayerIndex, winningPlayerScore);
                                 return;
                             }
-                                
-                            
-                        }
-                        _levelManager.OnScoreShow(winningPlayerIndex, winningPlayerScore);
-                        // LoadLevel( nextLevelIndex, winningPlayerIndex);
+                            _levelManager.OnScoreShow(winningPlayerIndex, winningPlayerScore);
+                        // }
+                        
                     }
                 }
             }

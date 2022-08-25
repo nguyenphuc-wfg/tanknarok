@@ -44,11 +44,16 @@ namespace FishNetworking.Tanknarok
 
         [SyncVar] public byte lives;
         
-        [SyncVar] public byte score;
+        [SyncVar(Channel = Channel.Unreliable, OnChange = nameof(ChangeScore))] public byte score;
+
+        public void ChangeScore(byte prev, byte next, bool asServer)
+        {
+            Debug.LogError($"-------> {prev} to {next}");       
+        }
         [SyncVar] public bool ready;
         public static Player local { get; set; }
     
-        [SyncVar(Channel = Channel.Reliable,OnChange = nameof(OnStateChanged))]
+        [SyncVar(Channel = Channel.Unreliable,OnChange = nameof(OnStateChanged))]
         [SerializeField]
         private State state;
         public enum State
@@ -334,7 +339,7 @@ namespace FishNetworking.Tanknarok
                 _turret.forward = Vector3.Lerp(_turret.forward, new Vector3(aimDirection.x, 0, aimDirection.y), Time.deltaTime * 100f);
         }
 
-        [ServerRpc]
+        [ServerRpc(RunLocally = true)]
         public void ApplyDamage(Vector3 impulse, byte damage, NetworkConnection attacker)
         {
             if (!isActivated)

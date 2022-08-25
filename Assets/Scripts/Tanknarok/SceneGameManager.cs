@@ -38,5 +38,37 @@ namespace FishNetworking.Tanknarok
             InputController.fetchInput = true;
             _transitionEffect.ToggleGlitch(false);
         }
+
+        public void OnEndMath(int playerId, byte score)
+        {
+            StartCoroutine(EndMatch(playerId, score));
+        }
+        private IEnumerator EndMatch(int playerId, byte score)
+        {
+            InputController.fetchInput = false;
+
+            // Despawn players with a small delay between each one
+            Debug.Log("De-spawning all tanks");
+            for (int i = 0; i < PlayerManager.allPlayers.Count; i++)
+            {
+                Debug.Log($"De-spawning tank {i}:{PlayerManager.allPlayers[i]}");
+                PlayerManager.allPlayers[i].DespawnTank();
+                yield return new WaitForSeconds(1f);
+            }
+            _scoreManager.HideUiScoreAndReset(false);
+            _transitionEffect.ToggleGlitch(true);
+            
+            for (int i = 0; i < PlayerManager.allPlayers.Count; i++)
+            {
+                Player player = PlayerManager.allPlayers[i];
+                Debug.Log($"Respawning Player {i}:{player}");
+                player.ResetState(3);
+                player.Respawn(0);
+                yield return new WaitForSeconds(0.3f);
+            }
+            _transitionEffect.ToggleGlitch(false);
+            yield return new WaitForSeconds(1f);
+            _scoreManager.ShowLobbyScore(playerId, score);
+        }
     }
 }
