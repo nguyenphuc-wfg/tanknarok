@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace FishNetworking.Tanknarok
 {
@@ -44,10 +42,7 @@ namespace FishNetworking.Tanknarok
                 GameManager.instance.OnAllPlayersReady();
         }
 
-        private void Start()
-        {
-            ShowUI();
-        }
+        private void Start() => ShowUI();
 
         public void ShowUI()
         {

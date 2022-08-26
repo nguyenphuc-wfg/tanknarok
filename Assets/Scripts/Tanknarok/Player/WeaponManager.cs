@@ -1,5 +1,3 @@
-using System;
-using FishNet.Managing.Timing;
 using UnityEngine;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
@@ -21,24 +19,10 @@ namespace FishNetworking.Tanknarok
 		private float _primaryIntervalWeapon;
 		private float _secondaryIntervalWeapon;
 
-		[SyncVar]
-		public byte selectedPrimaryWeapon ;
-
-		[SyncVar]
-		public byte selectedSecondaryWeapon ;
-
-		// [SyncVar]
-		// public TickRounding primaryFireDelay ;
-		//
-		// [SyncVar]
-		// public TickRounding secondaryFireDelay ;
-
-		[SyncVar]
-		public byte primaryAmmo ;
-
-		[SyncVar]
-		public byte secondaryAmmo ;
-
+		[SyncVar] public byte selectedPrimaryWeapon ;
+		[SyncVar] public byte selectedSecondaryWeapon ;
+		[SyncVar] public byte primaryAmmo ;
+		[SyncVar] public byte secondaryAmmo ;
 		private byte _activePrimaryWeapon;
 		private byte _activeSecondaryWeapon;
 
@@ -71,7 +55,6 @@ namespace FishNetworking.Tanknarok
 				_weapons[i].Show(i == selectedPrimaryWeapon || i == selectedSecondaryWeapon);
 			}
 
-			// Whenever the weapon visual is fully visible, set the weapon to be active - prevents shooting when changing weapon
 			SetWeaponActive(selectedPrimaryWeapon, ref _activePrimaryWeapon);
 			SetWeaponActive(selectedSecondaryWeapon, ref _activeSecondaryWeapon);
 		}
@@ -82,11 +65,6 @@ namespace FishNetworking.Tanknarok
 				_activeWeapon = selectedWeapon;
 		}
 
-		/// <summary>
-		/// Activate a new weapon when picked up
-		/// </summary>
-		/// <param name="weaponType">Type of weapon that should be activated</param>
-		/// <param name="weaponIndex">Index of weapon the _Weapons list for the player</param>
 		public void ActivateWeapon(WeaponInstallationType weaponType, int weaponIndex)
 		{
 			byte selectedWeapon = weaponType == WeaponInstallationType.PRIMARY ? selectedPrimaryWeapon : selectedSecondaryWeapon;
@@ -110,11 +88,10 @@ namespace FishNetworking.Tanknarok
 			}
 		}
 
-		/// <summary>
-		/// Fire the current weapon. This is called from the Input Auth Client and on the Server in
-		/// response to player input. Input Auth Client spawns a dummy shot that gets replaced by the networked shot
-		/// whenever it arrives
-		/// </summary>
+		public void OnFireWeapon(WeaponInstallationType weaponType)
+		{
+			FireWeapon(weaponType);
+		}
 		[ServerRpc]
 		public void FireWeapon(WeaponInstallationType weaponType)
 		{
@@ -153,10 +130,7 @@ namespace FishNetworking.Tanknarok
 				else 
 					_secondaryIntervalWeapon = _weapons[_activeSecondaryWeapon].delay;
 			}
-			
-
 			weapon.Fire(base.Owner, _player.velocity);
-			
 		}
 
 		private bool IsWeaponFireAllowed(WeaponInstallationType weaponType)

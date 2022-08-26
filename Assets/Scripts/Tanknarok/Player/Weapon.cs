@@ -1,10 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using FishNet;
 using FishNet.Connection;
 using FishNet.Object;
-using FishNet.Object.Synchronizing;
-using FishNet.Transporting;
 using UnityEngine;
 using FishNetworking.Utility;
 
@@ -22,9 +18,6 @@ namespace FishNetworking.Tanknarok
         [SerializeField] private PowerupType _powerupType = PowerupType.DEFAULT;
         [SerializeField] private ParticleSystem _muzzleFlashPrefab;
 
-        [SyncVar(Channel = Channel.Unreliable, OnChange = nameof(OnFireTickChanged))]
-        public bool fireTick;
-        
         private int _gunExit;
         private float _visible;
         private bool _active;
@@ -80,12 +73,7 @@ namespace FishNetworking.Tanknarok
                     _laserSight.Deactivate();
             }
         }
-        public void OnFireTickChanged(bool prev, bool next, bool asServer)
-        {
-            if (asServer)
-                FireFx();
-        }
-        
+
         [ServerRpc(RunLocally = true)]
         public void Fire(NetworkConnection runner ,Vector3 ownerVelocity)
         {
@@ -93,20 +81,31 @@ namespace FishNetworking.Tanknarok
                 return;
             Transform exit = GetExitPoint();
             SpawnNetworkShot(runner, ownerVelocity, exit);
-            fireTick = !fireTick;
+            FireFx();
         }
         
-        [ObserversRpc(RunLocally = true)]
-        private void FireFx()
+        [ObserversRpc(IncludeOwner =  true)]
+        public void FireFx()
+        {
+            OnFireFx();
+        }
+
+        public void OwerFireFx()
         {
             // Recharge the laser sight if this weapon has it
+            OnFireFx();
+        }
+
+        private void OnFireFx()
+        {
             if (_laserSight != null)
                 _laserSight.Recharge();
 
             if(_gunExit<_muzzleFlashList.Count)
                 _muzzleFlashList[_gunExit].Play();
-            _audioEmitter.PlayOneShot();
+            _audioEmitter.PlayOneShot(); 
         }
+        
         private void SpawnNetworkShot(NetworkConnection runner ,Vector3 ownerVelocity,Transform exit)
         {
             GameObject bullet = Instantiate(_projectilePrefab, exit.position , exit.rotation);

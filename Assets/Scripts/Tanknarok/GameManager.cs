@@ -1,11 +1,7 @@
-using System;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using FishNet.Object;
-using FishNet;
-using FishNet.Object.Synchronizing;
 using FishNetworking.Event;
-using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 namespace FishNetworking.Tanknarok
@@ -30,13 +26,11 @@ namespace FishNetworking.Tanknarok
         private LevelManager _levelManager;
         private bool _restart = true;
         public static GameManager instance { get; private set; }
-        
+
         private void Awake()
         {
             if (instance == null)
                 instance = this;
-            else
-                InstanceFinder.ServerManager.Despawn(this.NetworkObject);
             _scoreManager = FindObjectOfType<ScoreManager>(true);
             _levelManager = FindObjectOfType<LevelManager>(true);
         }
@@ -56,11 +50,8 @@ namespace FishNetworking.Tanknarok
         }
         public void Restart()
         {
-            // Calling with destroyGameObject false because we do this in the OnShutdown callback on FusionLauncher
-            // instance = null;
             _restart = false;
         }
-        // public const ShutdownReason ShutdownReason_GameAlreadyRunning = (ShutdownReason)100;
         private void Update()
         {
             if (_restart || Input.GetKeyDown(KeyCode.Escape))
@@ -73,32 +64,29 @@ namespace FishNetworking.Tanknarok
         
         public void OnTankDeath()
         {
-            if (playState != PlayState.LOBBY)
+            if (playState == PlayState.LOBBY) return;
+            
+            int playersleft = PlayerManager.PlayersAlive();
+            Debug.Log($"Someone died - {playersleft} left");
+            
+            if (playersleft > 1) return;
+            
+            Player lastPlayerStanding = playersleft == 0 ? null : PlayerManager.GetFirstAlivePlayer();
+
+            if (lastPlayerStanding == null) return;
+            
+            int winningPlayerIndex = lastPlayerStanding.playerID;
+            byte winningPlayerScore = (byte)(lastPlayerStanding.score + 1);
+            
+            if (winningPlayerIndex < 0) return;
+            
+            lastPlayerStanding.score = winningPlayerScore;
+            if (winningPlayerScore >= MAX_SCORE)
             {
-                int playersleft = PlayerManager.PlayersAlive();
-                Debug.Log($"Someone died - {playersleft} left");
-                if (playersleft<=1)
-                {
-                    Player lastPlayerStanding = playersleft == 0 ? null : PlayerManager.GetFirstAlivePlayer();
-                    // if there is only one player, who died from a laser (e.g.) we don't award scores. 
-                    if (lastPlayerStanding != null)
-                    {
-                        int winningPlayerIndex = lastPlayerStanding.playerID;
-                        byte winningPlayerScore = (byte)(lastPlayerStanding.score + 1);
-                        if (winningPlayerIndex >= 0)
-                        {
-                            lastPlayerStanding.score = winningPlayerScore;
-                            if (winningPlayerScore >= MAX_SCORE)
-                            {
-                                _levelManager.OnScoreLobby(winningPlayerIndex, winningPlayerScore);
-                                return;
-                            }
-                            _levelManager.OnScoreShow(winningPlayerIndex, winningPlayerScore);
-                        }
-                        
-                    }
-                }
+                _levelManager.OnScoreLobby(winningPlayerIndex, winningPlayerScore);
+                return;
             }
+            _levelManager.OnScoreShow(winningPlayerIndex, winningPlayerScore);
         }
 
         // Transition from lobby to level

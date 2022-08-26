@@ -1,11 +1,8 @@
-using System.Threading.Tasks;
 using UnityEngine;
-using FishNet;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using FishNet.Transporting;
 using FishNet.Connection;
-using FishNetworking.Event;
 using UnityEngine.Events;
 
 namespace FishNetworking.Tanknarok
@@ -44,25 +41,22 @@ namespace FishNetworking.Tanknarok
 
         [SyncVar] public byte lives;
         
-        [SyncVar(Channel = Channel.Unreliable, OnChange = nameof(ChangeScore))] 
+        [SyncVar(Channel = Channel.Unreliable)] 
         public byte score;
 
-        public void ChangeScore(byte prev, byte next, bool asServer)
-        {
-            Debug.LogError($"-------> {prev} to {next} score change");       
-        }
-        [SyncVar(Channel = Channel.Reliable, OnChange = nameof(OnChangeReady))] 
+        [SyncVar(Channel = Channel.Unreliable)] 
         public bool ready;
 
-        public void OnChangeReady(bool prev, bool next, bool asServer)
-        {
-            Debug.LogError($"------> {prev} to {next} ready change");
-        }
         public static Player local { get; set; }
     
         [SyncVar(Channel = Channel.Unreliable,OnChange = nameof(OnStateChanged))]
         [SerializeField]
         private State state;
+        
+        public State playerState
+        {
+            get { return state; }
+        }
         public enum State
         {
             New,
@@ -83,7 +77,7 @@ namespace FishNetworking.Tanknarok
         public Quaternion turretRotation => _turret.rotation;
         public Quaternion hullRotation => _hull.rotation;
         private float _gravity;
-
+        public SpawnPoint spawnPoint;
         enum DriveDirection
         {
             FORWARD,
@@ -108,7 +102,6 @@ namespace FishNetworking.Tanknarok
         public void ResetReady()
         {
             ready = false;
-            Debug.Log("resseset----------<>>>>");
         }
         
         public override void OnStartServer()
@@ -119,17 +112,16 @@ namespace FishNetworking.Tanknarok
         public override void OnStartClient()
         {
             base.OnStartClient();
-            // if (IsOwner) CheckMatchStart();
             _cc.enabled = base.IsOwner;
             OnSpawned();
         }
 
         public void OnSpawned()
         {
-
             InitNetworkState(GameManager.MAX_LIVES);
             PlayerManager.AddPlayer(this);
             playerID = base.OwnerId;
+
             ready = false;
 
             SetMaterial(playerID % 4);
@@ -187,38 +179,29 @@ namespace FishNetworking.Tanknarok
             if (_respawnInSeconds <= 0)
             {
                 Debug.Log($"Respawning player {playerID}, life={life}, lives={lives}, from state={state}");
-                // Make sure we don't get in here again, even if we hit exactly zero
                 _respawnInSeconds = -1;
-
-                // Restore health
                 life = MAX_HEALTH;
-
-                // If the player was already here when we joined, it might already be active, in which case we don't want to trigger any spawn FX, so just leave it ACTIVE
                 if (state != State.Active)
                     state = State.Spawning;
             }
         }
         private void OnStateChanged(State prev, State next, bool asServer)
         {
-            // Debug.LogError($" OnStateChanged: {prev} to {next}");
-            // if (!asServer)
             StateChanged();
         }
-
         private void SetSpawnPosition()
         {
             if (!IsOwner) return;
-            SpawnPoint spawnpt = GetLevelManager().GetPlayerSpawnPoint(playerID);
-            if (spawnpt != null)
+            if (spawnPoint == null) spawnPoint = GetLevelManager().GetPlayerSpawnPoint(playerID);
+            if (spawnPoint != null)
             {
-                Transform spawn =spawnpt.transform;
+                Transform spawn = spawnPoint.transform;
                 transform.position = spawn.position;
                 transform.rotation = spawn.rotation;
             }
         }
         public void StateChanged()
         {
-            // if (IsOwner) InputController.fetchInput = false;
             switch (state)
             {
                 case State.Spawning:
@@ -228,7 +211,6 @@ namespace FishNetworking.Tanknarok
                 case State.Active:
                     _damageVisuals.CleanUpDebris();
                     _teleportIn.EndTeleport();
-                    // if (IsOwner) InputController.fetchInput = true;
                     break;
                 case State.Dead:
                     _deathExplosionInstance.transform.position = transform.position;
@@ -279,13 +261,11 @@ namespace FishNetworking.Tanknarok
         private void CheckForPowerupPickup()
         {
             // If we run into a powerup, pick it up
-            if (isActivated)
-            {
-                _overlaps = Physics.OverlapSphere(transform.position, _pickupRadius,_pickupMask);
-                if (_overlaps.Length > 0)
-                    Pickup(_overlaps[0].GetComponent<PowerupSpawner>());
+            if (!isActivated) return;
+            _overlaps = Physics.OverlapSphere(transform.position, _pickupRadius,_pickupMask);
+            if (_overlaps.Length > 0)
+                Pickup(_overlaps[0].GetComponent<PowerupSpawner>());
             }
-        }
         private LevelManager GetLevelManager()
         {
             if (_levelManager == null)
@@ -302,7 +282,6 @@ namespace FishNetworking.Tanknarok
 
             // Add a little visual-only movement to the mesh
             SetMeshOrientation();
-
             if (moveDirection.magnitude > 0.1f)
                 _lastMoveDirection = moveDirection;
         }
@@ -322,13 +301,16 @@ namespace FishNetworking.Tanknarok
             Debug.Log("Respawn Player Tank Death");
             _respawnInSeconds = inSeconds;
         }
-
-        public void SetDirections(Vector2 moveDirection, Vector2 aimDirection)
+        
+        public void SetDirections(MoveDataPlayer dt, bool asServer, bool replaying = false)
         {
             if (!_cc.enabled) return;
-            this.moveDirection = moveDirection;
-            this.aimDirection = aimDirection;
+            this.moveDirection = dt.MoveDelta.normalized;
+            this.aimDirection = dt.AimDelta.normalized;
+            Move();
         }
+        float speedP;
+        
         public void Move()
         {
             if (!_cc.enabled)
@@ -337,7 +319,9 @@ namespace FishNetworking.Tanknarok
                 _gravity -= 9.8f;
             else
                 _gravity = 0f;
-            _cc.Move(new Vector3(moveDirection.x * Time.deltaTime * _speed, _gravity, moveDirection.y * Time.deltaTime * _speed));
+            float delta = (float)TimeManager.TickDelta;
+            var movev2 = delta * _speed *moveDirection; 
+            _cc.Move(new Vector3(movev2.x, _gravity, movev2.y));
         }
         private void SetMeshOrientation()
         {
@@ -359,7 +343,7 @@ namespace FishNetworking.Tanknarok
                 _hull.forward = Vector3.Lerp(_hull.forward, new Vector3(moveDirection.x, 0, moveDirection.y) * multiplier, Time.deltaTime * 10f);
 
             if (aimDirection.sqrMagnitude > 0)
-                _turret.forward = Vector3.Lerp(_turret.forward, new Vector3(aimDirection.x, 0, aimDirection.y), Time.deltaTime * 100f);
+                _turret.forward = Vector3.Slerp(_turret.forward, new Vector3(aimDirection.x, 0, aimDirection.y), Time.deltaTime * 30f);
         }
 
         [ServerRpc(RunLocally = true)]
@@ -405,16 +389,6 @@ namespace FishNetworking.Tanknarok
                 life -= damage;
                 Debug.Log($"Player {playerID} took {damage} damage, life = {life}");
             }
-        }
-    }
-    public struct ReconcileData
-    {
-        public Vector3 Position;
-        public Quaternion Rotation;
-        public ReconcileData(Vector3 position, Quaternion rotation)
-        {
-            Position = position;
-            Rotation = rotation;
         }
     }
 

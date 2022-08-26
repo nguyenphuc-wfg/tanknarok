@@ -1,9 +1,7 @@
 using System;
-using System.Collections;
 using UnityEngine;
 using TMPro;
 using Cysharp.Threading.Tasks;
-using System.Threading;
 using FishNet.Object;
 
 namespace FishNetworking.Tanknarok

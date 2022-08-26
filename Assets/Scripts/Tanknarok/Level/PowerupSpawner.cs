@@ -1,5 +1,4 @@
-﻿using System;
-using FishNet.Object;
+﻿using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using FishNet.Transporting;
 using UnityEngine;
@@ -7,10 +6,6 @@ using Random = UnityEngine.Random;
 
 namespace FishNetworking.Tanknarok
 {
-	/// <summary>
-	/// Powerups are spawned by the LevelManager and, when picked up, changes the
-	/// current weapon of the tank.
-	/// </summary>
 	public class PowerupSpawner : NetworkBehaviour
 	{
 		[SerializeField] private PowerupElement[] _powerupElements;
@@ -48,31 +43,22 @@ namespace FishNetworking.Tanknarok
 		[Server]
 		public void FixedUpdate()
 		{
-			// if (!Object.HasStateAuthority)
-			// 	return;
-
 			// Update the respawn timer
 			respawnTimerFloat = Mathf.Min(respawnTimerFloat + Time.deltaTime, _respawnDuration);
 
 			// Spawn a new powerup whenever the respawn duration has been reached
 			if (respawnTimerFloat >= _respawnDuration && isRespawning)
-			{
 				isRespawning = false;
-			}
 		}
-		
-		private void Update()
-		{
-			Render();
-		}
+		[Server]
+		private void Update() => Render();
 
 		// Create a simple scale in effect when spawning
+		[ObserversRpc(RunLocally = true)]
 		public void Render()
 		{
 			if (!isRespawning)
-			{
 				_renderer.transform.localScale = Vector3.Lerp(_renderer.transform.localScale, Vector3.one, Time.deltaTime * 5f);
-			}
 			else
 			{
 				_renderer.transform.localScale = Vector3.zero;
@@ -80,10 +66,6 @@ namespace FishNetworking.Tanknarok
 			}
 		}
 
-		/// <summary>
-		/// Get the pickup contained in this spawner and trigger the spawning of a new powerup
-		/// </summary>
-		/// <returns></returns>
 		public PowerupElement Pickup()
 		{
 			if (isRespawning)
@@ -103,6 +85,7 @@ namespace FishNetworking.Tanknarok
 			}
 			return lastIndex != -1 ? _powerupElements[lastIndex] : null;
 		}
+		
 		[Server]
 		private void SetNextPowerup()
 		{
@@ -116,11 +99,10 @@ namespace FishNetworking.Tanknarok
 			RefreshColor();
 			_meshFilter.mesh = _powerupElements[next].powerupSpawnerMesh;
 		}
-		//
+		
 		private void OnRespawningChanged(bool prev, bool next, bool asServer)
 		{
 			_renderer.enabled = true;
-			_meshFilter.mesh = _powerupElements[activePowerupIndex].powerupSpawnerMesh;
 			SetRechargeAmount(0);
 		}
 

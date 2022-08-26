@@ -386,7 +386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 6
+  _componentIndexCache: 5
   _addedNetworkObject: {fileID: 3978112638577212098}
   _networkObjectCache: {fileID: 3978112638577212098}
   _synchronizeParent: 0
@@ -639,7 +639,7 @@ CapsuleCollider:
   m_GameObject: {fileID: 7738913490721572064}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   m_Radius: 0.95
   m_Height: 2
   m_Direction: 1
@@ -689,12 +689,11 @@ GameObject:
   - component: {fileID: 2039004788954265569}
   - component: {fileID: 1723606642065551448}
   - component: {fileID: 3978112638577212098}
-  - component: {fileID: 9147946892320637571}
-  - component: {fileID: 9129331820590213092}
   - component: {fileID: 8583166854389987501}
   - component: {fileID: 622273182175422301}
   - component: {fileID: 7665763439967654242}
   - component: {fileID: 560291091272156031}
+  - component: {fileID: 7571800681024654807}
   m_Layer: 8
   m_Name: PlayerTank
   m_TagString: Untagged
@@ -767,6 +766,7 @@ MonoBehaviour:
   score: 0
   ready: 0
   state: 0
+  spawnPoint: {fileID: 0}
   _collider: {fileID: 5895164622560852221}
   tankDeathEvent:
     m_PersistentCalls:
@@ -940,9 +940,8 @@ MonoBehaviour:
   _networkBehaviours:
   - {fileID: -3098922383743760179}
   - {fileID: 6203864925880487117}
-  - {fileID: 9147946892320637571}
-  - {fileID: 9129331820590213092}
   - {fileID: 8583166854389987501}
+  - {fileID: 7571800681024654807}
   - {fileID: 7511944827282452432}
   - {fileID: 1897362970305792513}
   <ParentNetworkObject>k__BackingField: {fileID: 0}
@@ -956,79 +955,11 @@ MonoBehaviour:
   _isGlobal: 0
   _disableOnDespawn: 0
   NetworkObserver: {fileID: 0}
-  <PrefabId>k__BackingField: 1
+  <PrefabId>k__BackingField: 4
   _scenePathHash: 0
   <SceneId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 6382725074100083804
   _sceneNetworkObjects: []
---- !u!114 &9147946892320637571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7917003752575662290}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 402926ef33e0a894d9fec352693988ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 2
-  _addedNetworkObject: {fileID: 3978112638577212098}
-  _networkObjectCache: {fileID: 3978112638577212098}
-  _graphicalObject: {fileID: 911850121291116296}
-  _smoothTicks: 1
-  _durationType: 0
-  _smoothingDuration: 0.125
-  _enableTeleport: 0
-  _teleportThreshold: 1
-  _predictionType: 0
-  _rigidbody: {fileID: 0}
-  _rigidbody2d: {fileID: 0}
-  _networkTransform: {fileID: 0}
-  _predictionRatio: 0
---- !u!114 &9129331820590213092
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7917003752575662290}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 3
-  _addedNetworkObject: {fileID: 3978112638577212098}
-  _networkObjectCache: {fileID: 3978112638577212098}
-  _synchronizeParent: 0
-  _packing:
-    Position: 1
-    Rotation: 1
-    Scale: 0
-  _interpolation: 2
-  _extrapolation: 0
-  _enableTeleport: 0
-  _teleportThreshold: 5
-  _clientAuthoritative: 1
-  _sendToOwner: 0
-  _interval: 1
-  _synchronizePosition: 1
-  _positionSnapping:
-    X: 0
-    Y: 1
-    Z: 0
-  _synchronizeRotation: 1
-  _rotationSnapping:
-    X: 0
-    Y: 0
-    Z: 0
-  _synchronizeScale: 1
-  _scaleSnapping:
-    X: 0
-    Y: 0
-    Z: 0
 --- !u!114 &8583166854389987501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1041,7 +972,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a6efaee3a031d14eb2d3faf5cd2e442, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 4
+  _componentIndexCache: 2
   _addedNetworkObject: {fileID: 3978112638577212098}
   _networkObjectCache: {fileID: 3978112638577212098}
   _mouseRayMask:
@@ -1104,6 +1035,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _updateHostVisibility: 1
   _defaultConditions: []
+--- !u!114 &7571800681024654807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7917003752575662290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 402926ef33e0a894d9fec352693988ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 3
+  _addedNetworkObject: {fileID: 3978112638577212098}
+  _networkObjectCache: {fileID: 3978112638577212098}
+  _graphicalObject: {fileID: 7933785314457126569}
+  _smoothTicks: 1
+  _durationType: 1
+  _smoothingDuration: 0.125
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  _predictionType: 0
+  _rigidbody: {fileID: 0}
+  _rigidbody2d: {fileID: 0}
+  _networkTransform: {fileID: 0}
+  _predictionRatio: 0
 --- !u!1 &8041608635261517176
 GameObject:
   m_ObjectHideFlags: 0
@@ -1215,7 +1172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2836e36774ca1c4bbbee976e17b649c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 5
+  _componentIndexCache: 4
   _addedNetworkObject: {fileID: 3978112638577212098}
   _networkObjectCache: {fileID: 3978112638577212098}
   _synchronizeParent: 0
@@ -1686,6 +1643,10 @@ PrefabInstance:
     - target: {fileID: 6332741569867311361, guid: 86bd09311ff04004d9a475344b051bae, type: 3}
       propertyPath: <IsNested>k__BackingField
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6332741569867311361, guid: 86bd09311ff04004d9a475344b051bae, type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6332741569867311361, guid: 86bd09311ff04004d9a475344b051bae, type: 3}
       propertyPath: <ComponentIndex>k__BackingField

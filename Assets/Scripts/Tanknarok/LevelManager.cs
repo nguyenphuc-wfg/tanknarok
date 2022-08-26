@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using FishNet.Object;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -102,14 +100,13 @@ namespace FishNetworking.Tanknarok
                 PlayerManager.allPlayers[i].DespawnTank();
             }
             
-
             GameManager.playState = GameManager.PlayState.LEVEL;
             for (int i = 0; i < PlayerManager.allPlayers.Count; i++)
             {
                 PlayerManager.allPlayers[i].RespawnPlay();
             }
             OnStartMatch();
-            _countdownManager.Countdown(_sceneManager.OnStartedMatch);
+            _countdownManager.Countdown(OnStartedMatch);
         }
         
         [ObserversRpc(RunLocally = true)]
@@ -118,6 +115,10 @@ namespace FishNetworking.Tanknarok
             _readyupManager.HideUI();
             _sceneManager.OnStartMatch();
         }
+
+        [ObserversRpc]
+        public void OnStartedMatch() => _sceneManager.OnStartedMatch();
+
     }
 
 }

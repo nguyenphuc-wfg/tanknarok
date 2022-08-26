@@ -14,7 +14,6 @@ namespace FishNetworking.Tanknarok
         private static int _sceneIdPlay;
         [SerializeField] private CameraScreenFXBehaviour _transitionEffect;
         [SerializeField] private ScoreManager _scoreManager;
-        [SerializeField] private CountdownManager _countdownManager;
         [SerializeField] private GameObject _uiGame;
         public void OnStartMatch()
         {

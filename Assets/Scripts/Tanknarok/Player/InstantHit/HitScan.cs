@@ -6,14 +6,6 @@ using UnityEngine;
 
 namespace FishNetworking.Tanknarok
 {
-	/// <summary>
-	/// HitScan is the instant-hit alternative to a moving bullet.
-	/// The point of representing this as a NetworkObject is that it allow it to work the same
-	/// in both hosted and shared mode. If it had been done at the trigger (the weapon spawning the instant hit) with an RPC for visuals,
-	/// we would not have been able to apply damage to the target because we don't have authority over that object in shared mode.
-	/// Because it now runs on all clients, it will also run on the client that owns the target that needs to take damage.
-	/// </summary>
-
 	public class HitScan : Projectile
 	{
 		public interface IVisual
@@ -97,13 +89,9 @@ namespace FishNetworking.Tanknarok
 
 		public void FixedUpdate()
 		{
-			if(_visual!=null)
-			{
-				if (!_visual.IsActive())
-				{
-					_visual.Activate(startPosition, endPosition, impact);
-				}
-			}
+			if (_visual == null) return;
+			if (!_visual.IsActive())
+				_visual.Activate(startPosition, endPosition, impact);
 		}
 
 		private void Update()
@@ -123,23 +111,19 @@ namespace FishNetworking.Tanknarok
 		}
 		private void ApplyAreaDamage(Vector3 impactPos)
 		{
-			Debug.LogError("damaged");
-			// HitboxManager hbm = Runner.LagCompensation;
 			Collider[] hitColliders = Physics.OverlapSphere(impactPos, _settings.areaRadius,_settings.hitMask);
 			foreach (var hitCollider in hitColliders)
 			{
 				GameObject other = hitCollider.gameObject;
-				if (other)
-				{
-					ICanTakeDamage target = other.GetComponent<ICanTakeDamage>();
-					if (target != null)
-					{
-						Vector3 impulse = other.transform.position - impactPos;
-						float l = Mathf.Clamp(_settings.areaRadius - impulse.magnitude, 0, _settings.areaRadius);
-						impulse = _settings.areaImpulse * l * impulse.normalized;
-						target.ApplyDamage(impulse, _settings.damage, base.Owner);
-					}
-				}
+				if (!other) return;
+				ICanTakeDamage target = other.GetComponent<ICanTakeDamage>();
+				if (target == null) return; 
+
+				
+				Vector3 impulse = other.transform.position - impactPos;
+				float l = Mathf.Clamp(_settings.areaRadius - impulse.magnitude, 0, _settings.areaRadius);
+				impulse = _settings.areaImpulse * l * impulse.normalized;
+				target.ApplyDamage(impulse, _settings.damage, base.Owner);
 			}
 		}
 	}

@@ -3970,6 +3970,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 565220921}
     m_Modifications:
     - target: {fileID: 404872836346589300, guid: 120ffc773e92e4ab2834f0c3007edc5a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 404872836346589300, guid: 120ffc773e92e4ab2834f0c3007edc5a, type: 3}
       propertyPath: _scenePathHash
       value: 2449186535
       objectReference: {fileID: 0}
@@ -4000,11 +4004,11 @@ PrefabInstance:
     - target: {fileID: 404872836346589300, guid: 120ffc773e92e4ab2834f0c3007edc5a, type: 3}
       propertyPath: _sceneNetworkObjects.Array.data[0]
       value: 
-      objectReference: {fileID: 420981420}
+      objectReference: {fileID: 28329953}
     - target: {fileID: 404872836346589300, guid: 120ffc773e92e4ab2834f0c3007edc5a, type: 3}
       propertyPath: _sceneNetworkObjects.Array.data[1]
       value: 
-      objectReference: {fileID: 971446139}
+      objectReference: {fileID: 420981420}
     - target: {fileID: 404872836346589300, guid: 120ffc773e92e4ab2834f0c3007edc5a, type: 3}
       propertyPath: _sceneNetworkObjects.Array.data[2]
       value: 
@@ -4012,15 +4016,15 @@ PrefabInstance:
     - target: {fileID: 404872836346589300, guid: 120ffc773e92e4ab2834f0c3007edc5a, type: 3}
       propertyPath: _sceneNetworkObjects.Array.data[3]
       value: 
-      objectReference: {fileID: 28329953}
+      objectReference: {fileID: 852192724}
     - target: {fileID: 404872836346589300, guid: 120ffc773e92e4ab2834f0c3007edc5a, type: 3}
       propertyPath: _sceneNetworkObjects.Array.data[4]
       value: 
-      objectReference: {fileID: 852192724}
+      objectReference: {fileID: 920255471}
     - target: {fileID: 404872836346589300, guid: 120ffc773e92e4ab2834f0c3007edc5a, type: 3}
       propertyPath: _sceneNetworkObjects.Array.data[5]
       value: 
-      objectReference: {fileID: 920255471}
+      objectReference: {fileID: 971446139}
     - target: {fileID: 404872836346589300, guid: 120ffc773e92e4ab2834f0c3007edc5a, type: 3}
       propertyPath: _sceneNetworkObjects.Array.data[6]
       value: 
@@ -4052,6 +4056,10 @@ PrefabInstance:
     - target: {fileID: 3233951943616862774, guid: 120ffc773e92e4ab2834f0c3007edc5a, type: 3}
       propertyPath: _componentIndexCache
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4436240376315847573, guid: 120ffc773e92e4ab2834f0c3007edc5a, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4885651135283617847, guid: 120ffc773e92e4ab2834f0c3007edc5a, type: 3}
       propertyPath: m_RootOrder

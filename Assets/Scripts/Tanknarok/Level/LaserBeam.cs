@@ -1,5 +1,4 @@
-﻿using FishNet.Connection;
-using UnityEngine;
+﻿using UnityEngine;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 

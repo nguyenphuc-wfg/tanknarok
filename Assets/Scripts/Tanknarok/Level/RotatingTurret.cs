@@ -1,6 +1,4 @@
-﻿using System;
-using FishNet.Managing.Logging;
-using UnityEngine;
+﻿using UnityEngine;
 using FishNet.Object;
 
 namespace FishNetworking.Tanknarok
@@ -23,7 +21,6 @@ namespace FishNetworking.Tanknarok
                 _laserBeams[i].Init();
         }
 
-       // [Server(Logging = LoggingType.Off)]
         // Rotates the turret and updates laser beams
         public void FixedUpdate()
         {

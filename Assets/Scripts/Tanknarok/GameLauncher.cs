@@ -1,10 +1,7 @@
 using UnityEngine;
-using FishNet;
-using FishNet.Object;
 using FishNet.Managing;
 using FishNet.Transporting;
 using FishNetworking.UIHelpers;
-using FishNet.Connection;
 using TMPro;
 using UnityEngine.SceneManagement;
 
@@ -12,16 +9,11 @@ namespace FishNetworking.Tanknarok
 {
     public class GameLauncher : MonoBehaviour
     {
-        [SerializeField] private NetworkObject _gameManagerPrefab;
-        // [SerializeField] private Player _playerPrefab;
-        [SerializeField] private TMP_InputField _room;
         [SerializeField] private TextMeshProUGUI _progress;
         [SerializeField] private Panel _uiCurtain;
         [SerializeField] private Panel _uiStart;
         [SerializeField] private Panel _uiProgress;
-        [SerializeField] private Panel _uiRoom;
         [SerializeField] private GameObject _uiGame;
-        [SerializeField] private LevelManager _levelManager;
         private NetworkManager _networkManager;
         private LocalConnectionState _clientState = LocalConnectionState.Stopped;
         private LocalConnectionState _serverState = LocalConnectionState.Stopped;
@@ -45,25 +37,18 @@ namespace FishNetworking.Tanknarok
             }
             UpdateUI(LocalConnectionState.Stopped);
         }
+        
         private void Update()
         {
             if (_uiGame.activeSelf)
-            {
                 if (Input.GetKeyUp(KeyCode.Escape))
                 {
                     _networkManager.ServerManager.StopConnection(true);
                     _networkManager.ClientManager.StopConnection();
                 }
-            }
 
         }
-        private void OnSpawnWorld()
-        {
-            if (_networkManager == null)
-                return;
-            NetworkObject go = Instantiate(_gameManagerPrefab, this.transform);
-            _networkManager.ServerManager.Spawn(go);
-        }
+
         private void OnDestroy()
         {
             if (_networkManager == null)
@@ -93,12 +78,10 @@ namespace FishNetworking.Tanknarok
 
             if (_serverState != LocalConnectionState.Stopped)
                 _networkManager.ServerManager.StopConnection(true);
-            else {
-                _networkManager.ServerManager.StartConnection();    
-                OnSpawnWorld();
+            else 
+                _networkManager.ServerManager.StartConnection();
+
             }
-                
-        }
     
 
         public void OnClick_Client()
@@ -110,10 +93,8 @@ namespace FishNetworking.Tanknarok
                 
             if (_clientState != LocalConnectionState.Stopped)
                 _networkManager.ClientManager.StopConnection();
-            else {
+            else
                 _networkManager.ClientManager.StartConnection();
-                OnSpawnWorld();
-            }
                 
         }
         private void UpdateUI(LocalConnectionState state)
