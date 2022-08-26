@@ -109,6 +109,7 @@ namespace FishNetworking.Tanknarok
                 PlayerManager.allPlayers[i].RespawnPlay();
             }
             OnStartMatch();
+            _countdownManager.Countdown(_sceneManager.OnStartedMatch);
         }
         
         [ObserversRpc(RunLocally = true)]

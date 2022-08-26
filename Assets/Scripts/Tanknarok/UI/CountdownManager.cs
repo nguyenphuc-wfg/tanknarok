@@ -4,10 +4,11 @@ using UnityEngine;
 using TMPro;
 using Cysharp.Threading.Tasks;
 using System.Threading;
+using FishNet.Object;
 
 namespace FishNetworking.Tanknarok
 {
-    public class CountdownManager : MonoBehaviour
+    public class CountdownManager : NetworkBehaviour
     {
         [SerializeField] private float _countdownFrom;
         [SerializeField] private AnimationCurve _countdownCurve;
@@ -15,8 +16,6 @@ namespace FishNetworking.Tanknarok
         [SerializeField] AudioEmitter _audioEmitter;
 
         private float _countdownTimer;
-
-        public delegate void Callback();
 
         private void Start()
         {
@@ -30,11 +29,7 @@ namespace FishNetworking.Tanknarok
 
         public async UniTask Countdown(Action callback)
         {
-            _countdownUI.transform.localScale = Vector3.zero;
-
-            _countdownUI.text = _countdownFrom.ToString();
-            _countdownUI.gameObject.SetActive(true);
-
+            InitCountDown();
             int lastCount = Mathf.CeilToInt(_countdownFrom + 1);
             _countdownTimer = _countdownFrom;
 
@@ -45,23 +40,50 @@ namespace FishNetworking.Tanknarok
                 if (lastCount != currentCount)
                 {
                     lastCount = currentCount;
-                    _countdownUI.text = currentCount.ToString();
-                    _audioEmitter.PlayOneShot();
+                    SetTimerUI(currentCount);
                 }
 
                 float x = _countdownTimer - Mathf.Floor(_countdownTimer);
 
                 float t = _countdownCurve.Evaluate(x);
                 if (t >= 0)
-                    _countdownUI.transform.localScale = Vector3.one * t;
-
+                    SetScaleUITimer(t);
+        
                 _countdownTimer -= Time.deltaTime;
                 await UniTask.Yield();
             }
 
-            _countdownUI.gameObject.SetActive(false);
+            DisableUI();
 
             callback?.Invoke();
+        }
+        
+        [ObserversRpc(RunLocally = true)]
+        public void InitCountDown()
+        {
+            _countdownUI.transform.localScale = Vector3.zero;
+
+            _countdownUI.text = _countdownFrom.ToString();
+            _countdownUI.gameObject.SetActive(true);
+        }
+
+        [ObserversRpc(RunLocally = true)]
+        public void SetScaleUITimer(float t)
+        {
+            _countdownUI.transform.localScale =  Vector3.Lerp(_countdownUI.transform.localScale,Vector3.one * t, Time.deltaTime * 10f);
+        }
+
+        [ObserversRpc(RunLocally = true)]
+        public void SetTimerUI(int currentCount)
+        {
+            _countdownUI.text = currentCount.ToString();
+            _audioEmitter.PlayOneShot();
+        }
+        
+        [ObserversRpc(RunLocally = true)]
+        public void DisableUI()
+        {
+            _countdownUI.gameObject.SetActive(false);
         }
     }
 }

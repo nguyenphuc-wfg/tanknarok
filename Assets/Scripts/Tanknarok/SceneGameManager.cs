@@ -20,7 +20,6 @@ namespace FishNetworking.Tanknarok
         {
             _scoreManager.HideLobbyScore();
             InputController.fetchInput = false;
-            _countdownManager.Countdown(OnStartedMatch);
         }
 
         public void OnStartedMatch()
