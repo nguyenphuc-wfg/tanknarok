@@ -30,38 +30,7 @@ namespace FishNetworking.Tanknarok
         private LevelManager _levelManager;
         private bool _restart = true;
         public static GameManager instance { get; private set; }
-
-        public void OnTankDeath()
-        {
-            if (playState != PlayState.LOBBY)
-            {
-                int playersleft = PlayerManager.PlayersAlive();
-                Debug.Log($"Someone died - {playersleft} left");
-                if (playersleft<=1)
-                {
-                    Player lastPlayerStanding = playersleft == 0 ? null : PlayerManager.GetFirstAlivePlayer();
-                    // if there is only one player, who died from a laser (e.g.) we don't award scores. 
-                    if (lastPlayerStanding != null)
-                    {
-                        int winningPlayerIndex = lastPlayerStanding.playerID;
-                        byte winningPlayerScore = (byte)(lastPlayerStanding.score + 1);
-                        if (winningPlayerIndex >= 0)
-                        {
-                            lastPlayerStanding.score = winningPlayerScore;
-                            if (winningPlayerScore >= MAX_SCORE)
-                            {
-                                _levelManager.OnScoreLobby(winningPlayerIndex, winningPlayerScore);
-                                return;
-                            }
-                            _levelManager.OnScoreShow(winningPlayerIndex, winningPlayerScore);
-                        }
-                        
-                    }
-                }
-            }
-        }
-
-
+        
         private void Awake()
         {
             if (instance == null)
@@ -102,6 +71,35 @@ namespace FishNetworking.Tanknarok
             PlayerManager.HandleNewPlayers();
         }
         
+        public void OnTankDeath()
+        {
+            if (playState != PlayState.LOBBY)
+            {
+                int playersleft = PlayerManager.PlayersAlive();
+                Debug.Log($"Someone died - {playersleft} left");
+                if (playersleft<=1)
+                {
+                    Player lastPlayerStanding = playersleft == 0 ? null : PlayerManager.GetFirstAlivePlayer();
+                    // if there is only one player, who died from a laser (e.g.) we don't award scores. 
+                    if (lastPlayerStanding != null)
+                    {
+                        int winningPlayerIndex = lastPlayerStanding.playerID;
+                        byte winningPlayerScore = (byte)(lastPlayerStanding.score + 1);
+                        if (winningPlayerIndex >= 0)
+                        {
+                            lastPlayerStanding.score = winningPlayerScore;
+                            if (winningPlayerScore >= MAX_SCORE)
+                            {
+                                _levelManager.OnScoreLobby(winningPlayerIndex, winningPlayerScore);
+                                return;
+                            }
+                            _levelManager.OnScoreShow(winningPlayerIndex, winningPlayerScore);
+                        }
+                        
+                    }
+                }
+            }
+        }
 
         // Transition from lobby to level
         public async UniTask OnAllPlayersReady()

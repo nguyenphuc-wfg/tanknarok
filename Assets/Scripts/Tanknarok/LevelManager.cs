@@ -66,19 +66,15 @@ namespace FishNetworking.Tanknarok
             _scoreManager.UpdateScore(playerId, score);
             _sceneManager.OnEndMath(playerId, score,  _readyupManager.ShowUI);
         }
-
+        
         [ServerRpc(RunLocally = true)]
         public void ReadyToStartMatch()
-        {
-            RpcReadyStartMatch();
-        }
-        
-        public void RpcReadyStartMatch()
         {
             ResetStats();
             ResetLives();
             LoadLevel();
         }
+        
         private void ResetStats()
         {
             for (int i = 0; i < PlayerManager.allPlayers.Count; i++)
@@ -117,10 +113,6 @@ namespace FishNetworking.Tanknarok
         
         [ObserversRpc(RunLocally = true)]
         public void OnStartMatch()
-        {
-            RpcStartMatch();
-        }
-        public void RpcStartMatch()
         {
             _readyupManager.HideUI();
             _sceneManager.OnStartMatch();

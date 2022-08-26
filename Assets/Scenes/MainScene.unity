@@ -667,6 +667,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &316385021 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7358743488268283382, guid: f8385fe6af748b74aa6c86ad7e43be92, type: 3}
+  m_PrefabInstance: {fileID: 910341599183485242}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &432370316
 GameObject:
   m_ObjectHideFlags: 0
@@ -1576,6 +1587,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 628034978}
   m_CullTransparentMesh: 1
+--- !u!1 &722182548 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 117057110670571608, guid: f8385fe6af748b74aa6c86ad7e43be92, type: 3}
+  m_PrefabInstance: {fileID: 910341599183485242}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &757041939
 GameObject:
   m_ObjectHideFlags: 0
@@ -2869,7 +2885,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474632e4739f4a8ab1338ef00b9bcc67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _serverGlobalManager: {fileID: 2887700870037587598, guid: 7f09dc3aebdacf042be430a5dc69de2a, type: 3}
   _gameManagerPrefab: {fileID: -3340245984306760735, guid: cebdea494ca74974e809d626e5e9f63e, type: 3}
   _room: {fileID: 1414014595}
   _progress: {fileID: 604924949}
@@ -2893,7 +2908,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _transitionEffect: {fileID: 49629860}
   _scoreManager: {fileID: 2010001212}
-  _countdownManager: {fileID: 1485039223}
+  _countdownManager: {fileID: 1485039227}
   _uiGame: {fileID: 7620482187611796560}
 --- !u!1 &1286783608
 GameObject:
@@ -3123,7 +3138,7 @@ MonoBehaviour:
   _currentLevel: {fileID: 0}
   _scoreManager: {fileID: 2010001212}
   _readyupManager: {fileID: 7620482187611796561}
-  _countdownManager: {fileID: 1485039223}
+  _countdownManager: {fileID: 1485039227}
   _sceneManager: {fileID: 1279107955}
 --- !u!4 &1353448200
 Transform:
@@ -3678,17 +3693,65 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1481557435}
   m_CullTransparentMesh: 1
---- !u!114 &1485039223 stripped
+--- !u!114 &1485039226 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 9108814283233676922, guid: f8385fe6af748b74aa6c86ad7e43be92, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4941846035162312212, guid: f8385fe6af748b74aa6c86ad7e43be92, type: 3}
   m_PrefabInstance: {fileID: 910341599183485242}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 722182548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc1255d0078650949aa116f26e578a6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1485039227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 722182548}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f9a983a66f69d846bf6c264a86d428c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _countdownFrom: 3
+  _countdownCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.4232881
+      value: 0.5905947
+      inSlope: 0.5442729
+      outSlope: 0.5442729
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.2919192
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0.8576329
+      outSlope: 0.8576329
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.13749999
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _countdownUI: {fileID: 316385021}
+  _audioEmitter: {fileID: 1485039226}
 --- !u!1 &1533048365
 GameObject:
   m_ObjectHideFlags: 0

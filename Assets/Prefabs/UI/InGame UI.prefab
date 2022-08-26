@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 3829089958603845433}
   - component: {fileID: 4941846035162312212}
   - component: {fileID: 1591890577666576403}
-  - component: {fileID: 9108814283233676922}
   m_Layer: 5
   m_Name: Countdown
   m_TagString: Untagged
@@ -151,54 +150,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &9108814283233676922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 117057110670571608}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9f9a983a66f69d846bf6c264a86d428c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _countdownFrom: 3
-  _countdownCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 2
-      outSlope: 2
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.4232881
-      value: 0.5905947
-      inSlope: 0.5442729
-      outSlope: 0.5442729
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.2919192
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0.8576329
-      outSlope: 0.8576329
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.13749999
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  _countdownUI: {fileID: 7358743488268283382}
-  _audioEmitter: {fileID: 4941846035162312212}
 --- !u!1 &247038844416398708
 GameObject:
   m_ObjectHideFlags: 0

@@ -123,18 +123,7 @@ namespace FishNetworking.Tanknarok
             _cc.enabled = base.IsOwner;
             OnSpawned();
         }
-        // [ServerRpc]
-        // private void CheckMatchStart()
-        // {
-        //     if (GameManager.playState != GameManager.PlayState.LOBBY)
-        //         DisconnectBecauseMathStart();
-        // }
-        // [ObserversRpc]
-        // private void DisconnectBecauseMathStart()
-        // {
-        //     if (IsOwner) InstanceFinder.ClientManager.StopConnection();
-        //
-        // }
+
         public void OnSpawned()
         {
 
@@ -218,6 +207,7 @@ namespace FishNetworking.Tanknarok
 
         private void SetSpawnPosition()
         {
+            if (!IsOwner) return;
             SpawnPoint spawnpt = GetLevelManager().GetPlayerSpawnPoint(playerID);
             if (spawnpt != null)
             {
@@ -335,8 +325,7 @@ namespace FishNetworking.Tanknarok
 
         public void SetDirections(Vector2 moveDirection, Vector2 aimDirection)
         {
-            if (!_cc.enabled)
-                return;
+            if (!_cc.enabled) return;
             this.moveDirection = moveDirection;
             this.aimDirection = aimDirection;
         }
@@ -408,7 +397,8 @@ namespace FishNetworking.Tanknarok
                 if (lives > 0)
                     Respawn( _respawnTime );
                 else
-                    tankDeathEvent?.Invoke();
+                    GameManager.instance.OnTankDeath();
+                    // tankDeathEvent?.Invoke();
             }
             else
             {
